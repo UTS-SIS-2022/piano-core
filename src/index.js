@@ -23,48 +23,47 @@ const keyboardShortcuts = KeyboardShortcuts.create({
 
 function App() {
   return (
-    <div>
-      <h1>react-piano demos</h1>
-      <div className="mt-5">
-        <p>Basic piano with hardcoded width</p>
-        <BasicPiano />
-      </div>
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#ffc2c2",
+      }}
+    >
+      <h1>AI Jam [WIP]</h1>
 
       <div className="mt-5">
-        <p>
-          Responsive piano which resizes to container's width. Try resizing the
-          window!
-        </p>
-        <ResponsivePiano />
-      </div>
-
-      <div className="mt-5">
-        <p>Piano with custom styling - see styles.css</p>
+        <p>Use your keyboard to play the piano!</p>
         <ResponsivePiano className="PianoDarkTheme" />
       </div>
     </div>
   );
 }
 
-function BasicPiano() {
-  return (
-    <SoundfontProvider
-      instrumentName="acoustic_grand_piano"
-      audioContext={audioContext}
-      hostname={soundfontHostname}
-      render={({ isLoading, playNote, stopNote }) => (
-        <Piano
-          noteRange={noteRange}
-          width={300}
-          playNote={playNote}
-          stopNote={stopNote}
-          disabled={isLoading}
-          keyboardShortcuts={keyboardShortcuts}
-        />
-      )}
-    />
-  );
-}
+// function BasicPiano() {
+//   return (
+//     <SoundfontProvider
+//       instrumentName="acoustic_grand_piano"
+//       audioContext={audioContext}
+//       hostname={soundfontHostname}
+//       render={({ isLoading, playNote, stopNote }) => (
+//         <Piano
+//           noteRange={noteRange}
+//           width={300}
+//           playNote={playNote}
+//           stopNote={stopNote}
+//           disabled={isLoading}
+//           keyboardShortcuts={keyboardShortcuts}
+//         />
+//       )}
+//     />
+//   );
+// }
 
 function ResponsivePiano(props) {
   return (
@@ -81,6 +80,7 @@ function ResponsivePiano(props) {
               playNote={playNote}
               stopNote={stopNote}
               disabled={isLoading}
+              keyboardShortcuts={keyboardShortcuts}
               {...props}
             />
           )}
