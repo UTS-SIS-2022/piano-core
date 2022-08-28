@@ -15,5 +15,6 @@ class DimensionsProvider extends React.Component {
     );
   }
 }
+const options = { containerStyle: { height: "fit-content" } };
 
-export default Dimensions()(DimensionsProvider);
+export default Dimensions(options)(DimensionsProvider);

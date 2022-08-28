@@ -37,8 +37,8 @@ function App() {
     >
       <h1>AI Jam [WIP]</h1>
 
-      <div className="mt-5">
-        <p>Use your keyboard to play the piano!</p>
+      <div className="mt-5 flex">
+        {/* <p>Use your keyboard to play the piano!</p> */}
         <ResponsivePiano className="PianoDarkTheme" />
       </div>
     </div>
