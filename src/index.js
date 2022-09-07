@@ -2,12 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Piano, KeyboardShortcuts, MidiNumbers } from "react-piano";
 import "react-piano/dist/styles.css";
-import Header from "./Header";
+import LandingPopup from "./Header";
 import InteractiveDemo from "./InteractiveDemo";
 import DimensionsProvider from "./DimensionsProvider";
 import SoundfontProvider from "./SoundfontProvider";
 import "./styles.css";
 import Footer from "./Footer";
+import PopUp, { PopUpWrapper } from "./Popup";
 // webkitAudioContext fallback needed to support Safari
 const audioContext = new (window.AudioContext || window.AudioContext)();
 const soundfontHostname = "https://d1pzp51pvbm36p.cloudfront.net";
@@ -32,11 +33,12 @@ function App() {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "grey",
+        backgroundColor: "#071108",
       }}
     >
-      <Header />
-      <Footer />
+      <PopUpWrapper />
+      {/* <LandingPopup /> */}
+      {/* <Footer /> */}
       <InteractiveDemo
         audioContext={audioContext}
         soundfontHostname={soundfontHostname}

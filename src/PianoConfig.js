@@ -91,7 +91,7 @@ class PianoConfig extends React.Component {
     return (
       <div className="form-row">
         <div className="col-3">
-          <Label>First note</Label>
+          {/* <Label>First note</Label>
           <AutoblurSelect
             className="form-control"
             onChange={this.onChangeFirstNote}
@@ -125,10 +125,10 @@ class PianoConfig extends React.Component {
                 {midiNumbersToNotes[midiNumber]}
               </option>
             ))}
-          </AutoblurSelect>
+          </AutoblurSelect> */}
         </div>
         <div className="col-6">
-          <Label>Instrument</Label>
+          <Label>Instrument: </Label>
           <AutoblurSelect
             className="form-control"
             value={instrumentName}
