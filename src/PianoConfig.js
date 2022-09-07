@@ -79,6 +79,7 @@ class PianoConfig extends React.Component {
   };
 
   render() {
+    // will probably be useful when we are generating midi files
     const midiNumbersToNotes = MidiNumbers.NATURAL_MIDI_NUMBERS.reduce(
       (obj, midiNumber) => {
         obj[midiNumber] = MidiNumbers.getAttributes(midiNumber).note;
@@ -90,43 +91,7 @@ class PianoConfig extends React.Component {
 
     return (
       <div className="form-row">
-        <div className="col-3">
-          {/* <Label>First note</Label>
-          <AutoblurSelect
-            className="form-control"
-            onChange={this.onChangeFirstNote}
-            value={noteRange.first}
-          >
-            {MidiNumbers.NATURAL_MIDI_NUMBERS.map((midiNumber) => (
-              <option
-                value={midiNumber}
-                disabled={midiNumber >= noteRange.last}
-                key={midiNumber}
-              >
-                {midiNumbersToNotes[midiNumber]}
-              </option>
-            ))}
-          </AutoblurSelect>
-        </div>
-
-        <div className="col-3">
-          <Label>Last note</Label>
-          <AutoblurSelect
-            className="form-control"
-            onChange={this.onChangeLastNote}
-            value={noteRange.last}
-          >
-            {MidiNumbers.NATURAL_MIDI_NUMBERS.map((midiNumber) => (
-              <option
-                value={midiNumber}
-                disabled={midiNumber <= noteRange.first}
-                key={midiNumber}
-              >
-                {midiNumbersToNotes[midiNumber]}
-              </option>
-            ))}
-          </AutoblurSelect> */}
-        </div>
+        <div className="col-3"></div>
         <div className="col-6">
           <Label>Instrument: </Label>
           <AutoblurSelect
@@ -141,7 +106,6 @@ class PianoConfig extends React.Component {
             ))}
           </AutoblurSelect>
         </div>
-        {/* align the next div to the bottom */}
       </div>
     );
   }
