@@ -3,7 +3,8 @@ export default class PopUp extends Component {
   handleClick = () => {
    this.props.toggle();
   };
-render() {
+    render() {
+    // not sure how to make this look nice
   return (
    <div className="modal">
      <div className="modal_content">
