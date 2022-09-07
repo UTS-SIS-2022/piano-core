@@ -98,12 +98,14 @@ class SoundfontProvider extends React.Component {
   };
 
   render() {
-    return this.props.render({
-      isLoading: !this.state.instrument,
-      playNote: this.playNote,
-      stopNote: this.stopNote,
-      stopAllNotes: this.stopAllNotes,
-    });
+    return this.props.render
+      ? this.props.render({
+          isLoading: !this.state.instrument,
+          playNote: this.playNote,
+          stopNote: this.stopNote,
+          stopAllNotes: this.stopAllNotes,
+        })
+      : null;
   }
 }
 
