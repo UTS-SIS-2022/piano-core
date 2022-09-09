@@ -1,6 +1,6 @@
 # AI Jam Main Piano Core
 
-## Team 07 of Software Innovation Studio Spring 22 
+## Team 07 of Software Innovation Studio Spring '22 
 Team Members:
 - Michael Naughton 
 - Davit Gevorgyan 
