@@ -1,4 +1,5 @@
 const CONSTANTS = {
+  AI_ACTIVE: false,
   COLORS: [
     "#EE2B29",
     "#ff9800",
