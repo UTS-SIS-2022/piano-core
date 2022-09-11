@@ -231,10 +231,10 @@ function buttonDown(button, fromKeyDown) {
 
   // Hear it.
   player.playNoteDown(pitch, button);
-  note = AI_ACTIVE ? note + OCTAVE_OFFSET * 6 : note;
+  noteToDraw = AI_ACTIVE ? note : note + OCTAVE_OFFSET * 6;
 
   // See it.
-  const rect = piano.highlightNote(note, button);
+  const rect = piano.highlightNote(noteToDraw, button);
 
   if (!rect) {
     debugger;
