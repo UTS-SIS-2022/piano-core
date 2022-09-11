@@ -90,6 +90,14 @@ body {
     fill: #d500f9;
 }
 
+.color-10 {
+    background: #ff1744;
+    fill: #ff1744;
+}
+
+
+
+
 canvas {
     position: absolute;
     top: 70px;
@@ -168,6 +176,18 @@ a:visited {
     background: transparent;
     fill: white;
     cursor: pointer;
+}
+.controls button.octave {
+    position: relative;
+    height:50%;
+    cursor: pointer;
+}
+.controls button.octave.octave-button {
+    position: relative;
+    height: 50%;
+}
+.controls button.octave[active] {
+    transform: scale(0.9, 0.9)
 }
 
 .controls button.settings:hover {

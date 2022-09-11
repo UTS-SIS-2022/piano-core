@@ -1,8 +1,19 @@
+var AI_ACTIVE = false;
+var OCTAVE_OFFSET = 0;
 /*************************
  * Consts for everyone!
  ************************/
 // button mappings.
-const MAPPING_8 = { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7 };
+const MAPPING_8 = {
+  0: 0,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+};
 const MAPPING_4 = { 0: 0, 1: 2, 2: 5, 3: 7 };
 const BUTTONS_DEVICE = ["a", "s", "d", "f", "j", "k", "l", ";"];
 const BUTTONS_MAKEY = [
@@ -197,20 +208,32 @@ function buttonDown(button, fromKeyDown) {
   const el = document.getElementById(`btn${button}`);
   if (!el) return;
   el.setAttribute("active", true);
+  if (button == "8") {
+    octaveDown();
+    return;
+  } else if (button == "9") {
+    octaveUp();
+    return;
+  }
+  const note = AI_ACTIVE
+    ? genie.nextFromKeyWhitelist(
+        BUTTON_MAPPING[button],
+        keyWhitelist,
+        TEMPERATURE
+      )
+    : BUTTON_MAPPING[button];
 
-  const note = BUTTON_MAPPING[button];
-  // const note = genie.nextFromKeyWhitelist(
-  //   BUTTON_MAPPING[button],
-  //   keyWhitelist,
-  //   TEMPERATURE
-  // );
-  const pitch = CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note;
+  // const note = BUTTON_MAPPING[button];
+
+  const pitch = AI_ACTIVE
+    ? CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note
+    : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 14 + note;
 
   // Hear it.
   player.playNoteDown(pitch, button);
 
   // See it.
-  const rect = piano.highlightNote(note, button);
+  const rect = piano.highlightNote(note + OCTAVE_OFFSET * 14, button);
 
   if (!rect) {
     debugger;
@@ -343,9 +366,34 @@ function parseHashParameters() {
 
 function updateButtonText() {
   const btns = document.querySelectorAll(".controls button.color");
-  for (let i = 0; i < btns.length; i++) {
+  for (let i = 0; i < 8; i++) {
     btns[i].innerHTML = isUsingMakey
       ? `<span>${BUTTONS_MAKEY_DISPLAY[i]}</span>`
       : `<span>${i + 1}</span><br><span>${BUTTONS_DEVICE[i]}</span>`;
+  }
+}
+
+function octaveUp() {
+  // if (OCTAVES == OCTAVE_OFFSET) return;
+  OCTAVE_OFFSET += 1;
+  onWindowResize();
+}
+
+function octaveDown() {
+  // if (0 == OCTAVE_OFFSET) return;
+  OCTAVE_OFFSET -= 1;
+  onWindowResize();
+}
+
+function toggleAi() {
+  AI_ACTIVE = !AI_ACTIVE;
+  document.getElementById("ai").innerHTML = AI_ACTIVE
+    ? `<span>AI: ON</span>`
+    : `<span>AI: OFF</span>`;
+  // change colour of button
+  if (AI_ACTIVE) {
+    document.getElementById("ai").style.backgroundColor = "#00ff00";
+  } else {
+    document.getElementById("ai").style.backgroundColor = "#ff0000";
   }
 }
