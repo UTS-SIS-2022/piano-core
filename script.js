@@ -227,13 +227,13 @@ function buttonDown(button, fromKeyDown) {
 
   const pitch = AI_ACTIVE
     ? CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note
-    : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 14 + note;
+    : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 6 + note;
 
   // Hear it.
   player.playNoteDown(pitch, button);
 
   // See it.
-  const rect = piano.highlightNote(note + OCTAVE_OFFSET * 14, button);
+  const rect = piano.highlightNote(note + OCTAVE_OFFSET * 6, button);
 
   if (!rect) {
     debugger;
@@ -374,13 +374,13 @@ function updateButtonText() {
 }
 
 function octaveUp() {
-  // if (OCTAVES == OCTAVE_OFFSET) return;
+  if (OCTAVES * 2 == OCTAVE_OFFSET) return;
   OCTAVE_OFFSET += 1;
   onWindowResize();
 }
 
 function octaveDown() {
-  // if (0 == OCTAVE_OFFSET) return;
+  if (0 == OCTAVE_OFFSET) return;
   OCTAVE_OFFSET -= 1;
   onWindowResize();
 }
