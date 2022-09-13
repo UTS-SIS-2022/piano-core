@@ -11,7 +11,7 @@ const users = [{
 }];
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname+'index.html'))
+    res.sendFile(path.join(__dirname))
 })
 
 app.get("/users", (req, res) => {
