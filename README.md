@@ -11,4 +11,4 @@ Team Members:
 1. Pull and navigate to repo 
 2. In terminal run:
 - `npm i` 
-- `npm start` 
+- `npm run dev` 
