@@ -1,5 +1,6 @@
 var AI_ACTIVE = false;
 var OCTAVE_OFFSET = 0;
+let RECORDING = false;
 /*************************
  * Consts for everyone!
  ************************/
@@ -348,6 +349,7 @@ function getButtonFromKeyCode(key) {
   return index !== -1 ? index : null;
 }
 
+//lol what is this function
 function getTemperature() {
   const hash = parseFloat(parseHashParameters()["temperature"]) || 0.25;
   const newTemp = Math.min(1, hash);
@@ -388,13 +390,9 @@ function octaveDown() {
 
 function toggleAi() {
   AI_ACTIVE = !AI_ACTIVE;
-  document.getElementById("ai").innerHTML = AI_ACTIVE
-    ? `<span>AI: ON</span>`
-    : `<span>AI: OFF</span>`;
-  // change colour of button
-  if (AI_ACTIVE) {
-    document.getElementById("ai").style.backgroundColor = "#00ff00";
-  } else {
-    document.getElementById("ai").style.backgroundColor = "#ff0000";
-  }
+}
+
+function toggleRecording() {
+  RECORDING = !RECORDING;
+  console.log(RECORDING)
 }
