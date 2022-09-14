@@ -129,19 +129,20 @@
 
     <h2>Piano Controls</h2>
     <div>
-      <div class="octave", id="octave">
-        <button class="octave octave-button" id="btn8" data-id="8" onclick="octaveDown()"><span>-</span></button>
-        <button class="octave octave-button" id="btn9" data-id="9" onclick="octaveUp()"><span>+</span></button>
+      <div class="octave" id="octave">
+        <h4>Octaves</h4>
+        <button class="octave-button" id="btn8" data-id="8" onclick="octaveDown()"><span>-</span></button>
+        <button class="octave-button" id="btn9" data-id="9" onclick="octaveUp()"><span>+</span></button>
       </div>
       <div class="toggles">
         <li class="tg-list-item">
           <h4 class="title">AI</h4>
-          <input class="tgl tgl-skewed" id="ai-button" type="checkbox" />
+          <input class="tgl tgl-skewed" id="ai-button" type="checkbox" onclick="toggleAi()" />
           <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="ai-button"></label>
         </li>
         <li class="tg-list-item">
           <h4 class="title">Recording</h4>
-          <input class="tgl tgl-skewed" id="record-button" type="checkbox" />
+          <input class="tgl tgl-skewed" id="record-button" onclick="toggleRecording()" type="checkbox" />
           <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="record-button"></label>
         </li>
       </div>
