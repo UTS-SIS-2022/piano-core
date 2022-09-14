@@ -21,13 +21,14 @@ body {
 html,
 body {
     height: 100%;
+    
 }
 
 html,
 body {
     height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: auto;   
 }
 
 * {
@@ -278,6 +279,7 @@ button.splash-button {
     text-align: center;
     transition: background-color 0.2s linear;
     width: 200px;
+    border-radius: 5px;
 }
 
 button.splash-button:hover {
@@ -287,7 +289,7 @@ button.splash-button:hover {
 
 button.splash-button.small {
     padding: 8px;
-    font-size: 16px;
+    font-size: 16px;   
 }
 
 .splash-button.loading span {
@@ -374,3 +376,89 @@ label.radio>.control-indicator {
 #inputNumButtons {
     vertical-align: middle;
 }
+
+
+.popup-dialog {
+    font-weight: 100;
+    background: #1C2C42;
+    color: white;
+    padding: 24px;
+    z-index: 10;
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    width: 80%;
+    max-width: 500px;
+    transform: translateX(-50%);
+    border: 2px solid #CDF352;
+    -webkit-box-shadow: 8px 8px 0 #CDF352;
+    box-shadow: 8px 8px 0 #CDF352;
+    text-align: left;
+}
+
+
+.dialog .close-btn{
+    position: absolute;
+    top:10px;
+    right:10px;
+    width:15px;
+    height:15px;
+    background:#888;
+    color:#eee;
+    text-align: center;
+    line-height:15px;
+    border-radius:15px;
+    cursor: pointer;
+}
+
+.dialog .form h2{
+    text-align: center;
+    margin: 10px 0px 20px;
+}
+
+.dialog .form .form-element{
+    margin:15px 0px;
+}
+
+.dialog .form .form-element label {
+    font-size: 18px;
+}
+
+.dialog .form .form-element input[type ="text"],
+.dialog .form .form-element input[type ="password"]{
+    margin-top:5px;
+    display:block;
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+.dialog .form .form-element input[type ="checkbox"]{
+    margin-right:5px;
+}
+
+.dialog .form .form-element button{
+    width: 100%;
+    height: 30px;
+    border:none;
+    outline: none;
+    font-size:16px;
+    background: #CDF352;
+    color: black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.dialog .form .form-element a {
+    display:block;
+    text-align: right;
+    font-size: 15px;
+    color: #1a79ca;
+    text-decoration:none;
+    font-weight:600; 
+}
+
+  
+ 
