@@ -80,10 +80,9 @@
           </button>
         </div>
         </div>
+         
+        </div>
         
-    </div>
-
-
   <div class="dialog" id="settingsBox" hidden>
     <h2>Input Settings</h2>
     <p>
@@ -153,6 +152,35 @@
       Unfortunately, this browser does not support WebMIDI, which is only
       supported in Chrome and Opera.
     </p>
+
+    <!-- Login Button -->
+    <button class="splash-button small" onclick="loginForm.hidden = !loginForm.hidden" id="loginBtn">Login</button>
+
+    <!-- Login Form -->
+    <div class= "login" id="loginForm" hidden>
+      <!--<div class = "close-btn" title="Close">&times;</div>-->
+      <div class="form">
+        <h2>Log in</h2>
+        <div class="form-element">
+          <label for="email">Email:</label>
+          <input type="text" id="email" placeholder="Enter email" required>
+        </div>
+        <div class="form-element">
+          <label for="password">Password:</label>
+          <input type="password" id="password" placeholder="Enter password" required>
+        </div>
+        <div class="form-element">
+          <input type="checkbox" id="remember me"> 
+          <label for="remember-me">Remember me</label>
+        </div>
+        <div class="form-element">
+          <button>Sign in</button>
+        </div>
+        <div class="form-element">
+          <a href="#">Forgot password?</a>
+        </div>
+      </div>
+    </div>
 
     <button class="splash-button small" onclick="settingsBox.hidden = !settingsBox.hidden">Close</button>
   </div>
