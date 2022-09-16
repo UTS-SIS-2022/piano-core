@@ -431,13 +431,13 @@ async function toggleRecording() {
     replayer.start(session);
     // post the session to the server
     try {
-      await postData("http://localhost:5500/api/session", session);
+      await postData("/api/session", session);
     } catch (err) {
       console.log(err);
     }
 
-    const data = await response.json();
-    console.log(data);
+    // const data = await response.json();
+    // console.log(data);
   } else if (!RECORDING) {
     // start writing to session object
     session.notes = [];
@@ -452,10 +452,13 @@ async function postData(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
+    // mode: "same-origin", // no-cors, *cors, same-origin
+
     headers: {
       "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  return response.json(); // parses JSON response into native JavaScript objects
+  return response.json(); // parses JSON response into native JavaScript objects/
 }
