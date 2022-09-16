@@ -5,7 +5,7 @@ const app = express();
 const path = require('path');
 require("dotenv").config();
 
-app.use((req, res, next) => {
+app.use((req: any, res: any, next: () => void) => {
     console.log(store);
     next();
 })
@@ -19,7 +19,7 @@ app.use(session({
 
 app.use(express.static("public"))
 
-app.get("/", (req, res) => {
+app.get("/", (req: any, res: any) => {
     res.sendFile(path.join(__dirname))
 })
 
