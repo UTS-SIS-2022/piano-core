@@ -47,6 +47,7 @@ class Player {
     // Send to MIDI out or play with the Magenta player.
     if (this.usingMidiOut) {
       this.sendMidiNoteOn(pitch, button);
+      console.log(pitch)
     } else {
       mm.Player.tone.context.resume();
       this.player.playNoteDown({ pitch: pitch });
@@ -57,6 +58,7 @@ class Player {
     // Send to MIDI out or play with the Magenta player.
     if (this.usingMidiOut) {
       this.sendMidiNoteOff(pitch, button);
+      console.log(pitch)
     } else {
       this.player.playNoteUp({ pitch: pitch });
     }
@@ -112,6 +114,7 @@ class Player {
     //const msg = [0x90 + button, pitch, 0x7f];    // note on, full velocity.
     const msg = [0x90, pitch, 0x7f]; // note on, full velocity.
     this.midiOut[this.selectOutElement.selectedIndex].send(msg);
+    console.log(this.midiOut[this.selectOutElement.selectedIndex].send(msg));
   }
 
   sendMidiNoteOff(pitch, button) {
