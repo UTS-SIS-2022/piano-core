@@ -1,6 +1,6 @@
 var AI_ACTIVE = false;
 var OCTAVE_OFFSET = 0;
-let RECORDING = false;
+var RECORDING = false;
 /*************************
  * Consts for everyone!
  ************************/
@@ -47,9 +47,12 @@ let sustainingNotes = [];
 let mouseDownButton = null;
 
 const player = new Player();
+const replayer = new mm.Player();
 const genie = new mm.PianoGenie(CONSTANTS.GENIE_CHECKPOINT);
+const recorder = new mm.Recorder();
 const painter = new FloatyNotes();
 const piano = new Piano();
+var session = {};
 let isUsingMakey = false;
 initEverything();
 
@@ -68,20 +71,6 @@ function initEverything() {
   onWindowResize();
   updateButtonText();
   window.requestAnimationFrame(() => painter.drawLoop());
-
-  // Event listeners.
-  document
-    .getElementById("numButtons4")
-    .addEventListener(
-      "change",
-      (event) => event.target.checked && updateNumButtons(4)
-    );
-  document
-    .getElementById("numButtons8")
-    .addEventListener(
-      "change",
-      (event) => event.target.checked && updateNumButtons(8)
-    );
 
   window.addEventListener("resize", onWindowResize);
   window.addEventListener("orientationchange", onWindowResize);
@@ -230,6 +219,16 @@ function buttonDown(button, fromKeyDown) {
     ? CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note
     : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 6 + note;
 
+  let idx;
+  if (RECORDING) {
+    const startTime = session.startTime;
+    idx = session.notes.length;
+
+    session.notes.push({
+      pitch: pitch,
+      startTime: Date.now() - startTime,
+    });
+  }
   // Hear it.
   player.playNoteDown(pitch, button);
   noteToDraw = AI_ACTIVE ? note : note + OCTAVE_OFFSET * 6;
@@ -250,6 +249,7 @@ function buttonDown(button, fromKeyDown) {
     rect: rect,
     note: note,
     noteToPaint: noteToPaint,
+    idx: RECORDING ? idx : null,
   });
 }
 
@@ -258,7 +258,19 @@ function buttonUp(button) {
   if (!el) return;
   el.removeAttribute("active");
 
+  // find the note that was just released
   const thing = heldButtonToVisualData.get(button);
+  if (RECORDING) {
+    const startTime = session.startTime;
+    if (thing.idx > -1) {
+      const now = Date.now();
+      if (!thing.idx) {
+        thing.idx = 0;
+      }
+      const endTime = now - startTime;
+      session.notes[thing.idx].endTime = endTime;
+    }
+  }
   if (thing) {
     // Don't see it.
     piano.clearNote(thing.rect);
@@ -349,7 +361,6 @@ function getButtonFromKeyCode(key) {
   return index !== -1 ? index : null;
 }
 
-//lol what is this function
 function getTemperature() {
   const hash = parseFloat(parseHashParameters()["temperature"]) || 0.25;
   const newTemp = Math.min(1, hash);
@@ -390,9 +401,67 @@ function octaveDown() {
 
 function toggleAi() {
   AI_ACTIVE = !AI_ACTIVE;
+  document.getElementById("ai").innerHTML = AI_ACTIVE
+    ? `<span>AI: ON</span>`
+    : `<span>AI: OFF</span>`;
+  // change colour of button
+  if (AI_ACTIVE) {
+    document.getElementById("ai").style.backgroundColor = "#00ff00";
+  } else {
+    document.getElementById("ai").style.backgroundColor = "#ff0000";
+  }
 }
 
-function toggleRecording() {
+async function toggleRecording() {
+  session.startTime = Date.now();
+  if (RECORDING) {
+    // convert to seconds
+    session.notes.map((a) => {
+      a.endTime = a.endTime / 1000;
+      a.startTime = a.startTime / 1000;
+      return a;
+    });
+    // get the total time elapßed in seconds
+    session.totalTime =
+      session.notes[session.notes.length - 1].endTime -
+      session.notes[0].startTime;
+
+    delete session.startTime;
+
+    replayer.start(session);
+    // post the session to the server
+    try {
+      await postData("/api/session", session);
+    } catch (err) {
+      console.log(err);
+    }
+
+    const data = await response.json();
+    console.log(data);
+  } else if (!RECORDING) {
+    // start writing to session object
+    session.notes = [];
+    session.userId = "test";
+    session.startTime = Date.now();
+  }
+
   RECORDING = !RECORDING;
-  console.log(RECORDING)
+}
+
+async function postData(url = "", data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "same-origin", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
 }
