@@ -7,6 +7,8 @@ import InteractiveDemo from "./InteractiveDemo";
 import "./styles.css";
 import { PopUpWrapper } from "./Popup";
 
+import GoogleSignIn from "./GoogleSignIn"
+
 // webkitAudioContext fallback needed to support Safari
 const audioContext = new (window.AudioContext || window.AudioContext)();
 const soundfontHostname = "https://d1pzp51pvbm36p.cloudfront.net";
@@ -28,6 +30,7 @@ function App() {
         backgroundColor: "#071108",
       }}
     >
+      <GoogleSignIn />
       <PopUpWrapper />
       <InteractiveDemo
         audioContext={audioContext}

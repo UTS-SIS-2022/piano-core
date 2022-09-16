@@ -148,3 +148,9 @@ aside,
     font-size: 18px;
   }
 }
+
+/* Google Sign In Button */
+.g-signin2 {
+  float: right;
+  margin: 10px;
+}
