@@ -300,6 +300,7 @@ body {
   button.splash-button.small {
     padding: 8px;
     font-size: 16px;
+    border-radius: 15px;
   }
   
   .splash-button.loading span {
@@ -328,6 +329,7 @@ body {
     -webkit-box-shadow: 8px 8px 0 #cdf352;
     box-shadow: 8px 8px 0 #cdf352;
     text-align: left;
+    border-radius: 15px;
   }
   
   .dialog select {
@@ -541,9 +543,9 @@ body {
     border: none;
   }
 
-  .dialog .close-btn{
+  .login .close-btn{
     position: absolute;
-    top:10px;
+    bottom:10px;
     right:10px;
     width:15px;
     height:15px;
