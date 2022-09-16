@@ -49,7 +49,6 @@ let mouseDownButton = null;
 const player = new Player();
 const replayer = new mm.Player();
 const genie = new mm.PianoGenie(CONSTANTS.GENIE_CHECKPOINT);
-const recorder = new mm.Recorder();
 const painter = new FloatyNotes();
 const piano = new Piano();
 var session = {};
@@ -401,15 +400,15 @@ function octaveDown() {
 
 function toggleAi() {
   AI_ACTIVE = !AI_ACTIVE;
-  document.getElementById("ai").innerHTML = AI_ACTIVE
-    ? `<span>AI: ON</span>`
-    : `<span>AI: OFF</span>`;
-  // change colour of button
-  if (AI_ACTIVE) {
-    document.getElementById("ai").style.backgroundColor = "#00ff00";
-  } else {
-    document.getElementById("ai").style.backgroundColor = "#ff0000";
-  }
+  // document.getElementById("ai").innerHTML = AI_ACTIVE
+  //   ? `<span>AI: ON</span>`
+  //   : `<span>AI: OFF</span>`;
+  // // change colour of button
+  // if (AI_ACTIVE) {
+  //   document.getElementById("ai").style.backgroundColor = "#00ff00";
+  // } else {
+  //   document.getElementById("ai").style.backgroundColor = "#ff0000";
+  // }
 }
 
 async function toggleRecording() {
@@ -428,7 +427,7 @@ async function toggleRecording() {
 
     delete session.startTime;
 
-    replayer.start(session);
+    replayer.start(session); //TODO: Extract this int6o its own interface and enable instrument selection
     // post the session to the server
     try {
       await postData("/api/session", session);
