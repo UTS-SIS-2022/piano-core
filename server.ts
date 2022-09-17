@@ -1,10 +1,10 @@
-import { MongoClient } from "mongodb";
+import { InsertOneResult, MongoClient } from "mongodb";
 import express from "express";
 // require dotenv to load environment variables
 require("dotenv").config();
 const cors = require("cors");
-const session = require("express-session");
-const store = new session.MemoryStore();
+const userSession = require("express-session");
+const store = new userSession.MemoryStore();
 const path = require("path");
 require("dotenv").config();
 
@@ -15,7 +15,6 @@ app.use(cors());
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  // serve index.html
   res.sendFile(__dirname + "/index.html");
 });
 
@@ -34,7 +33,9 @@ app.post("/api/session", async (req, res) => {
     await mongoClient.connect();
     const database = mongoClient.db("music");
     const collection = database.collection("sessions");
-    const result = await collection.insertOne(req.body);
+    const result: InsertOneResult<Document> = await collection.insertOne(
+      req.body
+    );
     console.log(
       `New session created with the following id: ${result.insertedId}`
     );
@@ -47,13 +48,14 @@ app.post("/api/session", async (req, res) => {
 app.get("/api/session", async (req, res) => {
   console.log("get session recieved");
 });
+
 app.use((req: any, res: any, next: () => void) => {
   console.log(store);
   next();
 });
 
 app.use(
-  session({
+  userSession({
     secret: "secret",
     cookie: { maxAge: 300000000 },
     saveUninitialized: false,
