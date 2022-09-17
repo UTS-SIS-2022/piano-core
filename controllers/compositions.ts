@@ -1,7 +1,6 @@
 import { NoteSequence } from "@magenta/music";
-import { InsertOneResult, MongoClient } from "mongodb";
+import { FindCursor, InsertOneResult, MongoClient } from "mongodb";
 import { CONSTANTS } from "../server";
-require("dotenv").config();
 
 /**
  * Create a new composition in the database
@@ -32,16 +31,23 @@ export async function createComposition(
   }
 }
 
-export async function retrieveCompositions(user: string) {
+/**
+ * Retrieve a set of compositions from the database for a given user
+ *
+ * @export
+ * @param {string} user
+ * @return {*} returns a cursor to the set of compositions
+ */
+export async function retrieveCompositions(user: string): Promise<FindCursor> {
   const mongoClient = new MongoClient(CONSTANTS.MONGO_CONNECTION_URI as string);
   try {
     await mongoClient.connect();
     const database = mongoClient.db("music");
     const collection = database.collection("sessions");
-    const result = await collection.find({ user: user });
-    console.log(result);
+    const documentPointer = collection.find({ user: user });
+    console.log(documentPointer);
     await mongoClient.close();
-    return result;
+    return documentPointer;
   } catch (e: any) {
     console.error(e);
     return e;
