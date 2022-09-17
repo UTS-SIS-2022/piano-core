@@ -1,12 +1,15 @@
 import { InsertOneResult, MongoClient } from "mongodb";
 import express from "express";
 import { createComposition } from "./controllers/compositions";
+import { Constants } from "./config/constants";
+// import { MONGO_CONNECTION_URI } from "./config/constants";
 const cors = require("cors");
 const userSession = require("express-session");
 const store = new userSession.MemoryStore();
 
 // require dotenv to load environment variables
 require("dotenv").config();
+export const CONSTANTS = new Constants();
 
 // setup express
 const app = express();
@@ -21,9 +24,9 @@ app.get("/", (req, res) => {
 });
 
 // start listening
-app.listen(process.env.PORT, () =>
-  console.log(`Listening on port ${process.env.PORT}!`)
-);
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on port ${process.env.PORT}!`);
+});
 
 // insert a new composition to mongodb
 app.post("/api/session", async (req, res) => {
@@ -55,3 +58,6 @@ app.use(
 app.use(express.static("public"));
 
 app.use("/users", require("./routes/users"));
+// function loadConstants(): number | (() => void) | undefined {
+//   MONGO_CONNECTION_URI = process.env.MONGO_CONNECTION_URI as string;
+// }
