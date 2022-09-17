@@ -27,6 +27,7 @@
     "soundfont-player": "latest"
   },
   "devDependencies": {
+    "@magenta/music": "1.23.1",
     "@types/cors": "^2.8.12",
     "@types/react-dom": "^18.0.6",
     "nodemon": "^2.0.19"
