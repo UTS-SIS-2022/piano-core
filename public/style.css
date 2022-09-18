@@ -740,3 +740,12 @@ cursor: pointer;
   cursor: pointer;
 }
 
+
+
+/***********************
+ * Drop Down Button
+ ***********************/
+
+#instruments{
+  outline: none;
+}
