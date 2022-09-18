@@ -79,21 +79,6 @@
       </div>
         
   <div class="dialog" id="settingsBox" hidden>
-    <div class = "close-btn" title="Close" onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()">&times;</div>  
-    <h2>Game Controls</h2>
-    <p>
-      Number of buttons:
-      <label class="radio">
-        <input name="num" type="radio" id="numButtons4">
-        <span class="control-indicator"></span>
-        4
-      </label>
-      <label class="radio">
-        <input name="num" type="radio" id="numButtons8" checked>
-        <span class="control-indicator"></span>
-        8
-      </label>
-    </p>
     <h2>Input Settings</h2>
     <p>
       <label class="radio">
@@ -135,6 +120,13 @@
         <select id="selectOut"></select>
       </span>
     </p>
+    <h2>Instrument Selection</h2>
+    <select name="instruments" id="instruments">
+      <option value="volvo">Piano</option>
+      <option value="saab">Harp</option>
+      <option value="opel">Violin</option>
+      <option value="audi">Drum</option>
+    </select>
 
     <h2>Piano Controls</h2>
     <div>
