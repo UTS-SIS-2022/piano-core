@@ -540,3 +540,12 @@ h4 {
   border-radius: 10px;
   border: none;
 }
+
+
+/***********************
+ * Drop Down Button
+ ***********************/
+
+#instruments{
+  outline: none;
+}
