@@ -47,7 +47,7 @@ let sustainingNotes = [];
 let mouseDownButton = null;
 
 const player = new Player();
-const replayer = new mm.Player();
+// const replayer = new mm.BasePlayer();
 const genie = new mm.PianoGenie(CONSTANTS.GENIE_CHECKPOINT);
 const painter = new FloatyNotes();
 const piano = new Piano();
@@ -400,18 +400,10 @@ function octaveDown() {
 
 function toggleAi() {
   AI_ACTIVE = !AI_ACTIVE;
-  // document.getElementById("ai").innerHTML = AI_ACTIVE
-  //   ? `<span>AI: ON</span>`
-  //   : `<span>AI: OFF</span>`;
-  // // change colour of button
-  // if (AI_ACTIVE) {
-  //   document.getElementById("ai").style.backgroundColor = "#00ff00";
-  // } else {
-  //   document.getElementById("ai").style.backgroundColor = "#ff0000";
-  // }
 }
 
 async function toggleRecording() {
+  player.stop();
   session.startTime = Date.now();
   if (RECORDING) {
     // convert to seconds
@@ -420,39 +412,49 @@ async function toggleRecording() {
       a.startTime = a.startTime / 1000;
       return a;
     });
-    // get the total time elapßed in seconds
+    // get the total time elapsed in seconds
     session.totalTime =
       session.notes[session.notes.length - 1].endTime -
       session.notes[0].startTime;
 
     delete session.startTime;
 
-    replayer.start(session); //TODO: Extract this int6o its own interface and enable instrument selection
+    // const sampler = new Tone.Sampler({
+    //   urls: {
+    //     C4: "C4.mp3",
+    //     "D#4": "Ds4.mp3",
+    //     "F#4": "Fs4.mp3",
+    //     A4: "A4.mp3",
+    //   },
+    //   release: 1,
+    //   baseUrl: "https://tonejs.github.io/audio/salamander/",
+    // }).toDestination();
+
+    // Tone.loaded().then(() => {
+    //   sampler.triggerAttackRelease(["Eb4", "G4", "Bb4"], 4);
+    // });
+
+    player.start(session);
+
     // post the session to the server
     try {
-      await postData("/api/session", session);
+      await postDataToAPI("/api/session", session);
     } catch (err) {
       console.log(err);
     }
-
-    // const data = await response.json();
-    // console.log(data);
   } else if (!RECORDING) {
     // start writing to session object
     session.notes = [];
     session.userId = "test";
     session.startTime = Date.now();
   }
-
   RECORDING = !RECORDING;
 }
 
-async function postData(url = "", data = {}) {
+async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
-    // mode: "same-origin", // no-cors, *cors, same-origin
-
     headers: {
       "Content-Type": "application/json",
       // 'Content-Type': 'application/x-www-form-urlencoded',

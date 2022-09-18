@@ -58,6 +58,3 @@ app.use(
 app.use(express.static("public"));
 
 app.use("/users", require("./routes/users"));
-// function loadConstants(): number | (() => void) | undefined {
-//   MONGO_CONNECTION_URI = process.env.MONGO_CONNECTION_URI as string;
-// }
