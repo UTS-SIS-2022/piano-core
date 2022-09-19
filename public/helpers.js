@@ -18,6 +18,18 @@ const CONSTANTS = {
     "https://storage.googleapis.com/magentadata/js/checkpoints/piano_genie/model/epiano/stp_iq_auto_contour_dt_166006",
 };
 
+async function generateSoundFontPlayers() { 
+  const baseUrl = 'https://storage.googleapis.com/magentadata/js/soundfonts/';
+  const response =
+      await (await fetch(`${baseUrl}sgm_plus/soundfont.json`)).json();
+  console.log(response)
+  const instruments = Object.values(response.instruments);
+  const select = document.getElementById('instruments');
+  select.innerHTML = instruments.map(i => `<option>${i}</option>`).join('');
+}
+
+generateSoundFontPlayers()
+
 /*************************
  * MIDI or Magenta player
  ************************/
@@ -379,3 +391,4 @@ class Piano {
     return rect;
   }
 }
+
