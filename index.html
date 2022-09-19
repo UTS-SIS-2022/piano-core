@@ -84,6 +84,7 @@
         </div>
         
   <div class="dialog" id="settingsBox" hidden>
+    <div class = "close-btn" title="Close" onclick="settingsBox.hidden = !settingsBox.hidden">&times;</div>
     <h2>Input Settings</h2>
     <p>
       <label class="radio">
@@ -157,7 +158,7 @@
     <button class="splash-button small" onclick="loginForm.hidden = !loginForm.hidden" id="loginBtn">Login</button>
 
     <!-- Login Form -->
-    <div class= "login" id="loginForm" hidden>
+    <div id="loginForm" class= "login" hidden>
       <!--<div class = "close-btn" title="Close">&times;</div>-->
       <div class="form">
         <h2>Log in</h2>
@@ -182,7 +183,30 @@
       </div>
     </div>
 
-    <button class="splash-button small" onclick="settingsBox.hidden = !settingsBox.hidden">Close</button>
+    <!-- Sign Up Button-->
+    <button class ="splash-button small" onclick="signUpForm.hidden = !signUpForm.hidden" id="signUpBtn">Sign Up</button> 
+
+    <!-- Sign Up Form -->
+    <div id="signUpForm" class= "signUp" hidden>
+      <!--<div class = "close-btn" title="Close">&times;</div>-->
+      <div class="form">
+        <h2>Create an Account</h2>
+        <div class="form-element">
+          <label for="email">Email:</label>
+          <input type="text" id="email" placeholder="Enter email" required>
+        </div>
+        <div class="form-element">
+          <label for="password">Password:</label>
+          <input type="password" id="password" placeholder="Enter password" required>
+        </div>
+        
+        <div class="form-element">
+          <button>Sign Up</button>
+        </div>        
+      </div>
+    </div>  
+
+    <!--<button class="splash-button small" onclick="settingsBox.hidden = !settingsBox.hidden">Close</button>-->
   </div>
 </body>
 

@@ -340,9 +340,28 @@ body {
     border-bottom: 2px solid #cdf352;
     background: transparent;
     box-shadow: none;
-    xmargin-bottom: 6px;
+    margin-bottom: 6px;
     width: 200px;
     height: 25px;
+  }
+
+  .dialog .close-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: #cdf352;
+    color: black;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    }
+
+  .dialog .close-btn:hover{
+    background-color: red;
+    color: black;
   }
   
   .controls-container {
@@ -605,3 +624,165 @@ body {
     text-decoration:none;
     font-weight:600; 
 }
+
+.login .form h2{
+    text-align: center;
+    margin: 10px 0px 20px;
+}
+
+.login .form .form-element{
+    margin:15px 0px;
+}
+
+.login .form .form-element label {
+    font-size: 18px;
+}
+
+.login .form .form-element input[type ="text"],
+.login .form .form-element input[type ="password"]{
+    margin-top:5px;
+    display:block;
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+.login .form .form-element input[type ="checkbox"]{
+    margin-right:5px;
+}
+
+.login .form .form-element button{
+    width: 100%;
+    height: 30px;
+    border:none;
+    outline: none;
+    font-size:16px;
+    background: #CDF352;
+    color: black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login .form .form-element a {
+    display:block;
+    text-align: right;
+    font-size: 15px;
+    color: #1a79ca;
+    text-decoration:none;
+    font-weight:600; 
+}
+
+/*SignUP */ 
+.signUp .close-btn{
+  position: absolute;
+  bottom:10px;
+  right:10px;
+  width:15px;
+  height:15px;
+  background:#888;
+  color:#eee;
+  text-align: center;
+  line-height:15px;
+  border-radius:15px;
+  cursor: pointer;
+}
+
+.signUp .form h2{
+  text-align: center;
+  margin: 10px 0px 20px;
+}
+
+.signUp .form .form-element{
+  margin:15px 0px;
+}
+
+.logsignUpin .form .form-element label {
+  font-size: 18px;
+}
+
+.signUp .form .form-element input[type ="text"],
+.signUp .form .form-element input[type ="password"]{
+  margin-top:5px;
+  display:block;
+  width: 100%;
+  padding: 5px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+
+
+.signUp .form .form-element button{
+  width: 100%;
+  height: 30px;
+  border:none;
+  outline: none;
+  font-size:16px;
+  background: #CDF352;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.signUp .form .form-element a {
+  display:block;
+  text-align: right;
+  font-size: 15px;
+  color: #1a79ca;
+  text-decoration:none;
+  font-weight:600; 
+}
+
+.signUp .form h2{
+  text-align: center;
+  margin: 10px 0px 20px;
+}
+
+.signUp .form .form-element{
+  margin:15px 0px;
+}
+
+.signUp .form .form-element label {
+  font-size: 18px;
+}
+
+.signUp .form .form-element input[type ="text"],
+.signUp .form .form-element input[type ="password"]{
+  margin-top:5px;
+  display:block;
+  width: 100%;
+  padding: 5px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+.signUp .form .form-element input[type ="checkbox"]{
+  margin-right:5px;
+}
+
+.signUp .form .form-element button{
+  width: 100%;
+  height: 30px;
+  border:none;
+  outline: none;
+  font-size:16px;
+  background: #CDF352;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.signUp .form .form-element a {
+  display:block;
+  text-align: right;
+  font-size: 15px;
+  color: #1a79ca;
+  text-decoration:none;
+  font-weight:600; 
+}
+
+
