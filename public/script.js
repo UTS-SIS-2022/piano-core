@@ -47,7 +47,6 @@ let sustainingNotes = [];
 let mouseDownButton = null;
 
 const player = new Player();
-// const replayer = new mm.BasePlayer();
 const genie = new mm.PianoGenie(CONSTANTS.GENIE_CHECKPOINT);
 const painter = new FloatyNotes();
 const piano = new Piano();
@@ -418,21 +417,6 @@ async function toggleRecording() {
       session.notes[0].startTime;
 
     delete session.startTime;
-
-    // const sampler = new Tone.Sampler({
-    //   urls: {
-    //     C4: "C4.mp3",
-    //     "D#4": "Ds4.mp3",
-    //     "F#4": "Fs4.mp3",
-    //     A4: "A4.mp3",
-    //   },
-    //   release: 1,
-    //   baseUrl: "https://tonejs.github.io/audio/salamander/",
-    // }).toDestination();
-
-    // Tone.loaded().then(() => {
-    //   sampler.triggerAttackRelease(["Eb4", "G4", "Bb4"], 4);
-    // });
 
     player.start(session);
 
