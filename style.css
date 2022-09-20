@@ -360,7 +360,7 @@ body {
     }
 
   .dialog .close-btn:hover{
-    background-color: red;
+    background-color: grey;
     color: black;
   }
   
@@ -562,7 +562,9 @@ body {
     border: none;
   }
 
-  .login .close-btn{
+  /* Log in */
+
+  /** .login .close-btn{
     position: absolute;
     bottom:10px;
     right:10px;
@@ -574,7 +576,7 @@ body {
     line-height:15px;
     border-radius:15px;
     cursor: pointer;
-}
+} **/ 
 
 .login .form h2{
     text-align: center;
@@ -614,6 +616,18 @@ body {
     color: black;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.login .form .form-element button:hover{
+  width: 100%;
+  height: 30px;
+  border:none;
+  outline: none;
+  font-size:16px;
+  background: grey;
+  color: #CDF352;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .login .form .form-element a {
@@ -675,19 +689,6 @@ body {
 }
 
 /*SignUP */ 
-.signUp .close-btn{
-  position: absolute;
-  bottom:10px;
-  right:10px;
-  width:15px;
-  height:15px;
-  background:#888;
-  color:#eee;
-  text-align: center;
-  line-height:15px;
-  border-radius:15px;
-  cursor: pointer;
-}
 
 .signUp .form h2{
   text-align: center;
@@ -723,6 +724,18 @@ body {
   font-size:16px;
   background: #CDF352;
   color: black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.signUp .form .form-element button:hover{
+  width: 100%;
+  height: 30px;
+  border:none;
+  outline: none;
+  font-size:16px;
+  background: black;
+  color: #CDF352;
   border-radius: 10px;
   cursor: pointer;
 }
