@@ -35,6 +35,14 @@ class Player {
     this.loadAllSamples();
   }
 
+  start(noteSequence) {
+    this.player.start(noteSequence);
+  }
+
+  stop() {
+    this.player.stop();
+  }
+
   loadAllSamples() {
     const seq = { notes: [] };
     for (let i = 0; i < CONSTANTS.NOTES_PER_OCTAVE * OCTAVES; i++) {
