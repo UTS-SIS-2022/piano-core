@@ -319,7 +319,7 @@ body {
     color: white;
     padding: 24px;
     z-index: 10;
-    position: fixed;
+    position: absolute;  /*********************** WAS FIXED **/ 
     top: 100px;
     left: 50%;
     width: 80%;
@@ -346,22 +346,17 @@ body {
   }
 
   .dialog .close-btn{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-    background: #cdf352;
-    color: black;
-    text-align: center;
-    line-height: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    }
+    color: #cdf352; 
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
 
-  .dialog .close-btn:hover{
-    background-color: grey;
+  .dialog .close-btn:hover,
+  .dialog .close-btn:focus{
     color: black;
+    text-decoration: none;
+    cursor: pointer;
   }
   
   .controls-container {
@@ -562,149 +557,46 @@ body {
     border: none;
   }
 
-  /* Log in */
-
-  /** .login .close-btn{
-    position: absolute;
-    bottom:10px;
-    right:10px;
-    width:15px;
-    height:15px;
-    background:#888;
-    color:#eee;
-    text-align: center;
-    line-height:15px;
-    border-radius:15px;
-    cursor: pointer;
-} **/ 
-
-.login .form h2{
-    text-align: center;
-    margin: 10px 0px 20px;
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 20; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */  
 }
 
-.login .form .form-element{
-    margin:15px 0px;
+/* Login Modal */
+.loginModal-content {
+  background-color: #141e30;
+  margin: 15% auto; 
+  padding: 20px;
+  width: 20%; /* Could be more or less, depending on screen size */
+  border: 2px solid #cdf352;
+  border-radius: 15px;
+  text-align: center;
 }
 
-.login .form .form-element label {
-    font-size: 18px;
-}
-
-.login .form .form-element input[type ="text"],
-.login .form .form-element input[type ="password"]{
-    margin-top:5px;
-    display:block;
-    width: 100%;
-    padding: 5px;
-    outline: none;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-}
-
-.login .form .form-element input[type ="checkbox"]{
-    margin-right:5px;
-}
-
-.login .form .form-element button{
-    width: 100%;
-    height: 30px;
-    border:none;
-    outline: none;
-    font-size:16px;
-    background: #CDF352;
-    color: black;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.login .form .form-element button:hover{
-  width: 100%;
-  height: 30px;
-  border:none;
-  outline: none;
-  font-size:16px;
-  background: grey;
-  color: #CDF352;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.login .form .form-element a {
-    display:block;
-    text-align: right;
-    font-size: 15px;
-    color: #1a79ca;
-    text-decoration:none;
-    font-weight:600; 
-}
-
-.login .form h2{
-    text-align: center;
-    margin: 10px 0px 20px;
-}
-
-.login .form .form-element{
-    margin:15px 0px;
-}
-
-.login .form .form-element label {
-    font-size: 18px;
-}
-
-.login .form .form-element input[type ="text"],
-.login .form .form-element input[type ="password"]{
-    margin-top:5px;
-    display:block;
-    width: 100%;
-    padding: 5px;
-    outline: none;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-}
-
-.login .form .form-element input[type ="checkbox"]{
-    margin-right:5px;
-}
-
-.login .form .form-element button{
-    width: 100%;
-    height: 30px;
-    border:none;
-    outline: none;
-    font-size:16px;
-    background: #CDF352;
-    color: black;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.login .form .form-element a {
-    display:block;
-    text-align: right;
-    font-size: 15px;
-    color: #1a79ca;
-    text-decoration:none;
-    font-weight:600; 
-}
-
-/*SignUP */ 
-
-.signUp .form h2{
+.loginModal-content .form h2{
   text-align: center;
   margin: 10px 0px 20px;
 }
 
-.signUp .form .form-element{
+.loginModal-content .form .form-element{
   margin:15px 0px;
 }
 
-.logsignUpin .form .form-element label {
+.loginModal-content .form .form-element label {
   font-size: 18px;
 }
 
-.signUp .form .form-element input[type ="text"],
-.signUp .form .form-element input[type ="password"]{
+.loginModal-content .form .form-element input[type ="text"],
+.loginModal-content .form .form-element input[type ="password"]{
   margin-top:5px;
   display:block;
   width: 100%;
@@ -714,9 +606,11 @@ body {
   border-radius: 5px;
 }
 
+.loginModal-content .form .form-element input[type ="checkbox"]{
+  margin-right:5px;
+}
 
-
-.signUp .form .form-element button{
+.loginModal-content .form .form-element button{
   width: 100%;
   height: 30px;
   border:none;
@@ -728,7 +622,75 @@ body {
   cursor: pointer;
 }
 
-.signUp .form .form-element button:hover{
+.loginModal-content .form .form-element button:hover{
+width: 100%;
+height: 30px;
+border:none;
+outline: none;
+font-size:16px;
+background: grey;
+color: #CDF352;
+border-radius: 10px;
+cursor: pointer;
+}
+
+.loginModal-content .form .form-element a {
+  display:block;
+  text-align: right;
+  font-size: 15px;
+  color: #1a79ca;
+  text-decoration:none;
+  font-weight:600; 
+}
+
+/*SignUP */ 
+.signUpModal-content {
+  background-color: #141e30;
+  margin: 15% auto; 
+  padding: 20px;
+  width: 20%; /* Could be more or less, depending on screen size */
+  border: 2px solid #cdf352;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.signUpModal-content .form h2{
+  text-align: center;
+  margin: 10px 0px 20px;
+}
+
+.signUpModal-content .form .form-element{
+  margin:15px 0px;
+}
+
+.signUpModal-content .form .form-element label {
+  font-size: 18px;
+}
+
+.signUpModal-content .form .form-element input[type ="text"],
+.signUpModal-content .form .form-element input[type ="password"]{
+  margin-top:5px;
+  display:block;
+  width: 100%;
+  padding: 5px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+.signUpModal-content .form .form-element button{
+  width: 100%;
+  height: 30px;
+  border:none;
+  outline: none;
+  font-size:16px;
+  background: #CDF352;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.signUpModal-content .form .form-element button:hover{
   width: 100%;
   height: 30px;
   border:none;
@@ -740,7 +702,7 @@ body {
   cursor: pointer;
 }
 
-.signUp .form .form-element a {
+.signUpModal-content .form .form-element a {
   display:block;
   text-align: right;
   font-size: 15px;
@@ -749,53 +711,32 @@ body {
   font-weight:600; 
 }
 
-.signUp .form h2{
-  text-align: center;
-  margin: 10px 0px 20px;
+/* Modal Close Buttons */
+._close {
+  color: #cdf352; 
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+ }
+ 
+ ._close:hover,
+ ._close:focus {
+   color: black;
+   text-decoration: none;
+   cursor: pointer;
+ } 
+
+.close {
+ color: #cdf352; 
+ float: right;
+ font-size: 28px;
+ font-weight: bold;
 }
 
-.signUp .form .form-element{
-  margin:15px 0px;
-}
-
-.signUp .form .form-element label {
-  font-size: 18px;
-}
-
-.signUp .form .form-element input[type ="text"],
-.signUp .form .form-element input[type ="password"]{
-  margin-top:5px;
-  display:block;
-  width: 100%;
-  padding: 5px;
-  outline: none;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-}
-
-.signUp .form .form-element input[type ="checkbox"]{
-  margin-right:5px;
-}
-
-.signUp .form .form-element button{
-  width: 100%;
-  height: 30px;
-  border:none;
-  outline: none;
-  font-size:16px;
-  background: #CDF352;
+.close:hover,
+.close:focus {
   color: black;
-  border-radius: 10px;
+  text-decoration: none;
   cursor: pointer;
 }
-
-.signUp .form .form-element a {
-  display:block;
-  text-align: right;
-  font-size: 15px;
-  color: #1a79ca;
-  text-decoration:none;
-  font-weight:600; 
-}
-
 
