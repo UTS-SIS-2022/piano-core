@@ -397,3 +397,41 @@ function toggleRecording() {
   console.log(RECORDING)
 }
 
+/** function openLogin(){
+  document.getElementById("loginBtn").addEventListener("click", () =>{
+    if(document.getElementById("loginForm").hidden){
+      document.getElementById("loginForm") = false;
+    }
+  })
+}
+
+function openSignUp(){
+  document.getElementById("signUpBtn").addEventListener("click", () => {
+    document.getElementById("signUpForm").hidden = false;
+  });
+} **/
+
+function logIn() {
+  let username = document.getElementById('email').value;
+  let password = document.getElementById('password').value;
+
+  /*if(username === "" && password ===""){
+    alert("Successfully Logged in! Make some fire music");
+  }else {
+    alert("Login failed. Please check input");
+  } */
+
+  alert("Successfully Logged in! Make some fire music");
+}
+
+
+function signUp() {
+  let username = document.getElementById('email').value;
+  let password = document.getElementById('password').value;
+
+  alert("Account Created! Make some fire music");
+}
+
+
+
+
