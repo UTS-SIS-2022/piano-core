@@ -32,6 +32,7 @@ const BUTTONS_MAKEY_DISPLAY = ["↑", "←", "↓", "→", "w", "a", "s", "d"];
 let OCTAVES = 7;
 let NUM_BUTTONS = 8;
 let BUTTON_MAPPING = MAPPING_8;
+let SETTINGS_OPEN = false;
 
 let keyWhitelist;
 let TEMPERATURE = getTemperature();
@@ -55,6 +56,11 @@ var session = {};
 let isUsingMakey = false;
 initEverything();
 
+function toggleSettings() {
+  SETTINGS_OPEN = !SETTINGS_OPEN;
+  return;
+}
+
 /*************************
  * Basic UI bits
  ************************/
@@ -70,6 +76,7 @@ function initEverything() {
   onWindowResize();
   updateButtonText();
   window.requestAnimationFrame(() => painter.drawLoop());
+  document.querySelector("settingsBox");
 
   window.addEventListener("resize", onWindowResize);
   window.addEventListener("orientationchange", onWindowResize);
@@ -292,6 +299,10 @@ function buttonUp(button) {
  * Events
  ************************/
 function onKeyDown(event) {
+  if (SETTINGS_OPEN) {
+    return;
+  }
+
   // Keydown fires continuously and we don't want that.
   if (event.repeat) {
     return;
@@ -461,3 +472,68 @@ async function postData(url = "", data = {}) {
   });
   return response.json(); // parses JSON response into native JavaScript objects/
 }
+
+function logIn() {
+  const logInUsername = document.getElementById("logInUsername").value;
+  const logInPassword = document.getElementById("logInPassword").value;
+
+  /*if(username === "" && password ===""){
+    alert("Successfully Logged in! Make some fire music");
+  }else {
+    alert("Login failed. Please check input");
+  } */
+
+  alert("Welcome " + logInUsername + " your password is " + logInPassword);
+}
+
+function signUp() {
+  const signUpUsername = document.getElementById("signUpUsername").value;
+  const signUpPassword = document.getElementById("signUpPassword").value;
+
+  alert(
+    "Account created for " +
+      signUpUsername +
+      " your password is " +
+      signUpPassword
+  );
+}
+
+/* Log in Modal Form  */
+// Get the modal
+var logInModal = document.getElementById("loginModal");
+
+// Get the button that opens the modal
+var logInBtn = document.getElementById("logInBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("_close")[0];
+
+// When the user clicks on the button, open the modal
+logInBtn.onclick = function () {
+  logInModal.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  logInModal.style.display = "none";
+};
+
+/* Sign Up Modal Form */
+// Get the modal
+var signUpModal = document.getElementById("signUpModal");
+
+// Get the button that opens the modal
+var signUpBtn = document.getElementById("signUpBtn");
+
+// Get the <span> element that closes the modal
+var signUpSpan = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+signUpBtn.onclick = function () {
+  signUpModal.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the modal
+signUpSpan.onclick = function () {
+  signUpModal.style.display = "none";
+};
