@@ -49,8 +49,6 @@
     </p>
   </div>
 
-
-
   <div class="loaded" hidden>
     <div class="background"></div>
     <canvas id="canvas"></canvas>
@@ -67,9 +65,6 @@
           <button class="color color-5" id="btn5" data-id="5"><span></span></button>
           <button class="color color-6" id="btn6" data-id="6"><span></span></button>
           <button class="color color-7" id="btn7" data-id="7"><span></span></button>
-        <!-- <!-- <button class="color color-0" id="btn7" data-id="8"><span></span></button> -->
-        <!-- <button class="color color-7" id="btn8" data-id="8"><span></span></button> -->
-        <!-- <button class="color color-10" id="ai" data-id="10" onclick="toggleAi()"><span>AI: OFF</span></button> -->
         <div class="options">
           <button class="settings" onclick="settingsBox.hidden = !settingsBox.hidden" id="btnSettings">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20">
@@ -85,6 +80,20 @@
         
   <div class="dialog" id="settingsBox" hidden>
     <div class = "close-btn" title="Close" onclick="settingsBox.hidden = !settingsBox.hidden">&times;</div>
+    <h2>Game Controls</h2>
+    <p>
+      Number of buttons:
+      <label class="radio">
+        <input name="num" type="radio" id="numButtons4">
+        <span class="control-indicator"></span>
+        4
+      </label>
+      <label class="radio">
+        <input name="num" type="radio" id="numButtons8" checked>
+        <span class="control-indicator"></span>
+        8
+      </label>
+    </p>
     <h2>Input Settings</h2>
     <p>
       <label class="radio">
