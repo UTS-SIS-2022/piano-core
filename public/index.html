@@ -66,7 +66,7 @@
           <button class="color color-6" id="btn6" data-id="6"><span></span></button>
           <button class="color color-7" id="btn7" data-id="7"><span></span></button>
         <div class="options">
-          <button class="settings" onclick="settingsBox.hidden = !settingsBox.hidden" id="btnSettings">
+          <button class="settings" onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()" id="btnSettings">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20">
               <path fill="none" d="M0 0h20v20H0V0z" />
               <path
@@ -78,8 +78,8 @@
          
       </div>
         
-  <div class="dialog" id="settingsBox" onClick="toggleSettings()" hidden>
-    <div class = "close-btn" title="Close" onclick="settingsBox.hidden = !settingsBox.hidden" onClick="toggleSettings()">&times;</div>  
+  <div class="dialog" id="settingsBox" hidden>
+    <div class = "close-btn" title="Close" onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()">&times;</div>  
     <h2>Game Controls</h2>
     <p>
       Number of buttons:
