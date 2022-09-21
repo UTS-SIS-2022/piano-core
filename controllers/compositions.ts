@@ -1,6 +1,6 @@
 import { NoteSequence } from "@magenta/music";
 import { FindCursor, InsertOneResult, MongoClient } from "mongodb";
-import { CONSTANTS } from "../server";
+import { CONSTANTS } from "./users";
 
 /**
  * Create a new composition in the database
@@ -45,7 +45,7 @@ export async function retrieveCompositions(user: string): Promise<FindCursor> {
     const database = mongoClient.db("music");
     const collection = database.collection("sessions");
     const documentPointer = collection.find({ user: user });
-    console.log(documentPointer);
+    // console.log(documentPointer);
     await mongoClient.close();
     return documentPointer;
   } catch (e: any) {

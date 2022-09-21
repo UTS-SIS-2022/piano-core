@@ -1,25 +1,25 @@
 import bcrypt from "bcrypt";
-import { Collection, Document, MongoClient } from "mongodb";
-import { CONSTANTS } from "../server";
+import { Collection, Document, MongoClient, ObjectId } from "mongodb";
+import { Constants } from "../config/constants";
+import { MongoGateway } from "../config/mongo";
+const dotenv = require("dotenv");
+dotenv.config();
 
 const users: any = [];
-var userCollection: Collection<Document>;
+var userCollection: any = MongoGateway.userCollection;
+export const CONSTANTS = new Constants();
 
 // executes automatically when this file is loaded
-(async () => {
-  const client = new MongoClient(CONSTANTS.MONGO_CONNECTION_URI as string);
-  await client.connect();
-  const database = client.db("music");
-  userCollection = database.collection("users");
-})();
 
-const getUsers = async (req: any, res: any) => {
+export const getUsers = async (req: any, res: any) => {
   users.push(...(await userCollection.find().toArray()));
-  console.log(users);
+  // console.log(users);
   return res.send(users);
 };
 
-const createUser = async (req: any, res: any) => {
+export const createUser = async (req: any, res: any) => {
+  // console.log(req.body.user);
+  const userCollection = MongoGateway.userCollection;
   try {
     const hashedPwd = await bcrypt.hash(req.body.user.password, 10);
     const user = {
@@ -27,21 +27,26 @@ const createUser = async (req: any, res: any) => {
       username: req.body.user.username,
       password: hashedPwd,
     };
-    await userCollection.insertOne(user);
+
+    const insertResponse = await userCollection.insertOne(user as any);
     users.push(user);
-    console.log(users);
-    res.send(users);
-  } catch {
-    res.status(500).send();
+    // console.log(users);
+    // res.send(insertResponse);
+    res.status(200);
+    return insertResponse;
+  } catch (err: any) {
+    res.status(500);
+    return err;
   }
 };
 
-const logIn = async (req: any, res: any) => {
-  console.log(req.sessionID);
+export const logIn = async (req: any, res: any) => {
+  // console.log(req.session);
+  req.session.authenticated = true;
   const user = users.find(
     (user: any) => (user.username = req.body.user.username)
   );
-  if (req.session.authenticated) {
+  if (req.session?.authenticated) {
     res.json(req.session);
   } else {
     if (user == null) {
@@ -69,22 +74,22 @@ const logIn = async (req: any, res: any) => {
   }
 };
 
-const isAuthenticated = (req: any, res: any, next: any) => {
+export const isAuthenticated = (req: any, res: any, next: any) => {
   if (req.session.user) next();
   else res.status(400).send("You must be logged in");
 };
 
-const logOut =
+export const logOut =
   (isAuthenticated as any,
   async (req: any, res: any, next: any) => {
-    console.log(req.sessionID);
+    // console.log(req.sessionID);
     req.session.destroy();
     res.redirect("/");
   });
 
-module.exports = {
-  getUsers,
-  createUser,
-  logIn,
-  logOut,
-};
+// module.exports = {
+//   getUsers,
+//   createUser,
+//   logIn,
+//   logOut,
+// };
