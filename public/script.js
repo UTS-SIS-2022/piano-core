@@ -472,19 +472,19 @@ function logIn() {
     .then((data) => {
       if (data.success) {
         console.log("logged in");
-        document.getElementById("logIn").style.display = "none";
-        document.getElementById("logOut").style.display = "block";
+        // document.getElementById("logIn").style.display = "none";
+        // document.getElementById("logOut").style.display = "block";
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
+        alert(data.message);
       } else {
+        alert(data.message);
         console.log("login failed");
       }
     })
     .catch((err) => {
       console.log(err);
     });
-
-  alert("Welcome " + logInUsername + " your password is " + logInPassword);
 }
 
 function signUp() {
@@ -499,21 +499,15 @@ function signUp() {
   }).then((data) => {
     if (data.success) {
       console.log("signed up");
-      document.getElementById("signUp").style.display = "none";
-      document.getElementById("logOut").style.display = "block";
+      // document.getElementById("signUp").style.display = "none";
+      // document.getElementById("logOut").style.display = "block";
       document.getElementById("signUpUsername").value = "";
       document.getElementById("signUpPassword").value = "";
+      alert(" Created account for " + signUpUsername);
     } else {
-      alert("Sign up failed. Please check input");
+      alert("Sign up failed." + `${data.message}`);
     }
   });
-
-  alert(
-    "Account created for " +
-      signUpUsername +
-      " your password is " +
-      signUpPassword
-  );
 }
 
 /* Log in Modal Form  */
