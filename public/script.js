@@ -463,25 +463,51 @@ function logIn() {
   const logInUsername = document.getElementById("logInUsername").value;
   const logInPassword = document.getElementById("logInPassword").value;
 
-  /*if(username === "" && password ===""){
-    alert("Successfully Logged in! Make some fire music");
-  }else {
-    alert("Login failed. Please check input");
-  } */
-
-  alert("Welcome " + logInUsername + " your password is " + logInPassword);
+  postDataToAPI("/api/login", {
+    user: {
+      username: logInUsername,
+      password: logInPassword,
+    },
+  })
+    .then((data) => {
+      if (data.success) {
+        console.log("logged in");
+        // document.getElementById("logIn").style.display = "none";
+        // document.getElementById("logOut").style.display = "block";
+        document.getElementById("logInUsername").value = "";
+        document.getElementById("logInPassword").value = "";
+        alert(data.message);
+      } else {
+        alert(data.message);
+        console.log("login failed");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function signUp() {
   const signUpUsername = document.getElementById("signUpUsername").value;
   const signUpPassword = document.getElementById("signUpPassword").value;
 
-  alert(
-    "Account created for " +
-      signUpUsername +
-      " your password is " +
-      signUpPassword
-  );
+  postDataToAPI("/api/signup", {
+    user: {
+      username: signUpUsername,
+      password: signUpPassword,
+    },
+  }).then((data) => {
+    if (data.success) {
+      console.log("signed up");
+      // document.getElementById("signUp").style.display = "none";
+      // document.getElementById("logOut").style.display = "block";
+      document.getElementById("signUpUsername").value = "";
+      document.getElementById("signUpPassword").value = "";
+      alert(" Created account for " + signUpUsername);
+    } else {
+      alert("Sign up failed." + `${data.message}`);
+    }
+  });
 }
 
 /* Log in Modal Form  */
