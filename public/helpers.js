@@ -38,7 +38,7 @@ class Player {
   baseUrl = "https://storage.googleapis.com/magentadata/js/soundfonts";
   constructor() {
     this.program = 0; //Initial instrument is Acoustic Grand Piano
-    this.player = new mm.SoundFontPlayer(`${this.baseUrl}/sgm_plus`); // use salamander grand piano by default
+    this.player = new mm.SoundFontPlayer(`${this.baseUrl}/sgm_plus`); // use salamander instruments by default
     this.midiOut = [];
     this.midiIn = [];
     this.usingMidiOut = false;
