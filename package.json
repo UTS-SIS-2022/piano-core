@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "npx nodemon server.ts"
+    "dev": "npx nodemon api/server.ts",
+    "start": "ts-node api/server.ts"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +28,8 @@
     "soundfont-player": "latest"
   },
   "devDependencies": {
+    "@magenta/music": "1.23.1",
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/react-dom": "^18.0.6",
     "nodemon": "^2.0.19",

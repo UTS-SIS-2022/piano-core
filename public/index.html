@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Piano Genie</title>
+  <title>AI Jam</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport"
@@ -19,7 +19,7 @@
 
 <body>
   <div class="splash">
-    <h1>Piano Genie</h1>
+    <h1>AI Jam</h1>
     <div class="splash-main">
       <p>Have some fun pretending you're a piano virtuoso using machine learning!</p>
       <p>Use the <b>1-8</b> numbered keys on your keyboard (or the home row <b>a-f</b> and <b>j-;</b>) or <b>touch</b>
@@ -66,7 +66,7 @@
           <button class="color color-6" id="btn6" data-id="6"><span></span></button>
           <button class="color color-7" id="btn7" data-id="7"><span></span></button>
         <div class="options">
-          <button class="settings" onclick="settingsBox.hidden = !settingsBox.hidden" id="btnSettings">
+          <button class="settings" onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()" id="btnSettings">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20">
               <path fill="none" d="M0 0h20v20H0V0z" />
               <path
@@ -75,10 +75,9 @@
           </button>
         </div>
         </div>
+         
+      </div>
         
-    </div>
-
-
   <div class="dialog" id="settingsBox" hidden>
     <h2>Input Settings</h2>
     <p>
@@ -122,12 +121,7 @@
       </span>
     </p>
     <h2>Instrument Selection</h2>
-    <select name="instruments" id="instruments">
-        <option value="piano">🎹 Piano</option>
-        <option value="violin">🎻 Violin</option>
-        <option value="drum">🥁 Drum</option>
-        <option value="drum">🎷 Saxaphone</option>
-    </select>
+    <select name="instruments" id="instruments" onchange="onInstrumentSelect()"></select>
 
     <h2>Piano Controls</h2>
     <div>
@@ -156,8 +150,65 @@
       supported in Chrome and Opera.
     </p>
 
-    <button class="splash-button small" onclick="settingsBox.hidden = !settingsBox.hidden">Close</button>
+    <!-- Login/Sign Up Buttons -->    
+    <button id="logInBtn" class="splash-button small">Sign In</button>
+    <button id="signUpBtn" class="splash-button small">Sign Up</button>
   </div>
 </body>
+
+<!-- Log In Modal -->
+<div id="loginModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="loginModal-content">    
+    <span title="Close" class="_close">&times;</span> 
+    <div class="form">
+      <h2>Log In</h2>
+      <div class="form-element">
+        <label for="username">Username:</label>
+        <input type="text" id="logInUsername" placeholder="Enter username" required>
+      </div>
+      <div class="form-element">
+        <label for="password">Password:</label>
+        <input type="text" id="logInPassword" placeholder="Enter password" required>
+      </div>
+      <div class="form-element">
+        <input type="checkbox" id="remember me"> 
+        <label for="remember-me">Remember me</label>
+      </div>
+      <div class="form-element">
+        <button onclick="logIn()">Sign In</button>
+      </div>
+      <div class="form-element">
+        <a href="#">Forgot password?</a>
+      </div>      
+    </div>
+  </div>
+
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="signUpModal-content">
+    <span title="Close" onclick ="document.getElementById('signUpModal').style.display='none'" class="close">&times;</span>
+    <div class="form">
+      <h2>Create an Account</h2>
+      <div class="form-element">
+        <label for="username">Username:</label>
+        <input type="text" id="signUpUsername" placeholder="Enter username" required>
+      </div>
+      <div class="form-element">
+        <label for="password">Password:</label>
+        <input type="text" id="signUpPassword" placeholder="Enter password" required>
+      </div>
+      
+      <div class="form-element">
+        <button onclick="signUp()">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </html>

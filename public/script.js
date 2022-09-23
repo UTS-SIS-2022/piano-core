@@ -32,6 +32,7 @@ const BUTTONS_MAKEY_DISPLAY = ["↑", "←", "↓", "→", "w", "a", "s", "d"];
 let OCTAVES = 7;
 let NUM_BUTTONS = 8;
 let BUTTON_MAPPING = MAPPING_8;
+let SETTINGS_OPEN = false;
 
 let keyWhitelist;
 let TEMPERATURE = getTemperature();
@@ -47,13 +48,17 @@ let sustainingNotes = [];
 let mouseDownButton = null;
 
 const player = new Player();
-const replayer = new mm.Player();
 const genie = new mm.PianoGenie(CONSTANTS.GENIE_CHECKPOINT);
 const painter = new FloatyNotes();
 const piano = new Piano();
 var session = {};
 let isUsingMakey = false;
 initEverything();
+
+function toggleSettings() {
+  SETTINGS_OPEN = !SETTINGS_OPEN;
+  return;
+}
 
 /*************************
  * Basic UI bits
@@ -70,6 +75,7 @@ function initEverything() {
   onWindowResize();
   updateButtonText();
   window.requestAnimationFrame(() => painter.drawLoop());
+  document.querySelector("settingsBox");
 
   window.addEventListener("resize", onWindowResize);
   window.addEventListener("orientationchange", onWindowResize);
@@ -292,6 +298,10 @@ function buttonUp(button) {
  * Events
  ************************/
 function onKeyDown(event) {
+  if (SETTINGS_OPEN) {
+    return;
+  }
+
   // Keydown fires continuously and we don't want that.
   if (event.repeat) {
     return;
@@ -400,18 +410,10 @@ function octaveDown() {
 
 function toggleAi() {
   AI_ACTIVE = !AI_ACTIVE;
-  // document.getElementById("ai").innerHTML = AI_ACTIVE
-  //   ? `<span>AI: ON</span>`
-  //   : `<span>AI: OFF</span>`;
-  // // change colour of button
-  // if (AI_ACTIVE) {
-  //   document.getElementById("ai").style.backgroundColor = "#00ff00";
-  // } else {
-  //   document.getElementById("ai").style.backgroundColor = "#ff0000";
-  // }
 }
 
 async function toggleRecording() {
+  player.stop();
   session.startTime = Date.now();
   if (RECORDING) {
     // convert to seconds
@@ -420,39 +422,34 @@ async function toggleRecording() {
       a.startTime = a.startTime / 1000;
       return a;
     });
-    // get the total time elapßed in seconds
+    // get the total time elapsed in seconds
     session.totalTime =
       session.notes[session.notes.length - 1].endTime -
       session.notes[0].startTime;
 
     delete session.startTime;
 
-    replayer.start(session); //TODO: Extract this int6o its own interface and enable instrument selection
+    player.start(session);
+
     // post the session to the server
     try {
-      await postData("/api/session", session);
+      await postDataToAPI("/api/session", session);
     } catch (err) {
       console.log(err);
     }
-
-    // const data = await response.json();
-    // console.log(data);
   } else if (!RECORDING) {
     // start writing to session object
     session.notes = [];
     session.userId = "test";
     session.startTime = Date.now();
   }
-
   RECORDING = !RECORDING;
 }
 
-async function postData(url = "", data = {}) {
+async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
-    // mode: "same-origin", // no-cors, *cors, same-origin
-
     headers: {
       "Content-Type": "application/json",
       // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -461,3 +458,98 @@ async function postData(url = "", data = {}) {
   });
   return response.json(); // parses JSON response into native JavaScript objects/
 }
+
+function logIn() {
+  const logInUsername = document.getElementById("logInUsername").value;
+  const logInPassword = document.getElementById("logInPassword").value;
+
+  postDataToAPI("/api/login", {
+    user: {
+      username: logInUsername,
+      password: logInPassword,
+    },
+  })
+    .then((data) => {
+      if (data.success) {
+        console.log("logged in");
+        // document.getElementById("logIn").style.display = "none";
+        // document.getElementById("logOut").style.display = "block";
+        document.getElementById("logInUsername").value = "";
+        document.getElementById("logInPassword").value = "";
+        alert(data.message);
+      } else {
+        alert(data.message);
+        console.log("login failed");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function signUp() {
+  const signUpUsername = document.getElementById("signUpUsername").value;
+  const signUpPassword = document.getElementById("signUpPassword").value;
+
+  postDataToAPI("/api/signup", {
+    user: {
+      username: signUpUsername,
+      password: signUpPassword,
+    },
+  }).then((data) => {
+    if (data.success) {
+      console.log("signed up");
+      // document.getElementById("signUp").style.display = "none";
+      // document.getElementById("logOut").style.display = "block";
+      document.getElementById("signUpUsername").value = "";
+      document.getElementById("signUpPassword").value = "";
+      alert(" Created account for " + signUpUsername);
+    } else {
+      alert("Sign up failed." + `${data.message}`);
+    }
+  });
+}
+
+/* Log in Modal Form  */
+// Get the modal
+var logInModal = document.getElementById("loginModal");
+
+// Get the button that opens the modal
+var logInBtn = document.getElementById("logInBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("_close")[0];
+
+// When the user clicks on the button, open the modal
+logInBtn.onclick = function () {
+  logInModal.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  logInModal.style.display = "none";
+};
+
+/* Sign Up Modal Form */
+// Get the modal
+var signUpModal = document.getElementById("signUpModal");
+
+// Get the button that opens the modal
+var signUpBtn = document.getElementById("signUpBtn");
+
+// Get the <span> element that closes the modal
+var signUpSpan = document.getElementsByClassName("close")[0];
+
+function onInstrumentSelect() {
+  player.changeInstrument();
+}
+
+// When the user clicks on the button, open the modal
+signUpBtn.onclick = function () {
+  signUpModal.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the modal
+signUpSpan.onclick = function () {
+  signUpModal.style.display = "none";
+};
