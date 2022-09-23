@@ -540,6 +540,10 @@ var signUpBtn = document.getElementById("signUpBtn");
 // Get the <span> element that closes the modal
 var signUpSpan = document.getElementsByClassName("close")[0];
 
+function onInstrumentSelect() {
+  player.changeInstrument();
+}
+
 // When the user clicks on the button, open the modal
 signUpBtn.onclick = function () {
   signUpModal.style.display = "block";

@@ -740,3 +740,22 @@ cursor: pointer;
   cursor: pointer;
 }
 
+
+
+/***********************
+ * Drop Down Button
+ ***********************/
+
+.octave {
+  border-radius: 10px;
+  border: none;
+}
+
+
+/***********************
+ * Drop Down Button
+ ***********************/
+
+#instruments{
+  outline: none;
+}

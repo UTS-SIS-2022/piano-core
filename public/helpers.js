@@ -18,20 +18,41 @@ const CONSTANTS = {
     "https://storage.googleapis.com/magentadata/js/checkpoints/piano_genie/model/epiano/stp_iq_auto_contour_dt_166006",
 };
 
+async function generateSoundFontPlayers() {
+  const baseUrl = "https://storage.googleapis.com/magentadata/js/soundfonts/";
+  const response = await (
+    await fetch(`${baseUrl}sgm_plus/soundfont.json`)
+  ).json();
+  console.log(response);
+  const instruments = Object.values(response.instruments);
+  const select = document.getElementById("instruments");
+  select.innerHTML = instruments.map((i) => `<option>${i}</option>`).join("");
+}
+
+const soundFontData = generateSoundFontPlayers();
+
 /*************************
  * MIDI or Magenta player
  ************************/
 class Player {
+  baseUrl = "https://storage.googleapis.com/magentadata/js/soundfonts";
   constructor() {
-    this.player = new mm.SoundFontPlayer(
-      "https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus"
-    );
+    this.program = 0; //Initial instrument is Acoustic Grand Piano
+    this.player = new mm.SoundFontPlayer(`${this.baseUrl}/sgm_plus`); // use salamander instruments by default
     this.midiOut = [];
     this.midiIn = [];
     this.usingMidiOut = false;
     this.usingMidiIn = false;
     this.selectOutElement = document.getElementById("selectOut");
     this.selectInElement = document.getElementById("selectIn");
+    this.loadAllSamples();
+  }
+
+  // change the instrument
+  changeInstrument() {
+    const instrument = document.getElementById("instruments");
+    const selectedIndex = instrument.selectedIndex;
+    this.program = selectedIndex;
     this.loadAllSamples();
   }
 
@@ -46,7 +67,10 @@ class Player {
   loadAllSamples() {
     const seq = { notes: [] };
     for (let i = 0; i < CONSTANTS.NOTES_PER_OCTAVE * OCTAVES; i++) {
-      seq.notes.push({ pitch: CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + i });
+      seq.notes.push({
+        pitch: CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + i,
+        program: this.program,
+      });
     }
     this.player.loadSamples(seq);
   }
@@ -58,7 +82,7 @@ class Player {
       console.log(pitch);
     } else {
       mm.Player.tone.context.resume();
-      this.player.playNoteDown({ pitch: pitch });
+      this.player.playNoteDown({ pitch: pitch, program: this.program });
     }
   }
 
@@ -68,7 +92,7 @@ class Player {
       this.sendMidiNoteOff(pitch, button);
       console.log(pitch);
     } else {
-      this.player.playNoteUp({ pitch: pitch });
+      this.player.playNoteUp({ pitch: pitch, program: this.program });
     }
   }
 
@@ -379,3 +403,4 @@ class Piano {
     return rect;
   }
 }
+
