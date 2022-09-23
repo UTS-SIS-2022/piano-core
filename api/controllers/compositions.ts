@@ -1,6 +1,6 @@
 import { NoteSequence } from "@magenta/music";
 import { FindCursor, InsertOneResult, MongoClient } from "mongodb";
-import { CONSTANTS } from "./users";
+import { db } from "../server";
 
 /**
  * Create a new composition in the database
@@ -10,20 +10,14 @@ import { CONSTANTS } from "./users";
  * @return {*}  {Promise<InsertOneResult<Document>>}
  */
 export async function createComposition(
-  noteSequence: NoteSequence
+  noteSequence: NoteSequence // contains userId
 ): Promise<InsertOneResult<Document>> {
-  const mongoClient = new MongoClient(CONSTANTS.MONGO_CONNECTION_URI as string);
   try {
-    await mongoClient.connect();
-    const database = mongoClient.db("music");
-    const collection = database.collection("sessions");
-    const result: InsertOneResult<Document> = await collection.insertOne(
-      noteSequence
-    );
+    const result: InsertOneResult<Document> =
+      await db.compositionCollection.insertOne(noteSequence);
     console.log(
       `New session created with the following id: ${result.insertedId}`
     );
-    await mongoClient.close();
     return result;
   } catch (e: any) {
     console.error(e);
@@ -39,13 +33,8 @@ export async function createComposition(
  * @return {*} returns a cursor to the set of compositions
  */
 export async function retrieveCompositions(user: string): Promise<FindCursor> {
-  const mongoClient = new MongoClient(CONSTANTS.MONGO_CONNECTION_URI as string);
   try {
-    await mongoClient.connect();
-    const database = mongoClient.db("music");
-    const collection = database.collection("sessions");
-    const documentPointer = collection.find({ user: user });
-    await mongoClient.close();
+    const documentPointer = db.compositionCollection.find({ user: user });
     return documentPointer;
   } catch (e: any) {
     console.error(e);

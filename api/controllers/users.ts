@@ -1,20 +1,10 @@
 import bcrypt from "bcrypt";
-import { Collection, Document, MongoClient, ObjectId } from "mongodb";
-import { Constants } from "../config/constants";
-import { MongoGateway } from "../config/mongo";
 import { db } from "../server";
 const dotenv = require("dotenv");
 dotenv.config();
 
-const users: any = [];
-// var userCollection: any = MongoGateway.;
-export const CONSTANTS = new Constants();
-
-// executes automatically when this file is loaded
-
 export const getAllUsers = async () => {
-  users.push(...(await db.userCollection.find().toArray()));
-  return users;
+  return await db.userCollection.find().toArray();
 };
 
 export const getUserFromDb = async (uid: string) => {
@@ -32,7 +22,6 @@ export const createUser = async (req: any, res: any) => {
     };
 
     const insertResponse = await db.userCollection.insertOne(user as any);
-    users.push(user);
     res.status(200);
     const data = {
       _id: insertResponse.insertedId,
