@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "npx nodemon server.ts"
+    "dev": "npx nodemon api/server.ts"
   },
   "author": "",
   "license": "ISC",

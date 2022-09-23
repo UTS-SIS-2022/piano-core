@@ -1,13 +1,9 @@
 import { InsertOneResult, MongoClient } from "mongodb";
 import express from "express";
 import { createComposition } from "./controllers/compositions";
-import { createUser, getUsers, logIn } from "./controllers/users";
-// import { } from "./controllers/users";
-// import { UserRepo } from "./controllers/users";
-// import { MONGO_CONNECTION_URI } from "./config/constants";
+import { createUser, getAllUsers, logIn } from "./controllers/users";
 const cors = require("cors");
 const userSession = require("express-session");
-// const store = new userSession.MemoryStore();
 
 // require dotenv to load environment variables
 require("dotenv").config();
@@ -24,7 +20,6 @@ export let db: MongoGateway;
       client.db("music").collection("users")
     );
   } else {
-    // console.log("Please check your environment variables");
     throw new Error("Please check your environment variables");
   }
 })();
@@ -79,7 +74,7 @@ app.get("api/users", async (req, res) => {
     res.send(500);
     return;
   } else {
-    const users = await getUsers(req, res);
+    const users = await getAllUsers();
     res.status(200).send(users);
     return;
   }

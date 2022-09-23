@@ -12,17 +12,13 @@ export const CONSTANTS = new Constants();
 
 // executes automatically when this file is loaded
 
-export const getUsers = async (req: any, res: any) => {
-  // await userCollection;
+export const getAllUsers = async () => {
   users.push(...(await db.userCollection.find().toArray()));
-  // console.log(users);
   return users;
 };
 
 export const getUserFromDb = async (uid: string) => {
-  // await userCollection;
   const user = await db.userCollection.findOne({ _id: uid });
-  // console.log(user);
   return user;
 };
 
@@ -45,8 +41,6 @@ export const createUser = async (req: any, res: any) => {
       mongoResponse: insertResponse,
       errors: null,
     };
-    // res.success = true;
-    // res.data = insertResponse;
     return data;
   } catch (err: any) {
     const data = {
@@ -116,7 +110,6 @@ export const isAuthenticated = (req: any, res: any, next: any) => {
 export const logOut =
   (isAuthenticated as any,
   async (req: any, res: any, next: any) => {
-    // console.log(req.sessionID);
     req.session.destroy();
     res.redirect("/");
   });
