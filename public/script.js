@@ -553,3 +553,21 @@ signUpBtn.onclick = function () {
 signUpSpan.onclick = function () {
   signUpModal.style.display = "none";
 };
+
+
+function hidePassword(){
+  var x = document.getElementById("logInPassword");
+  var y = document.getElementById("signUpPassword");
+
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+  
+  if (y.type === "password") {
+    y.type = "text";
+  } else {
+    y.type = "password";
+  }
+}

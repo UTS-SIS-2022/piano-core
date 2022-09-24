@@ -172,8 +172,7 @@
         <input type="text" id="logInPassword" placeholder="Enter password" required>
       </div>
       <div class="form-element">
-        <input type="checkbox" id="remember me"> 
-        <label for="remember-me">Remember me</label>
+        <input type="checkbox" onclick="hidePassword()">Hide Password
       </div>
       <div class="form-element">
         <button onclick="logIn()">Sign In</button>
@@ -202,7 +201,9 @@
         <label for="password">Password:</label>
         <input type="text" id="signUpPassword" placeholder="Enter password" required>
       </div>
-      
+      <div class="form-element">
+        <input type="checkbox" onclick="hidePassword()">Hide Password
+      </div>
       <div class="form-element">
         <button onclick="signUp()">Sign Up</button>
       </div>
