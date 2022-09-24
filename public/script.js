@@ -484,7 +484,7 @@ function logIn() {
     })
     .catch((err) => {
       console.log(err);
-    });
+    });    
 }
 
 function signUp() {
