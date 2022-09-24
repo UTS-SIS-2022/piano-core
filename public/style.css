@@ -290,6 +290,7 @@ body {
     text-align: center;
     transition: background-color 0.2s linear;
     width: 200px;
+    border-radius: 15px;
   }
   
   button.splash-button:hover {
@@ -338,7 +339,7 @@ body {
     font-size: 14px;
     border: none;
     border-bottom: 2px solid #cdf352;
-    background: transparent;
+    background: #1c2c42;
     box-shadow: none;
     margin-bottom: 6px;
     width: 200px;
