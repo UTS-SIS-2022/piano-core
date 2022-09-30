@@ -1,13 +1,14 @@
 import { InsertOneResult, MongoClient } from "mongodb";
 import express from "express";
 import { createComposition } from "./controllers/compositions";
-import { createUser, getAllUsers, logIn } from "./controllers/users";
+import { createUser, getAllUsers, logIn, logOut } from "./controllers/users";
 const cors = require("cors");
 const userSession = require("express-session");
 
 // require dotenv to load environment variables
 require("dotenv").config();
 import { MongoGateway } from "./config/mongo";
+import { any } from "prop-types";
 export let db: MongoGateway;
 
 // initialise gateways
@@ -32,6 +33,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
+
+app.use(
+  userSession({
+    secret: "secret",
+    cookie: { maxAge: 300000000 },
+    saveUninitialized: false,
+  })
+);
 
 // serve landing page
 app.get("/", (req, res) => {
@@ -60,32 +69,29 @@ app.post("/api/signup", async (req, res) => {
   return;
 });
 
-app.get("api/users", async (req, res) => {
+app.get("/api/users", async (req, res) => {
   const users = await getAllUsers();
   res.status(200).send(users);
   return;
 });
 
-app.post("/api/login", async (req, res) => {
+app.post("/api/login", async (req: any, res: any) => {
   // this handles the response to the client - probably should be handled here
   // keep the users controller as pure functions
+  console.log(req.sessionID);
   const logInResponse = await logIn(req, res);
   res.send(logInResponse);
 });
+
+app.post("/api/logout", async (req: any, res: any) => {
+  console.log(req.sessionID);
+  const logoutResponse = await logOut(req, res);
+  res.send(logoutResponse);
+})
 
 // retrieve compositions from mongodb by userid
 app.get("/api/session", async (req, res) => {
   console.log("get session recieved");
 });
 
-app.use(
-  userSession({
-    secret: "secret",
-    cookie: { maxAge: 300000000 },
-    saveUninitialized: false,
-  })
-);
-
 app.use(express.static("public"));
-
-// app.use("/users", require("./routes/users"));
