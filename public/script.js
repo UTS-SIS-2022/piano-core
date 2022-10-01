@@ -559,15 +559,11 @@ function hidePassword(){
   var x = document.getElementById("logInPassword");
   var y = document.getElementById("signUpPassword");
 
-  if (x.type === "password") {
+  if (x.type === "password" || y.type === "password") {
     x.type = "text";
-  } else {
-    x.type = "password";
-  }
-  
-  if (y.type === "password") {
     y.type = "text";
   } else {
+    x.type = "password";
     y.type = "password";
   }
 }

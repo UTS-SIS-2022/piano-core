@@ -196,12 +196,23 @@ body {
     height: 50%;
     cursor: pointer;
   }
-  .controls button.octave.octave-button {
+  .controls button.octave.octave-button {    
     position: relative;
     height: 50%;
   }
+
   .controls button.octave[active] {
     transform: scale(0.9, 0.9);
+  }
+
+  button.octave-button{
+    cursor: pointer;
+    font-size: large;
+    border-radius: 90px; 
+  }
+
+  button.octave-button:hover{
+    background-color: #cdf352; 
   }
   
   .controls button.settings:hover {
@@ -277,11 +288,11 @@ body {
   
   button.splash-button {
     cursor: pointer;
-    margin: 40px auto;
+    margin: auto;
     padding: 14px;
     font-family: inherit;
     font-size: 22px;
-    display: block;
+    display: inline;
     border: 2px solid #cdf352;
     background-color: transparent;
     text-transform: uppercase;
@@ -300,6 +311,7 @@ body {
   
   button.splash-button.small {
     padding: 8px;
+    margin: 5px;
     font-size: 16px;
     border-radius: 15px;
   }
@@ -315,6 +327,10 @@ body {
   }
   
   .dialog {
+    /*display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
+    justify-content: space-evenly; */
     font-weight: 100;
     background: #1c2c42;
     color: white;
@@ -323,14 +339,25 @@ body {
     position: absolute;  /*********************** WAS FIXED **/ 
     top: 100px;
     left: 50%;
-    width: 80%;
-    max-width: 500px;
+    width: 200%;
+    max-height: 650px;
+    max-width: 700px;
     transform: translateX(-50%);
     border: 2px solid #cdf352;
     -webkit-box-shadow: 8px 8px 0 #cdf352;
     box-shadow: 8px 8px 0 #cdf352;
     text-align: left;
     border-radius: 15px;
+  }
+
+  .dialog .grid1 {
+    display: grid;
+    grid-template-columns: auto 20px auto;
+    grid-template-rows: auto auto;
+  }
+
+  .dialog .item{
+    background: #1c2c42;
   }
   
   .dialog select {
@@ -416,7 +443,7 @@ body {
   #inputNumButtons {
     vertical-align: middle;
   }
-  
+
   /***********************
    * Toggle
    ***********************/
@@ -741,8 +768,6 @@ cursor: pointer;
   cursor: pointer;
 }
 
-
-
 /***********************
  * Drop Down Button
  ***********************/
@@ -752,7 +777,6 @@ cursor: pointer;
   border: none;
 }
 
-
 /***********************
  * Drop Down Button
  ***********************/
@@ -760,3 +784,42 @@ cursor: pointer;
 #instruments{
   outline: none;
 }
+
+  /***********************
+   Users
+   ***********************/
+   .users {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding: 1px;
+  }
+   
+   /***********************
+    Recorded Sessions
+   ***********************/
+  .sessions {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  button.recordedSessionsBtn {
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    border: #1c2c42;  
+    font-family: sans-serif;
+    font-size: 14px;
+  }
+
+  button.recordedSessionsBtn:hover {
+    cursor: pointer;
+    background-color: #cdf352;
+    color: #1c2c42;
+    border: #1c2c42;  
+    border-radius: 15px;
+  }
