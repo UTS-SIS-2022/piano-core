@@ -446,6 +446,24 @@ async function toggleRecording() {
   RECORDING = !RECORDING;
 }
 
+async function adjustLogInStatus(){
+  const response = await fetch("/api/authenticated", {
+    method: "GET"
+  });
+
+  console.log(response.status);
+
+  if(response.status === 200){
+    document.getElementById("logOutBtn").style.display = "block";
+    document.getElementById("logInBtn").style.display = "none";
+  } else {
+    document.getElementById("logOutBtn").style.display = "none";
+    document.getElementById("logInBtn").style.display = "block";
+  }
+}
+
+adjustLogInStatus();
+
 async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {

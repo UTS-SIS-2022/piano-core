@@ -1,7 +1,7 @@
 import { InsertOneResult, MongoClient } from "mongodb";
 import express from "express";
 import { createComposition } from "./controllers/compositions";
-import { createUser, getAllUsers, logIn, logOut } from "./controllers/users";
+import { createUser, getAllUsers, isAuthenticated, logIn, logOut } from "./controllers/users";
 const cors = require("cors");
 const userSession = require("express-session");
 
@@ -87,6 +87,13 @@ app.post("/api/logout", async (req: any, res: any) => {
   console.log(req.sessionID);
   const logoutResponse = await logOut(req, res);
   res.send(logoutResponse);
+})
+
+app.get("/api/authenticated", async (req: any, res: any) => {
+  console.log(req.sessionID);
+  const autheticationResponse = await isAuthenticated(req, res);
+  res.send(autheticationResponse);
+  
 })
 
 // retrieve compositions from mongodb by userid
