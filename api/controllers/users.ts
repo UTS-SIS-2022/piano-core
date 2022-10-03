@@ -46,7 +46,7 @@ export const createUser = async (req: any, res: any) => {
 };
 
 export const logIn = async (req: any, res: any) => {
-  req.session = { authenticated: false };
+  // req.session = { authenticated: false };
 
   const user = await getUserFromDb(req.body.user.username);
   if (user == null) {
@@ -60,7 +60,13 @@ export const logIn = async (req: any, res: any) => {
     return data;
   }
   if (req.session?.authenticated) {
+    const data = {
+      username: req.session.user.username,
+      errors: ["Already Logged in"],
+      message: "Already logged in"
+    }
     res.status(200);
+    return data;
   } else {
     try {
       if (await bcrypt.compare(req.body.user.password, user.password)) {
@@ -91,14 +97,17 @@ export const logIn = async (req: any, res: any) => {
   }
 };
 
-export const isAuthenticated = (req: any, res: any, next: any) => {
-  if (req.session.user) next();
-  else res.status(400).send("You must be logged in");
+export const logOut = async (req: any, res: any) => {
+  if(req.session.authenticated){
+    try {
+      req.session.destroy();
+      res.status(200);
+      return { message: "Successfully logged out" };
+    } catch {
+      res.status(500);
+      return { message: "Uncaught error" }
+    }
+  } else {
+    return { message: "Must be Logged In" }
+  }
 };
-
-export const logOut =
-  (isAuthenticated as any,
-  async (req: any, res: any, next: any) => {
-    req.session.destroy();
-    res.redirect("/");
-  });
