@@ -472,11 +472,13 @@ function logIn() {
     .then((data) => {
       if (data.success) {
         console.log("logged in");
-        // document.getElementById("logIn").style.display = "none";
-        // document.getElementById("logOut").style.display = "block";
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
+        // document.getElementById("logIn").style.display = "none";
         alert(data.message);
+        document.getElementById("logOutBtn").style.display = "block";
+        document.getElementById("logInBtn").style.display = "none";
+        document.getElementById("loginModal").style.display = "none";
       } else {
         alert(data.message);
         console.log("login failed");
@@ -485,6 +487,26 @@ function logIn() {
     .catch((err) => {
       console.log(err);
     });    
+}
+
+async function logOut () {
+  const response = await fetch("/api/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: "",
+  });
+  const res = response.json();
+
+  res.then(data => {
+    if (response.status === 200) {
+      document.getElementById("logOutBtn").style.display = "none";
+      document.getElementById("logInBtn").style.display = "block";
+    }
+    console.log(data.message);
+    alert(data.message);
+  })
 }
 
 function signUp() {

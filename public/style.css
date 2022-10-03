@@ -599,6 +599,12 @@ body {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */  
 }
 
+/* Logout styles */
+#logOutBtn {
+  color: red;
+  display: none;
+}
+
 /* Login Modal */
 .loginModal-content {
   background-color: #141e30;
