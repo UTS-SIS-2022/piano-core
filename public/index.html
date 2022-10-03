@@ -76,83 +76,105 @@
          
       </div>
         
-  <div class="dialog" id="settingsBox" hidden>
-    <div class = "close-btn" title="Close" onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()">&times;</div>  
-    <h2>Input Settings</h2>
-    <p>
-      <label class="radio">
-        Current device (computer/phone)
-        <input name="input" type="radio" id="radioDeviceYes" checked>
-        <span class="control-indicator"></span>
-      </label>
-      <br>
-      <label class="radio">
-        Makey Makey
-        <input name="input" type="radio" id="radioMakeyYes">
-        <span class="control-indicator"></span>
-      </label>
-      <br>
-      <label class="radio">
-        MIDI Input
-        <input name="input" type="radio" id="radioMidiInYes">
-        <span class="control-indicator"></span>
-      </label>
-      <span id="midiInBox" hidden>
-        <select id="selectIn"></select>
-      </span>
-    </p>
-
-    <h2>Audio Output Settings</h2>
-    <p>
-      <label class="radio">
-        Current device (computer/phone)
-        <input name="output" type="radio" id="radioAudioYes" checked>
-        <span class="control-indicator"></span>
-      </label>
-      <br>
-      <label class="radio">
-        MIDI Output
-        <input name="output" type="radio" id="radioMidiOutYes">
-        <span class="control-indicator"></span>
-      </label>
-      <span id="midiOutBox" hidden>
-        <select id="selectOut"></select>
-      </span>
-    </p>
-    <h2>Instrument Selection</h2>
-    <select name="instruments" id="instruments" onchange="onInstrumentSelect()"></select>
-
-    <h2>Piano Controls</h2>
-    <div>
-      <div class="octave" id="octave">
-        <h4>Octaves</h4>
-        <button class="octave-button" id="btn8" data-id="8" onclick="octaveDown()"><span>-</span></button>
-        <button class="octave-button" id="btn9" data-id="9" onclick="octaveUp()"><span>+</span></button>
-      </div>
-      <div class="toggles">
-        <li class="tg-list-item">
-          <h4 class="title">AI</h4>
-          <input class="tgl tgl-skewed" id="ai-button" type="checkbox" onclick="toggleAi()" />
-          <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="ai-button"></label>
-        </li>
-        <li class="tg-list-item">
-          <h4 class="title">Recording</h4>
-          <input class="tgl tgl-skewed" id="record-button" onclick="toggleRecording()" type="checkbox" />
-          <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="record-button"></label>
-        </li>
-      </div>
-    </div>
+  <div class="dialog" id="settingsBox" hidden>  
+    <div class = "close-btn" title= "Close" onClick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()">&times;</div>
+    <div class ="grid1">
+      <div>
+        <h2>Input Settings</h2>
+          <p>
+            <label class="radio">
+              Current device (computer/phone)
+              <input name="input" type="radio" id="radioDeviceYes" checked>
+              <span class="control-indicator"></span>
+            </label>
+            <br>
+            <label class="radio">
+              Makey Makey
+              <input name="input" type="radio" id="radioMakeyYes">
+              <span class="control-indicator"></span>
+            </label>
+            <br>
+            <label class="radio">
+              MIDI Input
+              <input name="input" type="radio" id="radioMidiInYes">
+              <span class="control-indicator"></span>
+            </label>
+            <span id="midiInBox" hidden>
+              <select id="selectIn"></select>
+            </span>
+          </p>
+        </div>
     
+        <div class="item"> </div>
+    
+        <!-- <h2>Piano Controls</h2> -->
+        
+          <div class="octave" id="octave">
+            <h2>Octaves</h2>
+            <button class="octave-button" id="btn8" data-id="8" onclick="octaveDown()"><span>-</span></button>
+            <button class="octave-button" id="btn9" data-id="9" onclick="octaveUp()"><span>+</span></button>
+          </div>             
+                     
+        <div>
+        <h2>Audio Output Settings</h2>
+        <p>
+          <label class="radio">
+            Current device (computer/phone)
+            <input name="output" type="radio" id="radioAudioYes" checked>
+            <span class="control-indicator"></span>
+          </label>
+          <br>
+          <label class="radio">
+            MIDI Output
+            <input name="output" type="radio" id="radioMidiOutYes">
+            <span class="control-indicator"></span>
+          </label>
+          <span id="midiOutBox" hidden>
+            <select id="selectOut"></select>
+          </span>
+        </p>
+      </div>
+    
+      <div class="item"> </div>
+    
+      <div>
+        <h2>Instrument Selection</h2>
+        <select name="instruments" id="instruments" onchange="onInstrumentSelect()"></select>
+      </div>             
+  
+      <p id="midiNotSupported">
+        Unfortunately, this browser does not support WebMIDI, which is only
+        supported in Chrome and Opera.
+      </p>
 
-    <p id="midiNotSupported">
-      Unfortunately, this browser does not support WebMIDI, which is only
-      supported in Chrome and Opera.
-    </p>
+    </div>           
+    
+    <div class="toggles">
+      <li class="tg-list-item">
+        <h4 class="title">AI</h4>
+        <input class="tgl tgl-skewed" id="ai-button" type="checkbox" onclick="toggleAi()"/>
+        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="ai-button"></label>
+      </li>
+      <li class="tg-list-item">
+        <h4 class="title">Recording</h4>
+        <input class="tgl tgl-skewed" id="record-button" onclick="toggleRecording()" type="checkbox"/>
+        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="record-button"></label>
+      </li>
+    </div>    
 
-    <!-- Login/Sign Up Buttons -->    
-    <button id="logInBtn" class="splash-button small">Sign In</button>
-    <button id="signUpBtn" class="splash-button small">Sign Up</button>
-  </div>
+    <div class="sessions">
+    <button id="recordedSessionsBtn" class="recordedSessionsBtn" onClick="">View Recorded Sessions</button>
+    </div>    
+  
+      <div class="users">
+      <!-- Login/Sign Up Buttons -->    
+      <button id="logInBtn" class="splash-button small">Sign In</button>    
+      
+      <button id="signUpBtn" class="splash-button small">Sign Up</button>
+     </div>
+  </div>         
+  
+</div>
 </body>
 
 <!-- Log In Modal -->
@@ -172,14 +194,13 @@
         <input type="text" id="logInPassword" placeholder="Enter password" required>
       </div>
       <div class="form-element">
-        <input type="checkbox" id="remember me"> 
-        <label for="remember-me">Remember me</label>
+        <input type="checkbox" onclick="hidePassword()">Hide Password
       </div>
       <div class="form-element">
         <button onclick="logIn()">Sign In</button>
       </div>
       <div class="form-element">
-        <a href="#">Forgot password?</a>
+        <a href="https://media.cnn.com/api/v1/images/stellar/prod/210212094508-20210212-laugh-cry-emoji-gfx.jpg?q=x_0,y_0,h_619,w_1100,c_fill/h_720,w_1280">Forgot password?</a>
       </div>      
     </div>
   </div>
@@ -202,7 +223,9 @@
         <label for="password">Password:</label>
         <input type="text" id="signUpPassword" placeholder="Enter password" required>
       </div>
-      
+      <div class="form-element">
+        <input type="checkbox" onclick="hidePassword()">Hide Password
+      </div>
       <div class="form-element">
         <button onclick="signUp()">Sign Up</button>
       </div>

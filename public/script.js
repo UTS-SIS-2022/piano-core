@@ -484,7 +484,7 @@ function logIn() {
     })
     .catch((err) => {
       console.log(err);
-    });
+    });    
 }
 
 function signUp() {
@@ -553,3 +553,17 @@ signUpBtn.onclick = function () {
 signUpSpan.onclick = function () {
   signUpModal.style.display = "none";
 };
+
+
+function hidePassword(){
+  var x = document.getElementById("logInPassword");
+  var y = document.getElementById("signUpPassword");
+
+  if (x.type === "password" || y.type === "password") {
+    x.type = "text";
+    y.type = "text";
+  } else {
+    x.type = "password";
+    y.type = "password";
+  }
+}
