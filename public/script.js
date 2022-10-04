@@ -446,6 +446,34 @@ async function toggleRecording() {
   RECORDING = !RECORDING;
 }
 
+async function adjustLogInStatus(){
+  const response = await fetch("/api/authenticated", {
+    method: "GET"
+  });
+  const res  = response.json();
+
+  console.log(response.status);
+
+  if(response.status === 200){
+
+    const username = await res.then(data => {
+      return data.username;
+    })
+
+    document.querySelectorAll(".username").forEach(element => {
+      element.innerText = ` ${username}`;
+    });
+
+    document.getElementById("logOutBtn").style.display = "block";
+    document.getElementById("logInBtn").style.display = "none";
+  } else {
+    document.getElementById("logOutBtn").style.display = "none";
+    document.getElementById("logInBtn").style.display = "block";
+  }
+}
+
+adjustLogInStatus();
+
 async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
@@ -472,11 +500,14 @@ function logIn() {
     .then((data) => {
       if (data.success) {
         console.log("logged in");
-        // document.getElementById("logIn").style.display = "none";
-        // document.getElementById("logOut").style.display = "block";
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
+        // document.getElementById("logIn").style.display = "none";
         alert(data.message);
+        document.getElementById("logOutBtn").style.display = "block";
+        document.getElementById("logInBtn").style.display = "none";
+        document.getElementById("loginModal").style.display = "none";
+        adjustLogInStatus();
       } else {
         alert(data.message);
         console.log("login failed");
@@ -485,6 +516,26 @@ function logIn() {
     .catch((err) => {
       console.log(err);
     });    
+}
+
+async function logOut () {
+  const response = await fetch("/api/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: "",
+  });
+  const res = response.json();
+
+  res.then(data => {
+    if (response.status === 200) {
+      document.getElementById("logOutBtn").style.display = "none";
+      document.getElementById("logInBtn").style.display = "block";
+    }
+    console.log(data.message);
+    alert(data.message);
+  })
 }
 
 function signUp() {

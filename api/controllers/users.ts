@@ -97,8 +97,27 @@ export const logIn = async (req: any, res: any) => {
   }
 };
 
+export const isAuthenticated = async (req: any, res: any) => {
+  if (req.session.user) {
+    try {
+      res.status(200);
+      console.log(req.session.user.username);
+      return { 
+        message: "Is authenticated", 
+        username: req.session.user.username
+      };
+    } catch {
+      res.status(500);
+      return { message: "Uncaught error" }
+    }
+  } else {
+    res.status(404);
+    return { message: "Not authenticated" };
+  }
+}
+
 export const logOut = async (req: any, res: any) => {
-  if(req.session.authenticated){
+  if(req.session.user){
     try {
       req.session.destroy();
       res.status(200);

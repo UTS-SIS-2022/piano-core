@@ -599,6 +599,19 @@ body {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */  
 }
 
+/* User session styles */
+
+.username {
+  text-transform: none;
+  font-weight: 900;
+}
+
+/* Logout styles */
+#logOutBtn {
+  color: red;
+  display: none;
+}
+
 /* Login Modal */
 .loginModal-content {
   background-color: #141e30;
