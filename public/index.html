@@ -20,6 +20,7 @@
 <body>
   <div class="splash">
     <h1>AI Jam</h1>
+    <h2>Welcome Back <span class="username"></span></h2>
     <div class="splash-main">
       <p>Have some fun pretending you're a piano virtuoso using machine learning!</p>
       <p>Use the <b>1-8</b> numbered keys on your keyboard (or the home row <b>a-f</b> and <b>j-;</b>) or <b>touch</b>
@@ -78,6 +79,7 @@
         
   <div class="dialog" id="settingsBox" hidden>  
     <div class = "close-btn" title= "Close" onClick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()">&times;</div>
+    <h2 id="loggedInAs"></h2>
     <div class ="grid1">
       <div>
         <h2>Input Settings</h2>
@@ -170,7 +172,7 @@
       <!-- Login/Sign Up Buttons -->    
       <button id="logInBtn" class="splash-button small">Sign In</button>    
 
-      <button id="logOutBtn" onclick="logOut()" class="splash-button small">Sign Out</button>    
+      <button id="logOutBtn" onclick="logOut()" class="splash-button small">Sign Out as <span class="username"></span></button>    
       
       <button id="signUpBtn" class="splash-button small">Sign Up</button>
      </div>

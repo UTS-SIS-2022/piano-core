@@ -101,7 +101,11 @@ export const isAuthenticated = async (req: any, res: any) => {
   if (req.session.user) {
     try {
       res.status(200);
-      return { message: "Is authenticated" };
+      console.log(req.session.user.username);
+      return { 
+        message: "Is authenticated", 
+        username: req.session.user.username
+      };
     } catch {
       res.status(500);
       return { message: "Uncaught error" }
