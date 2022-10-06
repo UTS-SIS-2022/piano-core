@@ -618,3 +618,16 @@ function hidePassword(){
     y.type = "password";
   }
 }
+
+/* Retriving User Sessions */
+
+async function retrieveUserSession () { 
+  const response = await fetch("/api/session", {
+    method: "GET"
+  });
+  const res  = response.json();
+  console.log(res)
+  return res
+}
+
+retrieveUserSession()

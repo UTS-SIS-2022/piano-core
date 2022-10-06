@@ -1,5 +1,5 @@
 import { InsertOneResult, MongoClient } from "mongodb";
-import express from "express";
+import express, { response } from "express";
 import { createComposition } from "./controllers/compositions";
 import { createUser, getAllUsers, isAuthenticated, logIn, logOut } from "./controllers/users";
 const cors = require("cors");
@@ -45,6 +45,11 @@ app.use(
 // serve landing page
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
+});
+
+//serve compositions page of a userId
+app.get("/123", (req, res) => {
+  res.sendFile(__dirname + "/compositions.html");
 });
 
 // start listening
@@ -99,6 +104,10 @@ app.get("/api/authenticated", async (req: any, res: any) => {
 // retrieve compositions from mongodb by userid
 app.get("/api/session", async (req, res) => {
   console.log("get session recieved");
+  db.compositionCollection.find({}).toArray((err, result) => {
+    if (err) throw console.error(err)
+    res.send(result)
+  })
 });
 
 app.use(express.static("public"));
