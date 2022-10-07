@@ -404,10 +404,3 @@ class Piano {
   }
 }
 
-
-
-/*
-1. To Do 
-Pulling information data from account
-
-*/

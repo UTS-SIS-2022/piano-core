@@ -446,21 +446,20 @@ async function toggleRecording() {
   RECORDING = !RECORDING;
 }
 
-async function adjustLogInStatus(){
+async function adjustLogInStatus() {
   const response = await fetch("/api/authenticated", {
-    method: "GET"
+    method: "GET",
   });
-  const res  = response.json();
+  const res = response.json();
 
   console.log(response.status);
 
-  if(response.status === 200){
-
-    const username = await res.then(data => {
+  if (response.status === 200) {
+    const username = await res.then((data) => {
       return data.username;
-    })
+    });
 
-    document.querySelectorAll(".username").forEach(element => {
+    document.querySelectorAll(".username").forEach((element) => {
       element.innerText = ` ${username}`;
     });
 
@@ -515,27 +514,27 @@ function logIn() {
     })
     .catch((err) => {
       console.log(err);
-    });    
+    });
 }
 
-async function logOut () {
+async function logOut() {
   const response = await fetch("/api/logout", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: "",
   });
   const res = response.json();
 
-  res.then(data => {
+  res.then((data) => {
     if (response.status === 200) {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
     }
     console.log(data.message);
     alert(data.message);
-  })
+  });
 }
 
 function signUp() {
@@ -605,8 +604,7 @@ signUpSpan.onclick = function () {
   signUpModal.style.display = "none";
 };
 
-
-function hidePassword(){
+function hidePassword() {
   var x = document.getElementById("logInPassword");
   var y = document.getElementById("signUpPassword");
 
@@ -621,13 +619,38 @@ function hidePassword(){
 
 /* Retriving User Sessions */
 
-async function retrieveUserSession () { 
-  const response = await fetch("/api/session", {
-    method: "GET"
+async function grabSessionUser() {
+  const response = await fetch("/api/authenticated", {
+    method: "GET",
   });
-  const res  = response.json();
-  console.log(res)
-  return res
+  const res = response.json();
+
+  console.log(response.status);
+
+  if (response.status === 200) {
+    const username = await res.then((data) => {
+      return data.username;
+    });
+    console.log(username);
+    sessionRouter(username)
+  } else {
+    alert ("You must be logged in to view your sessions")
+  }
+
 }
 
-retrieveUserSession()
+async function sessionRouter(username) {
+
+
+}
+
+async function retrieveUserSession() {
+  const response = await fetch("/api/session", {
+    method: "GET",
+  });
+  const res = response.json();
+  console.log(res);
+  return res;
+}
+
+retrieveUserSession();

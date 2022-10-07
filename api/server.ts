@@ -10,7 +10,6 @@ require("dotenv").config();
 import { MongoGateway } from "./config/mongo";
 import { any } from "prop-types";
 export let db: MongoGateway;
-
 // initialise gateways
 (async () => {
   if (process.env.MONGO_CONNECTION_URI && process.env.PORT) {
@@ -33,6 +32,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
+console.log(__dirname)
+
 
 app.use(
   userSession({
@@ -48,8 +49,14 @@ app.get("/", (req, res) => {
 });
 
 //serve compositions page of a userId
-app.get("/123", (req, res) => {
-  res.sendFile(__dirname + "/compositions.html");
+app.get("/:id", (req, res) => {
+  console.log(__dirname)
+  res.header('Access-Control-Allow-Origin', '*');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
+  res.sendFile("/Users/jasa/Desktop/Projects/Coding/piano-core/public/compositions.html");
 });
 
 // start listening
@@ -85,6 +92,7 @@ app.post("/api/login", async (req: any, res: any) => {
   // keep the users controller as pure functions
   console.log(req.sessionID);
   const logInResponse = await logIn(req, res);
+  console.log(logInResponse)
   res.send(logInResponse);
 });
 
