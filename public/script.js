@@ -60,6 +60,41 @@ function toggleSettings() {
   return;
 }
 
+// Check authentication status
+// First thing since much of the UI is determined by its result
+
+async function adjustLogInStatus(){
+  const response = await fetch("/api/authenticated", {
+    method: "GET"
+  });
+  const res = response.json();
+
+  console.log(response.status);
+
+  if(response.status === 200){
+
+    const username = await res.then(data => {
+      return data.username;
+    })
+
+    document.querySelectorAll(".username").forEach(element => {
+      element.innerText = ` ${username}`;
+    });
+
+    document.getElementById("logOutBtn").style.display = "block";
+    document.getElementById("logInBtn").style.display = "none";
+    document.getElementById("recording-switch").style.display = "block";
+
+    return username
+  } else {
+    document.getElementById("logOutBtn").style.display = "none";
+    document.getElementById("logInBtn").style.display = "block";
+    document.getElementById("recording-switch").style.display = "none";
+  }
+}
+
+adjustLogInStatus();
+
 /*************************
  * Basic UI bits
  ************************/
@@ -440,38 +475,12 @@ async function toggleRecording() {
   } else if (!RECORDING) {
     // start writing to session object
     session.notes = [];
-    session.userId = "test";
+    const username = adjustLogInStatus();
+    username.then(username => session.userId = username);
     session.startTime = Date.now();
   }
   RECORDING = !RECORDING;
 }
-
-async function adjustLogInStatus() {
-  const response = await fetch("/api/authenticated", {
-    method: "GET",
-  });
-  const res = response.json();
-
-  console.log(response.status);
-
-  if (response.status === 200) {
-    const username = await res.then((data) => {
-      return data.username;
-    });
-
-    document.querySelectorAll(".username").forEach((element) => {
-      element.innerText = ` ${username}`;
-    });
-
-    document.getElementById("logOutBtn").style.display = "block";
-    document.getElementById("logInBtn").style.display = "none";
-  } else {
-    document.getElementById("logOutBtn").style.display = "none";
-    document.getElementById("logInBtn").style.display = "block";
-  }
-}
-
-adjustLogInStatus();
 
 async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
@@ -506,6 +515,8 @@ function logIn() {
         document.getElementById("logOutBtn").style.display = "block";
         document.getElementById("logInBtn").style.display = "none";
         document.getElementById("loginModal").style.display = "none";
+        document.getElementById("recording-switch").style.display = "block";
+
         adjustLogInStatus();
       } else {
         alert(data.message);
@@ -531,6 +542,8 @@ async function logOut() {
     if (response.status === 200) {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
+      document.getElementById("recording-switch").style.display = "none";
+
     }
     console.log(data.message);
     alert(data.message);
@@ -632,17 +645,13 @@ async function grabSessionUser() {
       return data.username;
     });
     console.log(username);
-    sessionRouter(username)
+    retrieveUserSession()
   } else {
     alert ("You must be logged in to view your sessions")
   }
 
 }
 
-async function sessionRouter(username) {
-
-
-}
 
 async function retrieveUserSession() {
   const response = await fetch("/api/session", {
@@ -653,4 +662,3 @@ async function retrieveUserSession() {
   return res;
 }
 
-retrieveUserSession();
