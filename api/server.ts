@@ -96,21 +96,20 @@ app.get("/api/authenticated", async (req: any, res: any) => {
   console.log(req.sessionID);
   const autheticationResponse = await isAuthenticated(req, res);
   res.send(autheticationResponse);
-  
 })
 
 // retrieve compositions from mongodb by userid
-app.get("/api/session/:id", async (req, res) => {
-  const userId = req.params.id.toString()
-  // console.log("get session recieved");
-  // db.compositionCollection.find({user: userId}).toArray((err, result) => {
-  //   if (err) throw console.error(err)
-  //   res.send(result)
-  // })
-  const compositions = await retrieveCompositions(userId);
-  res.status(200).send(compositions);
-  return;
-
+app.get("/api/session", async (req: any, res) => {
+  // const user = req.session.user.username
+  // const compositions = await retrieveCompositions(user);
+  // res.status(200).send(compositions);
+  // return;
+  console.log("get session recieved");
+  const user = req.session.user.username
+  db.compositionCollection.find({userId: user}).toArray((err, result) => {
+    if (err) throw console.error(err)
+    res.send(result)
+  })
 });
 
 app.use(express.static("public"));

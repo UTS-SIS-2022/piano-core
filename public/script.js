@@ -637,13 +637,13 @@ async function grabSessionUser() {
     const username = await res.then((data) => {
       return data.username;
     });
-    console.log(username);
-    retrieveUserSession(username);
-    openSessionWindow();
+    await retrieveUserSession();
   } else {
     alert("You must be logged in to view your sessions");
   }
 }
+
+/* Opens Sessions Window */
 
 function openSessionWindow() {
   console.log("window is open");
@@ -658,19 +658,19 @@ function openSessionWindow() {
   sessionBtn.onclick = function () {
     sessionModal.style.display = "block";
   };
-  // When the user clicks on the button, open the modal
-  signUpBtn.onclick = function () {
-    signUpModal.style.display = "block";
-  };
 }
 
-async function retrieveUserSession(username) {
-  const userID = username;
-  console.log(userID);
-  const response = await fetch(`/api/session/${userID}`, {
+async function retrieveUserSession() {
+
+  openSessionWindow();
+
+  const response = await fetch(`/api/session`, {
     method: "GET",
   });
+  
   const res = response.json();
-  console.log(res);
+  res.then(data => {
+    console.log(data)
+  })  
   return res;
 }
