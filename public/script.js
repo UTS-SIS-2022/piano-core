@@ -63,21 +63,20 @@ function toggleSettings() {
 // Check authentication status
 // First thing since much of the UI is determined by its result
 
-async function adjustLogInStatus(){
+async function adjustLogInStatus() {
   const response = await fetch("/api/authenticated", {
-    method: "GET"
+    method: "GET",
   });
   const res = response.json();
 
   console.log(response.status);
 
-  if(response.status === 200){
-
-    const username = await res.then(data => {
+  if (response.status === 200) {
+    const username = await res.then((data) => {
       return data.username;
-    })
+    });
 
-    document.querySelectorAll(".username").forEach(element => {
+    document.querySelectorAll(".username").forEach((element) => {
       element.innerText = ` ${username}`;
     });
 
@@ -85,7 +84,7 @@ async function adjustLogInStatus(){
     document.getElementById("logInBtn").style.display = "none";
     document.getElementById("recording-switch").style.display = "block";
 
-    return username
+    return username;
   } else {
     document.getElementById("logOutBtn").style.display = "none";
     document.getElementById("logInBtn").style.display = "block";
@@ -476,7 +475,7 @@ async function toggleRecording() {
     // start writing to session object
     session.notes = [];
     const username = adjustLogInStatus();
-    username.then(username => session.userId = username);
+    username.then((username) => (session.userId = username));
     session.startTime = Date.now();
   }
   RECORDING = !RECORDING;
@@ -543,7 +542,6 @@ async function logOut() {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
-
     }
     console.log(data.message);
     alert(data.message);
@@ -607,11 +605,6 @@ function onInstrumentSelect() {
   player.changeInstrument();
 }
 
-// When the user clicks on the button, open the modal
-signUpBtn.onclick = function () {
-  signUpModal.style.display = "block";
-};
-
 // When the user clicks on <span> (x), close the modal
 signUpSpan.onclick = function () {
   signUpModal.style.display = "none";
@@ -645,20 +638,39 @@ async function grabSessionUser() {
       return data.username;
     });
     console.log(username);
-    retrieveUserSession()
+    retrieveUserSession(username);
+    openSessionWindow();
   } else {
-    alert ("You must be logged in to view your sessions")
+    alert("You must be logged in to view your sessions");
   }
-
 }
 
+function openSessionWindow() {
+  console.log("window is open");
+  /* Session Modal */
+  // Get the modal
+  var sessionModal = document.getElementById("sessionModal");
+  // Get the button that opens the modal
+  var sessionBtn = document.getElementById("recordedSessionsBtn");
+  // Get the <span> element that closes the modal
+  var sessionSpan = document.getElementsByClassName("close")[0];
+  // When the user clicks on the button, open the modal
+  sessionBtn.onclick = function () {
+    sessionModal.style.display = "block";
+  };
+  // When the user clicks on the button, open the modal
+  signUpBtn.onclick = function () {
+    signUpModal.style.display = "block";
+  };
+}
 
-async function retrieveUserSession() {
-  const response = await fetch("/api/session", {
+async function retrieveUserSession(username) {
+  const userID = username;
+  console.log(userID);
+  const response = await fetch(`/api/session/${userID}`, {
     method: "GET",
   });
   const res = response.json();
   console.log(res);
   return res;
 }
-

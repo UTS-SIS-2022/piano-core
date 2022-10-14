@@ -1,240 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>AI Jam</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://cdn.glitch.com/69295b46-7d64-4ff6-8223-94cba13ee115%2Ffavicon-32x32.png?1542832173836"
+      type="image/x-icon"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.3.1"></script>
+    <script src="/helpers.js" defer></script>
+    <script src="/script.js" defer></script>
+  </head>
 
-<head>
-  <title>AI Jam</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
-  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
-  <link id="favicon" rel="icon"
-    href="https://cdn.glitch.com/69295b46-7d64-4ff6-8223-94cba13ee115%2Ffavicon-32x32.png?1542832173836"
-    type="image/x-icon">
-  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.3.1"></script>
-  <script src="/helpers.js" defer></script>
-  <script src="/script.js" defer></script>
-</head>
+  <body>
+    <div class="splash">
+      <h1>AI Jam</h1>
+      <h2>Welcome Back <span class="username"></span></h2>
+      <div class="splash-main">
+        <p>
+          Have some fun pretending you're a piano virtuoso using machine
+          learning!
+        </p>
+        <p>
+          Use the <b>1-8</b> numbered keys on your keyboard (or the home row
+          <b>a-f</b> and <b>j-;</b>) or <b>touch</b> the coloured blocks to play
+          the piano. Use the <b>space bar</b> to control the sustain pedal. The
+          more you pretend you're a real player, the better the melody (and
+          you!) will sound.
+        </p>
 
-<body>
-  <div class="splash">
-    <h1>AI Jam</h1>
-    <h2>Welcome Back <span class="username"></span></h2>
-    <div class="splash-main">
-      <p>Have some fun pretending you're a piano virtuoso using machine learning!</p>
-      <p>Use the <b>1-8</b> numbered keys on your keyboard (or the home row <b>a-f</b> and <b>j-;</b>) or <b>touch</b>
-        the
-        coloured blocks to play the piano. Use the <b>space bar</b> to control the sustain pedal. The more
-        you pretend you're a real player, the better the melody (and you!) will sound.
-      </p>
-
-      <div class="rotate-phone" hidden>
-        <div class="phone-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
-            <path
-              d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z" />
-            <path d="M0 0h24v24H0z" fill="none" />
-          </svg>
+        <div class="rotate-phone" hidden>
+          <div class="phone-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="50"
+              height="50"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z"
+              />
+              <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+          </div>
+          This works best if your phone is rotated in landscape mode. <br />
         </div>
-        This works best if your phone is rotated in landscape mode. <br>
+
+        <button
+          class="splash-button loading"
+          id="playBtn"
+          disabled
+          onclick="showMainScreen()"
+          autofocus
+        >
+          <span>Loading...</span>
+        </button>
       </div>
-
-      <button class="splash-button loading" id="playBtn" disabled onclick="showMainScreen()"
-        autofocus><span>Loading...</span></button>
+      <p class="built-with">
+        Built with
+        <a target="_blank" href="https://magenta.tensorflow.org">magenta.js</a>
+        as a partial satisfaction of Software<br />
+        Innovation Studio, UTS 2022. See the code on
+        <a target="_blank" href="https://github.com/UTS-SIS-2022/piano-core"
+          >GitHub</a
+        >.
+      </p>
     </div>
-    <p class="built-with">
-      Built with <a target="_blank" href="https://magenta.tensorflow.org">magenta.js</a> as a partial satisfaction of Software<br> Innovation Studio, UTS 2022. See the code on <a target="_blank" href="https://github.com/UTS-SIS-2022/piano-core">GitHub</a>.
-    </p>
-  </div>
 
-  <div class="loaded" hidden>
-    <div class="background"></div>
-    <canvas id="canvas"></canvas>
+    <div class="loaded" hidden>
+      <div class="background"></div>
+      <canvas id="canvas"></canvas>
 
-
-    <svg id="svg"></svg>
+      <svg id="svg"></svg>
       <div class="controls-container">
         <div class="controls" id="controls">
-          <button class="color color-0" id="btn0" data-id="0"><span></span></button>
-          <button class="color color-1" id="btn1" data-id="1"><span></span></button>
-          <button class="color color-2" id="btn2" data-id="2"><span></span></button>
-          <button class="color color-3" id="btn3" data-id="3"><span></span></button>
-          <button class="color color-4" id="btn4" data-id="4"><span></span></button>
-          <button class="color color-5" id="btn5" data-id="5"><span></span></button>
-          <button class="color color-6" id="btn6" data-id="6"><span></span></button>
-          <button class="color color-7" id="btn7" data-id="7"><span></span></button>
-        <div class="options">
-          <button class="settings" onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()" id="btnSettings">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20">
-              <path fill="none" d="M0 0h20v20H0V0z" />
-              <path
-                d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z" />
-            </svg>
+          <button class="color color-0" id="btn0" data-id="0">
+            <span></span>
           </button>
+          <button class="color color-1" id="btn1" data-id="1">
+            <span></span>
+          </button>
+          <button class="color color-2" id="btn2" data-id="2">
+            <span></span>
+          </button>
+          <button class="color color-3" id="btn3" data-id="3">
+            <span></span>
+          </button>
+          <button class="color color-4" id="btn4" data-id="4">
+            <span></span>
+          </button>
+          <button class="color color-5" id="btn5" data-id="5">
+            <span></span>
+          </button>
+          <button class="color color-6" id="btn6" data-id="6">
+            <span></span>
+          </button>
+          <button class="color color-7" id="btn7" data-id="7">
+            <span></span>
+          </button>
+          <div class="options">
+            <button
+              class="settings"
+              onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()"
+              id="btnSettings"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                viewBox="0 0 20 20"
+              >
+                <path fill="none" d="M0 0h20v20H0V0z" />
+                <path
+                  d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-        </div>
-         
       </div>
-        
-  <div class="dialog" id="settingsBox" hidden>  
-    <div class = "close-btn" title= "Close" onClick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()">&times;</div>
-    <h2 id="loggedInAs"></h2>
-    <div class ="grid1">
-      <div>
-        <h2>Input Settings</h2>
-          <p>
-            <label class="radio">
-              Current device (computer/phone)
-              <input name="input" type="radio" id="radioDeviceYes" checked>
-              <span class="control-indicator"></span>
-            </label>
-            <br>
-            <label class="radio">
-              Makey Makey
-              <input name="input" type="radio" id="radioMakeyYes">
-              <span class="control-indicator"></span>
-            </label>
-            <br>
-            <label class="radio">
-              MIDI Input
-              <input name="input" type="radio" id="radioMidiInYes">
-              <span class="control-indicator"></span>
-            </label>
-            <span id="midiInBox" hidden>
-              <select id="selectIn"></select>
-            </span>
-          </p>
+
+      <div class="dialog" id="settingsBox" hidden>
+        <div
+          class="close-btn"
+          title="Close"
+          onClick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()"
+        >
+          &times;
         </div>
-    
-        <div class="item"> </div>
-    
-        <!-- <h2>Piano Controls</h2> -->
-        
+        <h2 id="loggedInAs"></h2>
+        <div class="grid1">
+          <div>
+            <h2>Input Settings</h2>
+            <p>
+              <label class="radio">
+                Current device (computer/phone)
+                <input name="input" type="radio" id="radioDeviceYes" checked />
+                <span class="control-indicator"></span>
+              </label>
+              <br />
+              <label class="radio">
+                Makey Makey
+                <input name="input" type="radio" id="radioMakeyYes" />
+                <span class="control-indicator"></span>
+              </label>
+              <br />
+              <label class="radio">
+                MIDI Input
+                <input name="input" type="radio" id="radioMidiInYes" />
+                <span class="control-indicator"></span>
+              </label>
+              <span id="midiInBox" hidden>
+                <select id="selectIn"></select>
+              </span>
+            </p>
+          </div>
+
+          <div class="item"></div>
+
+          <!-- <h2>Piano Controls</h2> -->
+
           <div class="octave" id="octave">
             <h2>Octaves</h2>
-            <button class="octave-button" id="btn8" data-id="8" onclick="octaveDown()"><span>-</span></button>
-            <button class="octave-button" id="btn9" data-id="9" onclick="octaveUp()"><span>+</span></button>
-          </div>             
-                     
-        <div>
-        <h2>Audio Output Settings</h2>
-        <p>
-          <label class="radio">
-            Current device (computer/phone)
-            <input name="output" type="radio" id="radioAudioYes" checked>
-            <span class="control-indicator"></span>
-          </label>
-          <br>
-          <label class="radio">
-            MIDI Output
-            <input name="output" type="radio" id="radioMidiOutYes">
-            <span class="control-indicator"></span>
-          </label>
-          <span id="midiOutBox" hidden>
-            <select id="selectOut"></select>
-          </span>
-        </p>
-      </div>
-    
-      <div class="item"> </div>
-    
-      <div>
-        <h2>Instrument Selection</h2>
-        <select name="instruments" id="instruments" onchange="onInstrumentSelect()"></select>
-      </div>             
-  
-      <p id="midiNotSupported">
-        Unfortunately, this browser does not support WebMIDI, which is only
-        supported in Chrome and Opera.
-      </p>
+            <button
+              class="octave-button"
+              id="btn8"
+              data-id="8"
+              onclick="octaveDown()"
+            >
+              <span>-</span>
+            </button>
+            <button
+              class="octave-button"
+              id="btn9"
+              data-id="9"
+              onclick="octaveUp()"
+            >
+              <span>+</span>
+            </button>
+          </div>
 
-    </div>           
-    
-    <div class="toggles">
-      <li class="tg-list-item">
-        <h4 class="title">AI</h4>
-        <input class="tgl tgl-skewed" id="ai-button" type="checkbox" onclick="toggleAi()"/>
-        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="ai-button"></label>
-      </li>
-      <li class="tg-list-item" id="recording-switch">
-        <h4 class="title">Recording</h4>
-        <input class="tgl tgl-skewed" id="record-button" onclick="toggleRecording()" type="checkbox"/>
-        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="record-button"></label>
-      </li>
-    </div>    
+          <div>
+            <h2>Audio Output Settings</h2>
+            <p>
+              <label class="radio">
+                Current device (computer/phone)
+                <input name="output" type="radio" id="radioAudioYes" checked />
+                <span class="control-indicator"></span>
+              </label>
+              <br />
+              <label class="radio">
+                MIDI Output
+                <input name="output" type="radio" id="radioMidiOutYes" />
+                <span class="control-indicator"></span>
+              </label>
+              <span id="midiOutBox" hidden>
+                <select id="selectOut"></select>
+              </span>
+            </p>
+          </div>
 
-    <div class="sessions">
-    <button id="recordedSessionsBtn" class="recordedSessionsBtn" onclick="grabSessionUser()">View Recorded Sessions</button>
-    </div>    
-  
-      <div class="users">
-      <!-- Login/Sign Up Buttons -->    
-      <button id="logInBtn" class="splash-button small">Sign In</button>    
+          <div class="item"></div>
 
-      <button id="logOutBtn" onclick="logOut()" class="splash-button small">Sign Out as <span class="username"></span></button>    
-      
-      <button id="signUpBtn" class="splash-button small">Sign Up</button>
-     </div>
-  </div>         
-  
-</div>
-</body>
+          <div>
+            <h2>Instrument Selection</h2>
+            <select
+              name="instruments"
+              id="instruments"
+              onchange="onInstrumentSelect()"
+            ></select>
+          </div>
 
-<!-- Log In Modal -->
-<div id="loginModal" class="modal">
+          <p id="midiNotSupported">
+            Unfortunately, this browser does not support WebMIDI, which is only
+            supported in Chrome and Opera.
+          </p>
+        </div>
 
-  <!-- Modal content -->
-  <div class="loginModal-content">    
-    <span title="Close" class="_close">&times;</span> 
-    <div class="form">
-      <h2>Log In</h2>
-      <div class="form-element">
-        <label for="username">Username:</label>
-        <input type="text" id="logInUsername" placeholder="Enter username" required>
+        <div class="toggles">
+          <li class="tg-list-item">
+            <h4 class="title">AI</h4>
+            <input
+              class="tgl tgl-skewed"
+              id="ai-button"
+              type="checkbox"
+              onclick="toggleAi()"
+            />
+            <label
+              class="tgl-btn"
+              data-tg-off="OFF"
+              data-tg-on="ON"
+              for="ai-button"
+            ></label>
+          </li>
+          <li class="tg-list-item" id="recording-switch">
+            <h4 class="title">Recording</h4>
+            <input
+              class="tgl tgl-skewed"
+              id="record-button"
+              onclick="toggleRecording()"
+              type="checkbox"
+            />
+            <label
+              class="tgl-btn"
+              data-tg-off="OFF"
+              data-tg-on="ON"
+              for="record-button"
+            ></label>
+          </li>
+        </div>
+
+        <div class="sessions">
+          <button
+            id="recordedSessionsBtn"
+            class="recordedSessionsBtn"
+            onclick="grabSessionUser()"
+          >
+            View Recorded Sessions
+          </button>
+        </div>
+
+        <div class="users">
+          <!-- Login/Sign Up Buttons -->
+          <button id="logInBtn" class="splash-button small">Sign In</button>
+
+          <button id="logOutBtn" onclick="logOut()" class="splash-button small">
+            Sign Out as <span class="username"></span>
+          </button>
+
+          <button id="signUpBtn" class="splash-button small">Sign Up</button>
+        </div>
       </div>
-      <div class="form-element">
-        <label for="password">Password:</label>
-        <input type="text" id="logInPassword" placeholder="Enter password" required>
+    </div>
+  </body>
+
+  <!-- Log In Modal -->
+  <div id="loginModal" class="modal">
+    <!-- Modal content -->
+    <div class="loginModal-content">
+      <span title="Close" class="_close">&times;</span>
+      <div class="form">
+        <h2>Log In</h2>
+        <div class="form-element">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            id="logInUsername"
+            placeholder="Enter username"
+            required
+          />
+        </div>
+        <div class="form-element">
+          <label for="password">Password:</label>
+          <input
+            type="text"
+            id="logInPassword"
+            placeholder="Enter password"
+            required
+          />
+        </div>
+        <div class="form-element">
+          <input type="checkbox" onclick="hidePassword()" />Hide Password
+        </div>
+        <div class="form-element">
+          <button onclick="logIn()">Sign In</button>
+        </div>
+        <div class="form-element">
+          <a
+            href="https://media.cnn.com/api/v1/images/stellar/prod/210212094508-20210212-laugh-cry-emoji-gfx.jpg?q=x_0,y_0,h_619,w_1100,c_fill/h_720,w_1280"
+            >Forgot password?</a
+          >
+        </div>
       </div>
-      <div class="form-element">
-        <input type="checkbox" onclick="hidePassword()">Hide Password
-      </div>
-      <div class="form-element">
-        <button onclick="logIn()">Sign In</button>
-      </div>
-      <div class="form-element">
-        <a href="https://media.cnn.com/api/v1/images/stellar/prod/210212094508-20210212-laugh-cry-emoji-gfx.jpg?q=x_0,y_0,h_619,w_1100,c_fill/h_720,w_1280">Forgot password?</a>
-      </div>      
     </div>
   </div>
 
-</div>
-
-<!-- Sign Up Modal -->
-<div id="signUpModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="signUpModal-content">
-    <span title="Close" onclick ="document.getElementById('signUpModal').style.display='none'" class="close">&times;</span>
-    <div class="form">
-      <h2>Create an Account</h2>
-      <div class="form-element">
-        <label for="username">Username:</label>
-        <input type="text" id="signUpUsername" placeholder="Enter username" required>
-      </div>
-      <div class="form-element">
-        <label for="password">Password:</label>
-        <input type="text" id="signUpPassword" placeholder="Enter password" required>
-      </div>
-      <div class="form-element">
-        <input type="checkbox" onclick="hidePassword()">Hide Password
-      </div>
-      <div class="form-element">
-        <button onclick="signUp()">Sign Up</button>
+  <!-- Sign Up Modal -->
+  <div id="signUpModal" class="modal">
+    <!-- Modal content -->
+    <div class="signUpModal-content">
+      <span
+        title="Close"
+        onclick="document.getElementById('signUpModal').style.display='none'"
+        class="close"
+        >&times;</span
+      >
+      <div class="form">
+        <h2>Create an Account</h2>
+        <div class="form-element">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            id="signUpUsername"
+            placeholder="Enter username"
+            required
+          />
+        </div>
+        <div class="form-element">
+          <label for="password">Password:</label>
+          <input
+            type="text"
+            id="signUpPassword"
+            placeholder="Enter password"
+            required
+          />
+        </div>
+        <div class="form-element">
+          <input type="checkbox" onclick="hidePassword()" />Hide Password
+        </div>
+        <div class="form-element">
+          <button onclick="signUp()">Sign Up</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <!-- Session Modal -->
+  <div id="sessionModal" class="modal">
+    <!-- Session Modal content -->
+    <div class="sessionModal-content">
+      <div class="modal-header">
+        <span
+        title="Close"
+        onclick="document.getElementById('sessionModal').style.display='none'"
+        class="close"
+        >&times;</span
+      >
+      <h2>Sessions by <span class="username"></span></h2>
+
+      </div>
+    </div>
+    </div>
+  </div>
 </html>

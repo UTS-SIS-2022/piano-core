@@ -1,6 +1,6 @@
 import { InsertOneResult, MongoClient } from "mongodb";
 import express, { response } from "express";
-import { createComposition } from "./controllers/compositions";
+import { createComposition, retrieveCompositions } from "./controllers/compositions";
 import { createUser, getAllUsers, isAuthenticated, logIn, logOut } from "./controllers/users";
 const cors = require("cors");
 const userSession = require("express-session");
@@ -48,16 +48,6 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-//serve compositions page of a userId
-app.get("/:id", (req, res) => {
-  console.log(__dirname)
-  res.header('Access-Control-Allow-Origin', '*');
-	res.header(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept'
-	);
-  res.sendFile("/Users/jasa/Desktop/Projects/Coding/piano-core/public/compositions.html");
-});
 
 // start listening
 app.listen(process.env.PORT, () => {
@@ -110,12 +100,17 @@ app.get("/api/authenticated", async (req: any, res: any) => {
 })
 
 // retrieve compositions from mongodb by userid
-app.get("/api/session", async (req, res) => {
-  console.log("get session recieved");
-  db.compositionCollection.find({}).toArray((err, result) => {
-    if (err) throw console.error(err)
-    res.send(result)
-  })
+app.get("/api/session/:id", async (req, res) => {
+  const userId = req.params.id.toString()
+  // console.log("get session recieved");
+  // db.compositionCollection.find({user: userId}).toArray((err, result) => {
+  //   if (err) throw console.error(err)
+  //   res.send(result)
+  // })
+  const compositions = await retrieveCompositions(userId);
+  res.status(200).send(compositions);
+  return;
+
 });
 
 app.use(express.static("public"));
