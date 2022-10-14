@@ -133,6 +133,15 @@ function showMainScreen() {
   document.querySelector(".loaded").hidden = false;
 
   document.addEventListener("keydown", onKeyDown);
+  // Add event listener on keypress
+  document.addEventListener("keypress", (event) => {
+    if (event.key === "=") {
+      octaveUp();
+    }
+    if (event.key === "-") {
+      octaveDown();
+    }
+  });
 
   controls.addEventListener("touchstart", (event) => doTouchStart(event), {
     passive: true,
@@ -257,7 +266,7 @@ function buttonDown(button, fromKeyDown) {
 
   const pitch = AI_ACTIVE
     ? CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note
-    : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 6 + note;
+    : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 12 + note;
 
   let idx;
   if (RECORDING) {
@@ -271,7 +280,7 @@ function buttonDown(button, fromKeyDown) {
   }
   // Hear it.
   player.playNoteDown(pitch, button);
-  noteToDraw = AI_ACTIVE ? note : note + OCTAVE_OFFSET * 6;
+  noteToDraw = AI_ACTIVE ? note : note + OCTAVE_OFFSET * 12;
 
   // See it.
   const rect = piano.highlightNote(noteToDraw, button);
@@ -432,7 +441,7 @@ function updateButtonText() {
 }
 
 function octaveUp() {
-  if (OCTAVES * 2 == OCTAVE_OFFSET) return;
+  if (OCTAVES == OCTAVE_OFFSET + 1) return;
   OCTAVE_OFFSET += 1;
   onWindowResize();
 }
@@ -482,6 +491,32 @@ async function toggleRecording() {
   RECORDING = !RECORDING;
 }
 
+async function adjustLogInStatus() {
+  const response = await fetch("/api/authenticated", {
+    method: "GET",
+  });
+  const res = response.json();
+
+  console.log(response.status);
+
+  if (response.status === 200) {
+    const username = await res.then((data) => {
+      return data.username;
+    });
+
+    document.querySelectorAll(".username").forEach((element) => {
+      element.innerText = ` ${username}`;
+    });
+
+    document.getElementById("logOutBtn").style.display = "block";
+    document.getElementById("logInBtn").style.display = "none";
+  } else {
+    document.getElementById("logOutBtn").style.display = "none";
+    document.getElementById("logInBtn").style.display = "block";
+  }
+}
+
+adjustLogInStatus();
 async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
@@ -525,20 +560,20 @@ function logIn() {
     })
     .catch((err) => {
       console.log(err);
-    });    
+    });
 }
 
-async function logOut () {
+async function logOut() {
   const response = await fetch("/api/logout", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: "",
   });
   const res = response.json();
 
-  res.then(data => {
+  res.then((data) => {
     if (response.status === 200) {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
@@ -547,7 +582,7 @@ async function logOut () {
     }
     console.log(data.message);
     alert(data.message);
-  })
+  });
 }
 
 function signUp() {
@@ -617,8 +652,7 @@ signUpSpan.onclick = function () {
   signUpModal.style.display = "none";
 };
 
-
-function hidePassword(){
+function hidePassword() {
   var x = document.getElementById("logInPassword");
   var y = document.getElementById("signUpPassword");
 
