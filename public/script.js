@@ -60,6 +60,41 @@ function toggleSettings() {
   return;
 }
 
+// Check authentication status
+// First thing since much of the UI is determined by its result
+
+async function adjustLogInStatus(){
+  const response = await fetch("/api/authenticated", {
+    method: "GET"
+  });
+  const res = response.json();
+
+  console.log(response.status);
+
+  if(response.status === 200){
+
+    const username = await res.then(data => {
+      return data.username;
+    })
+
+    document.querySelectorAll(".username").forEach(element => {
+      element.innerText = ` ${username}`;
+    });
+
+    document.getElementById("logOutBtn").style.display = "block";
+    document.getElementById("logInBtn").style.display = "none";
+    document.getElementById("recording-switch").style.display = "block";
+
+    return username
+  } else {
+    document.getElementById("logOutBtn").style.display = "none";
+    document.getElementById("logInBtn").style.display = "block";
+    document.getElementById("recording-switch").style.display = "none";
+  }
+}
+
+adjustLogInStatus();
+
 /*************************
  * Basic UI bits
  ************************/
@@ -449,7 +484,8 @@ async function toggleRecording() {
   } else if (!RECORDING) {
     // start writing to session object
     session.notes = [];
-    session.userId = "test";
+    const username = adjustLogInStatus();
+    username.then(username => session.userId = username);
     session.startTime = Date.now();
   }
   RECORDING = !RECORDING;
@@ -481,7 +517,6 @@ async function adjustLogInStatus() {
 }
 
 adjustLogInStatus();
-
 async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
@@ -515,6 +550,8 @@ function logIn() {
         document.getElementById("logOutBtn").style.display = "block";
         document.getElementById("logInBtn").style.display = "none";
         document.getElementById("loginModal").style.display = "none";
+        document.getElementById("recording-switch").style.display = "block";
+
         adjustLogInStatus();
       } else {
         alert(data.message);
@@ -540,6 +577,8 @@ async function logOut() {
     if (response.status === 200) {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
+      document.getElementById("recording-switch").style.display = "none";
+
     }
     console.log(data.message);
     alert(data.message);
