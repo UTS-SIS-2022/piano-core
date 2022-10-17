@@ -684,7 +684,77 @@ cursor: pointer;
   font-weight:600; 
 }
 
-/*SignUP */ 
+/*Recording name */ 
+
+.recordingNameModal-content {
+  background-color: #141e30;
+  margin: 15% auto; 
+  padding: 20px;
+  width: 20%; /* Could be more or less, depending on screen size */
+  border: 2px solid #cdf352;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.recordingNameModal-content .form h2{
+  text-align: center;
+  margin: 10px 0px 20px;
+}
+
+.recordingNameModal-content .form .form-element{
+  margin:15px 0px;
+}
+
+.recordingNameModal-content .form .form-element label {
+  font-size: 18px;
+}
+
+.recordingNameModal-content .form .form-element input[type ="text"],
+.recordingNameModal-content .form .form-element input[type ="password"]{
+  margin-top:5px;
+  display:block;
+  width: 100%;
+  padding: 5px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+.recordingNameModal-content .form .form-element button{
+  width: 100%;
+  height: 30px;
+  border:none;
+  outline: none;
+  font-size:16px;
+  background: #CDF352;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.recordingNameModal-content .form .form-element button:hover{
+  width: 100%;
+  height: 30px;
+  border:none;
+  outline: none;
+  font-size:16px;
+  background: black;
+  color: #CDF352;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.recordingNameModal-content .form .form-element a {
+  display:block;
+  text-align: right;
+  font-size: 15px;
+  color: #1a79ca;
+  text-decoration:none;
+  font-weight:600; 
+}
+
+/* Sign up */
+
 .signUpModal-content {
   background-color: #141e30;
   margin: 15% auto; 

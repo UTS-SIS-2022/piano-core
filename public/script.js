@@ -447,11 +447,49 @@ function toggleAi() {
   AI_ACTIVE = !AI_ACTIVE;
 }
 
+// Recording Name Modal Form
+
+var recordButton = document.querySelector("#record-button");
+recordButton.value = "off";
+
+var recordingModal = document.querySelector("#recordingNameModal");
+
+var recordingNameSubmission = document.querySelector("#recordingNameSubmission")
+
+var recordingClose = document.querySelector(".recordingClose");
+
+// recordButton.onclick = () => {
+//   if(recordButton.value == "on"){
+//     recordingModal.style.display = "block";
+//     recordButton.value = "off";
+//   } else recordButton.value = "on";
+// }
+
+// recordingClose.onclick = () => {
+//   recordingModal.style.display = "none";
+// }
+
+function getSessionName() {
+  const name = document.querySelector("#recordingName");
+  recordingModal.style.display = "block";
+  console.log(name.value.length);
+
+    if (name.value.length){
+      recordingNameSubmission.onclick = () => {
+        recordingModal.style.display = "none";
+        return name.value
+      }
+    } else {
+      setTimeout(getSessionName(), 30000000000)
+    }
+  // return document.querySelector("#recordingName").value
+}
+
 async function toggleRecording() {
   player.stop();
   session.startTime = Date.now();
+  var name;
   if (RECORDING) {
-    // convert to seconds
     session.notes.map((a) => {
       a.endTime = a.endTime / 1000;
       a.startTime = a.startTime / 1000;
@@ -474,6 +512,8 @@ async function toggleRecording() {
     }
   } else if (!RECORDING) {
     // start writing to session object
+    let name = new Date().toJSON();
+    session.name = name;
     session.notes = [];
     const username = adjustLogInStatus();
     username.then(username => session.userId = username);
@@ -616,7 +656,6 @@ signUpBtn.onclick = function () {
 signUpSpan.onclick = function () {
   signUpModal.style.display = "none";
 };
-
 
 function hidePassword(){
   var x = document.getElementById("logInPassword");
