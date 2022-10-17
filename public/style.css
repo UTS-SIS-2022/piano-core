@@ -762,6 +762,16 @@ h4 {
   text-align: center;
 }
 
+#sessionGrid{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.session{
+  border: 2px solid #cdf352;
+
+}
 /* Modal Close Buttons */
 ._close {
   color: #cdf352;

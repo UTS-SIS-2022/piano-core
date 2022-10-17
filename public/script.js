@@ -515,7 +515,6 @@ function logIn() {
         document.getElementById("logInBtn").style.display = "none";
         document.getElementById("loginModal").style.display = "none";
         document.getElementById("recording-switch").style.display = "block";
-
         adjustLogInStatus();
       } else {
         alert(data.message);
@@ -525,6 +524,7 @@ function logIn() {
     .catch((err) => {
       console.log(err);
     });
+
 }
 
 async function logOut() {
@@ -626,18 +626,18 @@ function hidePassword() {
 /* Retriving User Sessions */
 
 async function grabSessionUser() {
+
   const response = await fetch("/api/authenticated", {
     method: "GET",
   });
-  const res = response.json();
+  // const res = response.json();
 
   console.log(response.status);
 
   if (response.status === 200) {
-    const username = await res.then((data) => {
-      return data.username;
-    });
     await retrieveUserSession();
+    openSessionWindow()
+    
   } else {
     alert("You must be logged in to view your sessions");
   }
@@ -647,30 +647,39 @@ async function grabSessionUser() {
 
 function openSessionWindow() {
   console.log("window is open");
+
   /* Session Modal */
   // Get the modal
   var sessionModal = document.getElementById("sessionModal");
   // Get the button that opens the modal
   var sessionBtn = document.getElementById("recordedSessionsBtn");
   // Get the <span> element that closes the modal
-  var sessionSpan = document.getElementsByClassName("close")[0];
   // When the user clicks on the button, open the modal
-  sessionBtn.onclick = function () {
+  sessionBtn.onclick = function() {
     sessionModal.style.display = "block";
   };
 }
 
 async function retrieveUserSession() {
-
-  openSessionWindow();
-
   const response = await fetch(`/api/session`, {
     method: "GET",
   });
-  
-  const res = response.json();
-  res.then(data => {
-    console.log(data)
-  })  
+  const res = await response.json();
+  const session = document.getElementById("sessionGrid");
+
+  console.log(session)
+
+  session.innerHTML = res.map((session) => 
+    `
+    <div class="session">
+    <h2><span>${session._id.substring(0,8)}...</span></h2>
+    <h3>Total Time ${session.totalTime}s</h3>
+    </div>`
+  ).join("")
+  res.map(session => console.log(session._id))
+  // res.then(data => {
+  //   console.log(data)
+  // })  
   return res;
+
 }
