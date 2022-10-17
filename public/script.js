@@ -673,10 +673,12 @@ async function retrieveUserSession() {
     `
     <div class="session">
     <h2><span>${session._id.substring(0,8)}...</span></h2>
-    <h3>Total Time ${session.totalTime}s</h3>
+    <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
+    <button class="viewButton">Download Session</button>
     </div>`
   ).join("")
-  res.map(session => console.log(session._id))
+
+  console.log(res)
   // res.then(data => {
   //   console.log(data)
   // })  

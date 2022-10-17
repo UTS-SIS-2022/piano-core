@@ -756,7 +756,7 @@ h4 {
   background-color: #141e30;
   margin: 15% auto;
   padding: 20px;
-  width: 20%; /* Could be more or less, depending on screen size */
+  width: 50%; /* Could be more or less, depending on screen size */
   border: 2px solid #cdf352;
   border-radius: 15px;
   text-align: center;
@@ -764,14 +764,24 @@ h4 {
 
 #sessionGrid{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
 
 .session{
   border: 2px solid #cdf352;
-
+  padding: 5px;
+  margin: 5px;
 }
+
+.viewButton{
+  background: lightgrey;
+  outline: none;
+  border-radius: 2px;
+  margin-bottom: 5px;
+}
+
+
 /* Modal Close Buttons */
 ._close {
   color: #cdf352;
