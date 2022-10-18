@@ -684,7 +684,8 @@ cursor: pointer;
   font-weight:600; 
 }
 
-/*SignUP */ 
+/* Sign up */
+
 .signUpModal-content {
   background-color: #141e30;
   margin: 15% auto; 

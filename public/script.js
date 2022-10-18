@@ -459,8 +459,8 @@ function toggleAi() {
 async function toggleRecording() {
   player.stop();
   session.startTime = Date.now();
+  var name;
   if (RECORDING) {
-    // convert to seconds
     session.notes.map((a) => {
       a.endTime = a.endTime / 1000;
       a.startTime = a.startTime / 1000;
@@ -483,6 +483,8 @@ async function toggleRecording() {
     }
   } else if (!RECORDING) {
     // start writing to session object
+    let name = new Date().toJSON();
+    session.name = name;
     session.notes = [];
     const username = adjustLogInStatus();
     username.then(username => session.userId = username);
