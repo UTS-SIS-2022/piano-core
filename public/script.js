@@ -132,6 +132,15 @@ function showMainScreen() {
   document.querySelector(".loaded").hidden = false;
 
   document.addEventListener("keydown", onKeyDown);
+  // Add event listener on keypress
+  document.addEventListener("keypress", (event) => {
+    if (event.key === "=") {
+      octaveUp();
+    }
+    if (event.key === "-") {
+      octaveDown();
+    }
+  });
 
   controls.addEventListener("touchstart", (event) => doTouchStart(event), {
     passive: true,
@@ -256,7 +265,7 @@ function buttonDown(button, fromKeyDown) {
 
   const pitch = AI_ACTIVE
     ? CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note
-    : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 6 + note;
+    : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 12 + note;
 
   let idx;
   if (RECORDING) {
@@ -270,7 +279,7 @@ function buttonDown(button, fromKeyDown) {
   }
   // Hear it.
   player.playNoteDown(pitch, button);
-  noteToDraw = AI_ACTIVE ? note : note + OCTAVE_OFFSET * 6;
+  noteToDraw = AI_ACTIVE ? note : note + OCTAVE_OFFSET * 12;
 
   // See it.
   const rect = piano.highlightNote(noteToDraw, button);
@@ -431,7 +440,7 @@ function updateButtonText() {
 }
 
 function octaveUp() {
-  if (OCTAVES * 2 == OCTAVE_OFFSET) return;
+  if (OCTAVES == OCTAVE_OFFSET + 1) return;
   OCTAVE_OFFSET += 1;
   onWindowResize();
 }
@@ -449,8 +458,8 @@ function toggleAi() {
 async function toggleRecording() {
   player.stop();
   session.startTime = Date.now();
+  var name;
   if (RECORDING) {
-    // convert to seconds
     session.notes.map((a) => {
       a.endTime = a.endTime / 1000;
       a.startTime = a.startTime / 1000;
@@ -473,6 +482,8 @@ async function toggleRecording() {
     }
   } else if (!RECORDING) {
     // start writing to session object
+    let name = new Date().toJSON();
+    session.name = name;
     session.notes = [];
     const username = adjustLogInStatus();
     username.then((username) => (session.userId = username));
@@ -481,6 +492,32 @@ async function toggleRecording() {
   RECORDING = !RECORDING;
 }
 
+async function adjustLogInStatus() {
+  const response = await fetch("/api/authenticated", {
+    method: "GET",
+  });
+  const res = response.json();
+
+  console.log(response.status);
+
+  if (response.status === 200) {
+    const username = await res.then((data) => {
+      return data.username;
+    });
+
+    document.querySelectorAll(".username").forEach((element) => {
+      element.innerText = ` ${username}`;
+    });
+
+    document.getElementById("logOutBtn").style.display = "block";
+    document.getElementById("logInBtn").style.display = "none";
+  } else {
+    document.getElementById("logOutBtn").style.display = "none";
+    document.getElementById("logInBtn").style.display = "block";
+  }
+}
+
+adjustLogInStatus();
 async function postDataToAPI(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
