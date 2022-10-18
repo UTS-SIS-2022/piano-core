@@ -516,6 +516,7 @@ function logIn() {
         document.getElementById("loginModal").style.display = "none";
         document.getElementById("recording-switch").style.display = "block";
         adjustLogInStatus();
+        grabSessionUser();
       } else {
         alert(data.message);
         console.log("login failed");
@@ -524,6 +525,7 @@ function logIn() {
     .catch((err) => {
       console.log(err);
     });
+
 
 }
 
@@ -551,6 +553,7 @@ async function logOut() {
 function signUp() {
   const signUpUsername = document.getElementById("signUpUsername").value;
   const signUpPassword = document.getElementById("signUpPassword").value;
+  console.log("you have clicked me")
 
   postDataToAPI("/api/signup", {
     user: {
@@ -559,9 +562,8 @@ function signUp() {
     },
   }).then((data) => {
     if (data.success) {
-      console.log("signed up");
-      // document.getElementById("signUp").style.display = "none";
-      // document.getElementById("logOut").style.display = "block";
+      document.getElementById("signUp").style.display = "none";
+      document.getElementById("logOut").style.display = "block";
       document.getElementById("signUpUsername").value = "";
       document.getElementById("signUpPassword").value = "";
       alert(" Created account for " + signUpUsername);
@@ -601,9 +603,10 @@ var signUpBtn = document.getElementById("signUpBtn");
 // Get the <span> element that closes the modal
 var signUpSpan = document.getElementsByClassName("close")[0];
 
-function onInstrumentSelect() {
-  player.changeInstrument();
-}
+// When the user clicks on <span> (x), close the modal
+signUpBtn.onclick = function () {
+  signUpModal.style.display = "block";
+};
 
 // When the user clicks on <span> (x), close the modal
 signUpSpan.onclick = function () {
@@ -630,14 +633,12 @@ async function grabSessionUser() {
   const response = await fetch("/api/authenticated", {
     method: "GET",
   });
-  // const res = response.json();
 
   console.log(response.status);
 
   if (response.status === 200) {
-    await retrieveUserSession();
-    openSessionWindow()
-    
+    await retrieveUserSession()
+    openSessionWindow()    
   } else {
     alert("You must be logged in to view your sessions");
   }
@@ -646,7 +647,7 @@ async function grabSessionUser() {
 /* Opens Sessions Window */
 
 function openSessionWindow() {
-  console.log("window is open");
+  // console.log("window is open");
 
   /* Session Modal */
   // Get the modal
@@ -685,3 +686,5 @@ async function retrieveUserSession() {
   return res;
 
 }
+
+
