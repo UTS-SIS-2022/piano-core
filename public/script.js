@@ -458,33 +458,6 @@ var recordingNameSubmission = document.querySelector("#recordingNameSubmission")
 
 var recordingClose = document.querySelector(".recordingClose");
 
-// recordButton.onclick = () => {
-//   if(recordButton.value == "on"){
-//     recordingModal.style.display = "block";
-//     recordButton.value = "off";
-//   } else recordButton.value = "on";
-// }
-
-// recordingClose.onclick = () => {
-//   recordingModal.style.display = "none";
-// }
-
-function getSessionName() {
-  const name = document.querySelector("#recordingName");
-  recordingModal.style.display = "block";
-  console.log(name.value.length);
-
-    if (name.value.length){
-      recordingNameSubmission.onclick = () => {
-        recordingModal.style.display = "none";
-        return name.value
-      }
-    } else {
-      setTimeout(getSessionName(), 30000000000)
-    }
-  // return document.querySelector("#recordingName").value
-}
-
 async function toggleRecording() {
   player.stop();
   session.startTime = Date.now();
