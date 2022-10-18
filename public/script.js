@@ -447,17 +447,6 @@ function toggleAi() {
   AI_ACTIVE = !AI_ACTIVE;
 }
 
-// Recording Name Modal Form
-
-var recordButton = document.querySelector("#record-button");
-recordButton.value = "off";
-
-var recordingModal = document.querySelector("#recordingNameModal");
-
-var recordingNameSubmission = document.querySelector("#recordingNameSubmission")
-
-var recordingClose = document.querySelector(".recordingClose");
-
 async function toggleRecording() {
   player.stop();
   session.startTime = Date.now();
