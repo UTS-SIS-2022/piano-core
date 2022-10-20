@@ -16,7 +16,6 @@ require("dotenv").config();
 import { MongoGateway } from "./config/mongo";
 import { any } from "prop-types";
 export let db: MongoGateway;
-
 // initialise gateways
 (async () => {
   if (process.env.MONGO_CONNECTION_URI && process.env.PORT) {
@@ -39,6 +38,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
+console.log(__dirname)
+
 
 app.use(
   userSession({
@@ -52,6 +53,7 @@ app.use(
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
+
 
 // start listening
 app.listen(process.env.PORT, () => {
@@ -86,6 +88,7 @@ app.post("/api/login", async (req: any, res: any) => {
   // keep the users controller as pure functions
   console.log(req.sessionID);
   const logInResponse = await logIn(req, res);
+  console.log(logInResponse)
   res.send(logInResponse);
 });
 
@@ -99,11 +102,20 @@ app.get("/api/authenticated", async (req: any, res: any) => {
   console.log(req.sessionID);
   const autheticationResponse = await isAuthenticated(req, res);
   res.send(autheticationResponse);
-});
+})
 
 // retrieve compositions from mongodb by userid
-app.get("/api/session", async (req, res) => {
+app.get("/api/session", async (req: any, res) => {
+  // const user = req.session.user.username
+  // const compositions = await retrieveCompositions(user);
+  // res.status(200).send(compositions);
+  // return;
   console.log("get session recieved");
+  const user = req.session.user.username
+  db.compositionCollection.find({userId: user}).toArray((err, result) => {
+    if (err) throw console.error(err)
+    res.send(result)
+  })
 });
 
 app.use(express.static("public"));

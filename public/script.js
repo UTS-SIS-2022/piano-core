@@ -63,21 +63,20 @@ function toggleSettings() {
 // Check authentication status
 // First thing since much of the UI is determined by its result
 
-async function adjustLogInStatus(){
+async function adjustLogInStatus() {
   const response = await fetch("/api/authenticated", {
-    method: "GET"
+    method: "GET",
   });
   const res = response.json();
 
   console.log(response.status);
 
-  if(response.status === 200){
-
-    const username = await res.then(data => {
+  if (response.status === 200) {
+    const username = await res.then((data) => {
       return data.username;
-    })
+    });
 
-    document.querySelectorAll(".username").forEach(element => {
+    document.querySelectorAll(".username").forEach((element) => {
       element.innerText = ` ${username}`;
     });
 
@@ -85,7 +84,7 @@ async function adjustLogInStatus(){
     document.getElementById("logInBtn").style.display = "none";
     document.getElementById("recording-switch").style.display = "block";
 
-    return username
+    return username;
   } else {
     document.getElementById("logOutBtn").style.display = "none";
     document.getElementById("logInBtn").style.display = "block";
@@ -487,7 +486,7 @@ async function toggleRecording() {
     session.name = name;
     session.notes = [];
     const username = adjustLogInStatus();
-    username.then(username => session.userId = username);
+    username.then((username) => (session.userId = username));
     session.startTime = Date.now();
   }
   RECORDING = !RECORDING;
@@ -553,8 +552,8 @@ function logIn() {
         document.getElementById("logInBtn").style.display = "none";
         document.getElementById("loginModal").style.display = "none";
         document.getElementById("recording-switch").style.display = "block";
-
         adjustLogInStatus();
+        grabSessionUser();
       } else {
         alert(data.message);
         console.log("login failed");
@@ -563,6 +562,8 @@ function logIn() {
     .catch((err) => {
       console.log(err);
     });
+
+
 }
 
 async function logOut() {
@@ -580,7 +581,6 @@ async function logOut() {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
-
     }
     console.log(data.message);
     alert(data.message);
@@ -590,6 +590,7 @@ async function logOut() {
 function signUp() {
   const signUpUsername = document.getElementById("signUpUsername").value;
   const signUpPassword = document.getElementById("signUpPassword").value;
+  console.log("you have clicked me")
 
   postDataToAPI("/api/signup", {
     user: {
@@ -598,9 +599,8 @@ function signUp() {
     },
   }).then((data) => {
     if (data.success) {
-      console.log("signed up");
-      // document.getElementById("signUp").style.display = "none";
-      // document.getElementById("logOut").style.display = "block";
+      document.getElementById("signUp").style.display = "none";
+      document.getElementById("logOut").style.display = "block";
       document.getElementById("signUpUsername").value = "";
       document.getElementById("signUpPassword").value = "";
       alert(" Created account for " + signUpUsername);
@@ -640,11 +640,7 @@ var signUpBtn = document.getElementById("signUpBtn");
 // Get the <span> element that closes the modal
 var signUpSpan = document.getElementsByClassName("close")[0];
 
-function onInstrumentSelect() {
-  player.changeInstrument();
-}
-
-// When the user clicks on the button, open the modal
+// When the user clicks on <span> (x), close the modal
 signUpBtn.onclick = function () {
   signUpModal.style.display = "block";
 };
@@ -666,3 +662,66 @@ function hidePassword() {
     y.type = "password";
   }
 }
+
+/* Retriving User Sessions */
+
+async function grabSessionUser() {
+
+  const response = await fetch("/api/authenticated", {
+    method: "GET",
+  });
+
+  console.log(response.status);
+
+  if (response.status === 200) {
+    await retrieveUserSession()
+    openSessionWindow()    
+  } else {
+    alert("You must be logged in to view your sessions");
+  }
+}
+
+/* Opens Sessions Window */
+
+function openSessionWindow() {
+  // console.log("window is open");
+
+  /* Session Modal */
+  // Get the modal
+  var sessionModal = document.getElementById("sessionModal");
+  // Get the button that opens the modal
+  var sessionBtn = document.getElementById("recordedSessionsBtn");
+  // Get the <span> element that closes the modal
+  // When the user clicks on the button, open the modal
+  sessionBtn.onclick = function() {
+    sessionModal.style.display = "block";
+  };
+}
+
+async function retrieveUserSession() {
+  const response = await fetch(`/api/session`, {
+    method: "GET",
+  });
+  const res = await response.json();
+  const session = document.getElementById("sessionGrid");
+
+  console.log(session)
+
+  session.innerHTML = res.map((session) => 
+    `
+    <div class="session">
+    <h2><span>${session._id.substring(0,8)}...</span></h2>
+    <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
+    <button class="viewButton">Download Session</button>
+    </div>`
+  ).join("")
+
+  console.log(res)
+  // res.then(data => {
+  //   console.log(data)
+  // })  
+  return res;
+
+}
+
+
