@@ -60,6 +60,10 @@ function toggleSettings() {
   return;
 }
 
+function onInstrumentSelect() {
+  player.changeInstrument();
+}
+
 // Check authentication status
 // First thing since much of the UI is determined by its result
 
@@ -689,8 +693,5 @@ async function retrieveUserSession() {
     .join("");
 
   console.log(res);
-  // res.then(data => {
-  //   console.log(data)
-  // })
   return res;
 }
