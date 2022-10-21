@@ -67,14 +67,12 @@ async function adjustLogInStatus() {
   const response = await fetch("/api/authenticated", {
     method: "GET",
   });
-  const res = response.json();
+  const res = await response.json();
 
   console.log(response.status);
 
   if (response.status === 200) {
-    const username = await res.then((data) => {
-      return data.username;
-    });
+    const username = res.username;
 
     document.querySelectorAll(".username").forEach((element) => {
       element.innerText = ` ${username}`;
@@ -472,8 +470,6 @@ async function toggleRecording() {
 
     delete session.startTime;
 
-    player.start(session);
-
     // post the session to the server
     try {
       await postDataToAPI("/api/session", session);
@@ -482,39 +478,15 @@ async function toggleRecording() {
     }
   } else if (!RECORDING) {
     // start writing to session object
-    let name = new Date().toJSON();
-    session.name = name;
+    let timestamp = new Date();
+    session.timestamp = timestamp;
     session.notes = [];
-    const username = adjustLogInStatus();
-    username.then((username) => (session.userId = username));
+    const username = await adjustLogInStatus();
+    session.username = username;
+    // adjustLogInStatus().then((username) => (session.userId = username));
     session.startTime = Date.now();
   }
   RECORDING = !RECORDING;
-}
-
-async function adjustLogInStatus() {
-  const response = await fetch("/api/authenticated", {
-    method: "GET",
-  });
-  const res = response.json();
-
-  console.log(response.status);
-
-  if (response.status === 200) {
-    const username = await res.then((data) => {
-      return data.username;
-    });
-
-    document.querySelectorAll(".username").forEach((element) => {
-      element.innerText = ` ${username}`;
-    });
-
-    document.getElementById("logOutBtn").style.display = "block";
-    document.getElementById("logInBtn").style.display = "none";
-  } else {
-    document.getElementById("logOutBtn").style.display = "none";
-    document.getElementById("logInBtn").style.display = "block";
-  }
 }
 
 adjustLogInStatus();
@@ -562,8 +534,6 @@ function logIn() {
     .catch((err) => {
       console.log(err);
     });
-
-
 }
 
 async function logOut() {
@@ -590,7 +560,7 @@ async function logOut() {
 function signUp() {
   const signUpUsername = document.getElementById("signUpUsername").value;
   const signUpPassword = document.getElementById("signUpPassword").value;
-  console.log("you have clicked me")
+  console.log("you have clicked me");
 
   postDataToAPI("/api/signup", {
     user: {
@@ -666,7 +636,6 @@ function hidePassword() {
 /* Retriving User Sessions */
 
 async function grabSessionUser() {
-
   const response = await fetch("/api/authenticated", {
     method: "GET",
   });
@@ -674,8 +643,8 @@ async function grabSessionUser() {
   console.log(response.status);
 
   if (response.status === 200) {
-    await retrieveUserSession()
-    openSessionWindow()    
+    await retrieveUserSession();
+    openSessionWindow();
   } else {
     alert("You must be logged in to view your sessions");
   }
@@ -693,7 +662,7 @@ function openSessionWindow() {
   var sessionBtn = document.getElementById("recordedSessionsBtn");
   // Get the <span> element that closes the modal
   // When the user clicks on the button, open the modal
-  sessionBtn.onclick = function() {
+  sessionBtn.onclick = function () {
     sessionModal.style.display = "block";
   };
 }
@@ -705,23 +674,23 @@ async function retrieveUserSession() {
   const res = await response.json();
   const session = document.getElementById("sessionGrid");
 
-  console.log(session)
+  console.log(session);
 
-  session.innerHTML = res.map((session) => 
-    `
+  session.innerHTML = res
+    .map(
+      (session) =>
+        `
     <div class="session">
-    <h2><span>${session._id.substring(0,8)}...</span></h2>
+    <h2><span>${session._id.substring(0, 8)}...</span></h2>
     <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
     <button class="viewButton">Download Session</button>
     </div>`
-  ).join("")
+    )
+    .join("");
 
-  console.log(res)
+  console.log(res);
   // res.then(data => {
   //   console.log(data)
-  // })  
+  // })
   return res;
-
 }
-
-
