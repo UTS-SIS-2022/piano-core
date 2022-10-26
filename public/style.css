@@ -782,6 +782,12 @@ h4 {
   margin-bottom: 5px;
 }
 
+.replayButton {
+  background: lightgrey;
+  outline: none;
+  border-radius: 2px;
+  margin-bottom: 5px;
+}
 
 /* Modal Close Buttons */
 ._close {

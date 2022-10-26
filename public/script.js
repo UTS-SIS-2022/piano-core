@@ -724,11 +724,38 @@ async function retrieveUserSession() {
     <h2>${session.name}</h2>
     <h3>${session.timestamp}</h3>
     <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
-    <button class="viewButton">Download Session</button>
+    <button class="viewButton" onClick="downloadComposition("${JSON.stringify(
+      session
+    )}")">Download Composition</button>
+    <button class="replayButton" onClick="playComposition("${JSON.stringify(
+      session
+    )}")>Replay Composition</button>
     </div>`
     )
     .join("");
 
   console.log(res);
   return res;
+}
+
+async function downloadComposition(session) {
+  fetch(`/api/session/${session._id}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      debugger;
+      response.blob();
+    })
+    .then((blob) => {
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "session.mid");
+      document.body.appendChild(link);
+      link.click();
+    });
+}
+
+async function playComposition(session) {
+  console.log("playComposition called");
 }
