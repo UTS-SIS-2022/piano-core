@@ -85,8 +85,10 @@ async function adjustLogInStatus() {
     document.getElementById("logOutBtn").style.display = "block";
     document.getElementById("logInBtn").style.display = "none";
     document.getElementById("recording-switch").style.display = "block";
+    document.getElementById("signUpBtn").style.display = "none";
     return username;
   } else {
+    document.getElementById("signUpBtn").style.display = "block";
     document.getElementById("logOutBtn").style.display = "none";
     document.getElementById("logInBtn").style.display = "block";
     document.getElementById("recording-switch").style.display = "none";
@@ -550,6 +552,7 @@ function logIn() {
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
         document.querySelector("#infotext").innerHTML = "Press R to record";
+        document.getElementById("signUpBtn").style.display = "none";
         alert(data.message);
         document.getElementById("logOutBtn").style.display = "block";
         document.getElementById("logInBtn").style.display = "none";
@@ -579,6 +582,7 @@ async function logOut() {
 
   res.then((data) => {
     if (response.status === 200) {
+      document.getElementById("signUpBtn").style.display = "block";
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
