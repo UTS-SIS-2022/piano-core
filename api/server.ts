@@ -111,9 +111,11 @@ app.get("/api/session", async (req: any, res) => {
   // res.status(200).send(compositions);
   // return;
   console.log("get session recieved");
-  const user = req.session.user.username
-  db.compositionCollection.find({userId: user}).toArray((err, result) => {
+  const user = req.session.user.username;
+  db.compositionCollection.find( {"$or":[{userId: user}, {username: user}] }).toArray((err: any, result: any) => {
     if (err) throw console.error(err)
+    console.log(result.length);
+
     res.send(result)
   })
 });
