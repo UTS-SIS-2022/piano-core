@@ -559,7 +559,7 @@ function logIn() {
         document.getElementById("loginModal").style.display = "none";
         document.getElementById("recording-switch").style.display = "block";
         adjustLogInStatus();
-        grabSessionUser();
+        // grabSessionUser();
       } else {
         alert(data.message);
         console.log("login failed");
@@ -585,6 +585,7 @@ async function logOut() {
       document.getElementById("signUpBtn").style.display = "block";
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
+      document.getElementById("signUpBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
       document.querySelector("#infotext").innerHTML = "";
     }
@@ -605,8 +606,9 @@ function signUp() {
     },
   }).then((data) => {
     if (data.success) {
-      document.getElementById("signUp").style.display = "none";
-      document.getElementById("logOut").style.display = "block";
+      console.log("sign up success");
+      // document.getElementById("signUpBtn").style.display = "none";
+      // document.getElementById("logOut").style.display = "block";
       document.getElementById("signUpUsername").value = "";
       document.getElementById("signUpPassword").value = "";
       alert(" Created account for " + signUpUsername);
@@ -699,6 +701,7 @@ function openSessionWindow() {
   // Get the <span> element that closes the modal
   // When the user clicks on the button, open the modal
   sessionBtn.onclick = function () {
+    grabSessionUser();
     sessionModal.style.display = "block";
   };
 }
