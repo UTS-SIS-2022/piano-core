@@ -85,7 +85,6 @@ async function adjustLogInStatus() {
     document.getElementById("logOutBtn").style.display = "block";
     document.getElementById("logInBtn").style.display = "none";
     document.getElementById("recording-switch").style.display = "block";
-
     return username;
   } else {
     document.getElementById("logOutBtn").style.display = "none";
@@ -94,7 +93,15 @@ async function adjustLogInStatus() {
   }
 }
 
-adjustLogInStatus();
+function initialMethod() {
+  const status = adjustLogInStatus();
+  if (status) {
+    console.log("working");
+    document.getElementById("infotext").innerHTML = "Press R to Record";
+  }
+}
+
+initialMethod()
 
 /*************************
  * Basic UI bits
@@ -141,6 +148,10 @@ function showMainScreen() {
     }
     if (event.key === "-") {
       octaveDown();
+    }
+    if (event.key == "r") {
+      toggleRecording();
+      console.log("recording");
     }
   });
 
@@ -354,7 +365,7 @@ function onKeyDown(event) {
   if (event.key === " ") {
     // sustain pedal
     sustaining = true;
-  } else if (event.key === "0" || event.key === "r") {
+  } else if (event.key === "0" || event.key === "y") {
     console.log("🧞‍♀️ resetting!");
     genie.resetState();
   } else {
@@ -462,26 +473,32 @@ async function toggleRecording() {
   session.startTime = Date.now();
   var name;
   if (RECORDING) {
-    session.notes.map((a) => {
-      a.endTime = a.endTime / 1000;
-      a.startTime = a.startTime / 1000;
-      return a;
-    });
-    // get the total time elapsed in seconds
-    session.totalTime =
-      session.notes[session.notes.length - 1].endTime -
-      session.notes[0].startTime;
+    document.querySelector("#infotext").style.color = "gray";
+    document.querySelector("#infotext").innerHTML = "Press R to record";
+      
+      session.notes.map((a) => {
+        a.endTime = a.endTime / 1000;
+        a.startTime = a.startTime / 1000;
+        return a;
+      });
+      // get the total time elapsed in seconds
+      session.totalTime =
+        session.notes[session.notes.length - 1].endTime -
+        session.notes[0].startTime;
 
-    delete session.startTime;
+      delete session.startTime;
 
     // post the session to the server
     try {
-      await postDataToAPI("/api/session", session);
+      session.notes.length!=0 ? await postDataToAPI("/api/session", session): null;
     } catch (err) {
       console.log(err);
     }
   } else if (!RECORDING) {
     // start writing to session object
+    console.log("press r to stop recording");
+    document.querySelector("#infotext").style.color = "red";
+    document.querySelector("#infotext").innerHTML = "Recording...";
     let timestamp = new Date();
     session.timestamp = timestamp;
     session.notes = [];
@@ -490,7 +507,7 @@ async function toggleRecording() {
     // adjustLogInStatus().then((username) => (session.userId = username));
     session.startTime = Date.now();
   }
-  RECORDING = !RECORDING;
+  
 }
 
 adjustLogInStatus();
