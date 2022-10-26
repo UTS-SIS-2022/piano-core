@@ -96,7 +96,7 @@ async function adjustLogInStatus() {
 async function initialMethod() {
   const status = await adjustLogInStatus();
   if (status) {
-    console.log(status)
+    console.log(status);
     console.log("working");
     document.getElementById("infotext").innerHTML = "Press R to Record";
   }
@@ -472,7 +472,6 @@ function toggleAi() {
 async function toggleRecording() {
   player.stop();
   session.startTime = Date.now();
-  var name;
   if (RECORDING) {
     document.querySelector("#record-button").removeAttribute("checked");
     document.querySelector("#infotext").style.color = "gray";
@@ -483,7 +482,7 @@ async function toggleRecording() {
       return;
     }
 
-    session.name = prompt("Name your song");
+    session.name = prompt("Name your song!");
 
     session.notes.map((a) => {
       a.endTime = a.endTime / 1000;
@@ -516,7 +515,6 @@ async function toggleRecording() {
     session.notes = [];
     const username = await adjustLogInStatus();
     session.username = username;
-    // adjustLogInStatus().then((username) => (session.userId = username));
     session.startTime = Date.now();
   }
   RECORDING = !RECORDING;
@@ -551,8 +549,7 @@ function logIn() {
         console.log("logged in");
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
-        document.querySelector("#infotext").innerHTML = "Press R to record"
-        // document.getElementById("logIn").style.display = "none";
+        document.querySelector("#infotext").innerHTML = "Press R to record";
         alert(data.message);
         document.getElementById("logOutBtn").style.display = "block";
         document.getElementById("logInBtn").style.display = "none";
@@ -585,7 +582,7 @@ async function logOut() {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
-      document.querySelector("#infotext").innerHTML = ""
+      document.querySelector("#infotext").innerHTML = "";
     }
     console.log(data.message);
     alert(data.message);
