@@ -573,8 +573,6 @@ function signUp() {
     },
   }).then((data) => {
     if (data.success) {
-      document.getElementById("signUp").style.display = "none";
-      document.getElementById("logOut").style.display = "block";
       document.getElementById("signUpUsername").value = "";
       document.getElementById("signUpPassword").value = "";
       alert(" Created account for " + signUpUsername);
@@ -687,7 +685,7 @@ async function retrieveUserSession() {
     <div class="session">
     <h2><span>${session._id.substring(0, 8)}...</span></h2>
     <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
-    <button class="viewButton">Download Session</button>
+    <button class="downloadMidi">Download Session</button>
     </div>`
     )
     .join("");
@@ -695,3 +693,9 @@ async function retrieveUserSession() {
   console.log(res);
   return res;
 }
+
+
+async function downloadMidi() {
+
+}
+
