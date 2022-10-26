@@ -101,7 +101,7 @@ function initialMethod() {
   }
 }
 
-initialMethod()
+initialMethod();
 
 /*************************
  * Basic UI bits
@@ -473,28 +473,39 @@ async function toggleRecording() {
   session.startTime = Date.now();
   var name;
   if (RECORDING) {
+    document.querySelector("#record-button").removeAttribute("checked");
     document.querySelector("#infotext").style.color = "gray";
     document.querySelector("#infotext").innerHTML = "Press R to record";
-      
-      session.notes.map((a) => {
-        a.endTime = a.endTime / 1000;
-        a.startTime = a.startTime / 1000;
-        return a;
-      });
-      // get the total time elapsed in seconds
-      session.totalTime =
-        session.notes[session.notes.length - 1].endTime -
-        session.notes[0].startTime;
+    if (session.notes.length == 0) {
+      RECORDING = !RECORDING;
+      alert("You didn't record anything!");
+      return;
+    }
 
-      delete session.startTime;
+    session.name = prompt("Name your song");
+
+    session.notes.map((a) => {
+      a.endTime = a.endTime / 1000;
+      a.startTime = a.startTime / 1000;
+      return a;
+    });
+    // get the total time elapsed in seconds
+    session.totalTime =
+      session.notes[session.notes.length - 1].endTime -
+      session.notes[0].startTime;
+
+    delete session.startTime;
 
     // post the session to the server
     try {
-      session.notes.length!=0 ? await postDataToAPI("/api/session", session): null;
+      session.notes.length != 0
+        ? await postDataToAPI("/api/session", session)
+        : null;
     } catch (err) {
       console.log(err);
     }
   } else if (!RECORDING) {
+    document.querySelector("#record-button").setAttribute("checked", "");
     // start writing to session object
     console.log("press r to stop recording");
     document.querySelector("#infotext").style.color = "red";
@@ -507,7 +518,7 @@ async function toggleRecording() {
     // adjustLogInStatus().then((username) => (session.userId = username));
     session.startTime = Date.now();
   }
-  
+  RECORDING = !RECORDING;
 }
 
 adjustLogInStatus();
