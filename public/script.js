@@ -522,7 +522,7 @@ function logIn() {
         console.log("logged in");
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
-        // document.getElementById("logIn").style.display = "none";
+        document.getElementById("signUpBtn").style.display = "none";
         alert(data.message);
         document.getElementById("logOutBtn").style.display = "block";
         document.getElementById("logInBtn").style.display = "none";
@@ -554,6 +554,7 @@ async function logOut() {
     if (response.status === 200) {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
+      document.getElementById("signUpBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
     }
     console.log(data.message);
@@ -573,8 +574,9 @@ function signUp() {
     },
   }).then((data) => {
     if (data.success) {
-      document.getElementById("signUp").style.display = "none";
-      document.getElementById("logOut").style.display = "block";
+      console.log("sign up success");
+      // document.getElementById("signUpBtn").style.display = "none";
+      // document.getElementById("logOut").style.display = "block";
       document.getElementById("signUpUsername").value = "";
       document.getElementById("signUpPassword").value = "";
       alert(" Created account for " + signUpUsername);
