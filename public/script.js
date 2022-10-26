@@ -93,9 +93,10 @@ async function adjustLogInStatus() {
   }
 }
 
-function initialMethod() {
-  const status = adjustLogInStatus();
+async function initialMethod() {
+  const status = await adjustLogInStatus();
   if (status) {
+    console.log(status)
     console.log("working");
     document.getElementById("infotext").innerHTML = "Press R to Record";
   }
@@ -539,6 +540,7 @@ function logIn() {
         console.log("logged in");
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
+        document.querySelector("#infotext").innerHTML = "Press R to record"
         // document.getElementById("logIn").style.display = "none";
         alert(data.message);
         document.getElementById("logOutBtn").style.display = "block";
@@ -572,6 +574,7 @@ async function logOut() {
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
+      document.querySelector("#infotext").innerHTML = ""
     }
     console.log(data.message);
     alert(data.message);
