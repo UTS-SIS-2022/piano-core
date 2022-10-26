@@ -85,16 +85,26 @@ async function adjustLogInStatus() {
     document.getElementById("logOutBtn").style.display = "block";
     document.getElementById("logInBtn").style.display = "none";
     document.getElementById("recording-switch").style.display = "block";
-
+    document.getElementById("signUpBtn").style.display = "none";
     return username;
   } else {
+    document.getElementById("signUpBtn").style.display = "block";
     document.getElementById("logOutBtn").style.display = "none";
     document.getElementById("logInBtn").style.display = "block";
     document.getElementById("recording-switch").style.display = "none";
   }
 }
 
-adjustLogInStatus();
+async function initialMethod() {
+  const status = await adjustLogInStatus();
+  if (status) {
+    console.log(status);
+    console.log("working");
+    document.getElementById("infotext").innerHTML = "Press R to Record";
+  }
+}
+
+initialMethod();
 
 /*************************
  * Basic UI bits
@@ -141,6 +151,10 @@ function showMainScreen() {
     }
     if (event.key === "-") {
       octaveDown();
+    }
+    if (event.key == "r") {
+      toggleRecording();
+      console.log("recording");
     }
   });
 
@@ -354,7 +368,7 @@ function onKeyDown(event) {
   if (event.key === " ") {
     // sustain pedal
     sustaining = true;
-  } else if (event.key === "0" || event.key === "r") {
+  } else if (event.key === "0" || event.key === "y") {
     console.log("🧞‍♀️ resetting!");
     genie.resetState();
   } else {
@@ -460,8 +474,18 @@ function toggleAi() {
 async function toggleRecording() {
   player.stop();
   session.startTime = Date.now();
-  var name;
   if (RECORDING) {
+    document.querySelector("#record-button").removeAttribute("checked");
+    document.querySelector("#infotext").style.color = "gray";
+    document.querySelector("#infotext").innerHTML = "Press R to record";
+    if (session.notes.length == 0) {
+      RECORDING = !RECORDING;
+      alert("You didn't record anything!");
+      return;
+    }
+
+    session.name = prompt("Name your song!");
+
     session.notes.map((a) => {
       a.endTime = a.endTime / 1000;
       a.startTime = a.startTime / 1000;
@@ -476,18 +500,23 @@ async function toggleRecording() {
 
     // post the session to the server
     try {
-      await postDataToAPI("/api/session", session);
+      session.notes.length != 0
+        ? await postDataToAPI("/api/session", session)
+        : null;
     } catch (err) {
       console.log(err);
     }
   } else if (!RECORDING) {
+    document.querySelector("#record-button").setAttribute("checked", "");
     // start writing to session object
+    console.log("press r to stop recording");
+    document.querySelector("#infotext").style.color = "red";
+    document.querySelector("#infotext").innerHTML = "Recording...";
     let timestamp = new Date();
     session.timestamp = timestamp;
     session.notes = [];
     const username = await adjustLogInStatus();
     session.username = username;
-    // adjustLogInStatus().then((username) => (session.userId = username));
     session.startTime = Date.now();
   }
   RECORDING = !RECORDING;
@@ -522,6 +551,7 @@ function logIn() {
         console.log("logged in");
         document.getElementById("logInUsername").value = "";
         document.getElementById("logInPassword").value = "";
+        document.querySelector("#infotext").innerHTML = "Press R to record";
         document.getElementById("signUpBtn").style.display = "none";
         alert(data.message);
         document.getElementById("logOutBtn").style.display = "block";
@@ -552,10 +582,12 @@ async function logOut() {
 
   res.then((data) => {
     if (response.status === 200) {
+      document.getElementById("signUpBtn").style.display = "block";
       document.getElementById("logOutBtn").style.display = "none";
       document.getElementById("logInBtn").style.display = "block";
       document.getElementById("signUpBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
+      document.querySelector("#infotext").innerHTML = "";
     }
     console.log(data.message);
     alert(data.message);

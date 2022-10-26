@@ -843,6 +843,14 @@ h4 {
 /***********************
     Recorded Sessions
    ***********************/
+
+#infobox h1 {
+  position: absolute;
+  z-index: 2;
+  color: gray;
+  margin-top: 500px;
+} 
+
 .sessions {
   display: flex;
   justify-content: center;
