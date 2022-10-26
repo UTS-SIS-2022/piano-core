@@ -1,6 +1,6 @@
 import { InsertOneResult, MongoClient } from "mongodb";
 import express from "express";
-import { createComposition } from "./controllers/compositions";
+import { createComposition, getComposition } from "./controllers/compositions";
 import {
   createUser,
   getAllUsers,
@@ -119,5 +119,11 @@ app.get("/api/session", async (req: any, res) => {
     res.send(result)
   })
 });
+
+app.get("/api/session/:id", async (req: any, res) => {
+  console.log(req.params.id);
+  const composition = await getComposition(req.params.id);
+  res.send(composition);
+})
 
 app.use(express.static("public"));
