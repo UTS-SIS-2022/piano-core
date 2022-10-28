@@ -143,7 +143,12 @@ function showMainScreen() {
   document.querySelector(".splash").hidden = true;
   document.querySelector(".loaded").hidden = false;
 
-  document.addEventListener("keydown", onKeyDown);
+  document.addEventListener("keydown", (event) => {
+    onKeyDown(event);
+  });
+  document.addEventListener("keyup", (event) => {
+    onKeyUp(event);
+  });
   // Add event listener on keypress
   document.addEventListener("keypress", (event) => {
     if (event.key === "=") {
@@ -220,8 +225,6 @@ function showMainScreen() {
     radioMidiInYes.parentElement.setAttribute("disabled", true);
     radioMidiOutYes.parentElement.setAttribute("disabled", true);
   }
-
-  document.addEventListener("keyup", onKeyUp);
 
   // Slow to start up, so do a fake prediction to warm up the model.
   const note = genie.nextFromKeyWhitelist(0, keyWhitelist, TEMPERATURE);
@@ -373,7 +376,7 @@ function onKeyDown(event) {
     console.log("🧞‍♀️ resetting!");
     genie.resetState();
   } else {
-    const button = getButtonFromKeyCode(event.key);
+    const button = getButtonFromKeyCode(event.key.toLowerCase());
     if (button != null) {
       buttonDown(button, true);
     }
@@ -389,7 +392,7 @@ function onKeyUp(event) {
     sustainingNotes.forEach((note) => player.playNoteUp(note, -1));
     sustainingNotes = [];
   } else {
-    const button = getButtonFromKeyCode(event.key);
+    const button = getButtonFromKeyCode(event.key.toLowerCase());
     if (button != null) {
       buttonUp(button);
     }
