@@ -159,7 +159,7 @@ function showMainScreen() {
     if (event.key === "-") {
       octaveDown();
     }
-    if (event.key == "r" && LOGGEDIN) {
+    if (event.key.toLowerCase() == "r" && LOGGEDIN) {
       toggleRecording();
       console.log("recording");
     }
