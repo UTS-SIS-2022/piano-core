@@ -558,6 +558,7 @@ function logIn() {
         document.getElementById("logInPassword").value = "";
         document.querySelector("#infotext").innerHTML = "Press R to record";
         document.getElementById("signUpBtn").style.display = "none";
+        LOGGEDIN = true;
         alert(data.message);
         document.getElementById("logOutBtn").style.display = "block";
         document.getElementById("logInBtn").style.display = "none";
