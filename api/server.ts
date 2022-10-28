@@ -14,7 +14,7 @@ const userSession = require("express-session");
 // require dotenv to load environment variables
 require("dotenv").config();
 import { MongoGateway } from "./config/mongo";
-import { any } from "prop-types";
+
 export let db: MongoGateway;
 // initialise gateways
 (async () => {
@@ -110,10 +110,6 @@ app.get("/api/composition/:id", async (req: any, res: any) => {
 
 // retrieve compositions from mongodb by userid
 app.get("/api/session", async (req: any, res) => {
-  // const user = req.session.user.username
-  // const compositions = await retrieveCompositions(user);
-  // res.status(200).send(compositions);
-  // return;
   console.log("get session recieved");
   const user = req.session.user.username;
   db.compositionCollection

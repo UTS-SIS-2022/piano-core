@@ -749,20 +749,23 @@ async function retrieveUserSession() {
 }
 
 async function downloadComposition(id) {
-  fetch(`/api/composition/${id}`, {
+  const res = await fetch(`/api/composition/${id}`, {
     method: "GET",
-  })
-    .then((response) => {
-      return response.blob();
-    })
-    .then((blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "session.json");
-      document.body.appendChild(link);
-      link.click();
-    });
+  });
+  const sequence = await res.json();
+  // const quantizedSequence = mm.sequences.quantizeNoteSequence(sequence, 1);
+  var midi_bytes_array = mm.sequenceProtoToMidi(sequence);
+  var blob = new Blob([midi_bytes_array], { type: "audio/midi" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  a.href = url;
+  a.download = `${sequence.name}.mid`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+
+  // saveByteArray("test_with_quantized_sequence.midi", midi_bytes_array);
 }
 
 async function playComposition(id) {
