@@ -1,6 +1,7 @@
 var AI_ACTIVE = false;
 var OCTAVE_OFFSET = 0;
 var RECORDING = false;
+var LOGGEDIN = false;
 /*************************
  * Consts for everyone!
  ************************/
@@ -98,6 +99,7 @@ async function adjustLogInStatus() {
 async function initialMethod() {
   const status = await adjustLogInStatus();
   if (status) {
+    LOGGEDIN = true;
     console.log(status);
     console.log("working");
     document.getElementById("infotext").innerHTML = "Press R to Record";
@@ -152,7 +154,7 @@ function showMainScreen() {
     if (event.key === "-") {
       octaveDown();
     }
-    if (event.key == "r") {
+    if (event.key == "r" && LOGGEDIN) {
       toggleRecording();
       console.log("recording");
     }
@@ -556,6 +558,7 @@ function logIn() {
         document.getElementById("logInPassword").value = "";
         document.querySelector("#infotext").innerHTML = "Press R to record";
         document.getElementById("signUpBtn").style.display = "none";
+        LOGGEDIN = true;
         alert(data.message);
         document.getElementById("logOutBtn").style.display = "block";
         document.getElementById("logInBtn").style.display = "none";
@@ -591,6 +594,7 @@ async function logOut() {
       document.getElementById("signUpBtn").style.display = "block";
       document.getElementById("recording-switch").style.display = "none";
       document.querySelector("#infotext").innerHTML = "";
+      LOGGEDIN = false;
     }
     console.log(data.message);
     alert(data.message);
