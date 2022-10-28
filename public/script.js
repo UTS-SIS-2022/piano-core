@@ -291,6 +291,7 @@ function buttonDown(button, fromKeyDown) {
     session.notes.push({
       pitch: pitch,
       startTime: Date.now() - startTime,
+      program: player.program,
     });
   }
   // Hear it.
@@ -513,7 +514,9 @@ async function toggleRecording() {
     document.querySelector("#infotext").style.color = "red";
     document.querySelector("#infotext").innerHTML = "Recording...";
     let timestamp = new Date();
-    session.timestamp = `${timestamp.toLocaleDateString('en-GB')} ${timestamp.toLocaleTimeString('en-AU')}`;
+    session.timestamp = `${timestamp.toLocaleDateString(
+      "en-GB"
+    )} ${timestamp.toLocaleTimeString("en-AU")}`;
     session.notes = [];
     const username = await adjustLogInStatus();
     session.username = username;
@@ -724,11 +727,44 @@ async function retrieveUserSession() {
     <h2>${session.name}</h2>
     <h3>${session.timestamp}</h3>
     <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
-    <button class="viewButton">Download Session</button>
+    <button class="viewButton" onClick="downloadComposition('${
+      session._id
+    }')">Download Composition</button>
+    <button class="replayButton" onClick="playComposition('${
+      session._id
+    }')">Replay Composition</button>
     </div>`
     )
     .join("");
 
   console.log(res);
   return res;
+}
+
+async function downloadComposition(id) {
+  fetch(`/api/composition/${id}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.blob();
+    })
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "session.json");
+      document.body.appendChild(link);
+      link.click();
+    });
+}
+
+async function playComposition(id) {
+  const response = await fetch(`/api/composition/${id}`, {
+    method: "GET",
+  });
+  const res = await response.json();
+
+  player.start(res);
+  console.log(session);
+  console.log("playComposition called");
 }

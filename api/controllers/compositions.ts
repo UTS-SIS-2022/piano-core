@@ -1,5 +1,5 @@
 import { NoteSequence } from "@magenta/music";
-import { FindCursor, InsertOneResult, MongoClient } from "mongodb";
+import { FindCursor, InsertOneResult, MongoClient, ObjectId } from "mongodb";
 import { db } from "../server";
 
 /**
@@ -35,8 +35,20 @@ export async function createComposition(
 export async function retrieveCompositions(user: string): Promise<FindCursor> {
   try {
     const documentPointer = db.compositionCollection.find({ user: user });
-    console.log(documentPointer)
+    console.log(documentPointer);
     return documentPointer;
+  } catch (e: any) {
+    console.error(e);
+    return e;
+  }
+}
+
+export async function getComposition(id: string) {
+  console.log(id);
+  try {
+    return await db.compositionCollection.findOne({
+      _id: new ObjectId(id),
+    });
   } catch (e: any) {
     console.error(e);
     return e;

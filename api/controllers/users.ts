@@ -63,8 +63,8 @@ export const logIn = async (req: any, res: any) => {
     const data = {
       username: req.session.user.username,
       errors: ["Already Logged in"],
-      message: "Already logged in"
-    }
+      message: "Already logged in",
+    };
     res.status(200);
     return data;
   } else {
@@ -102,31 +102,31 @@ export const isAuthenticated = async (req: any, res: any) => {
     try {
       res.status(200);
       console.log(req.session.user.username);
-      return { 
-        message: "Is authenticated", 
-        username: req.session.user.username
+      return {
+        message: "Is authenticated",
+        username: req.session.user.username,
       };
     } catch {
       res.status(500);
-      return { message: "Uncaught error" }
+      return { message: "Uncaught error" };
     }
   } else {
     res.status(404);
     return { message: "Not authenticated" };
   }
-}
+};
 
 export const logOut = async (req: any, res: any) => {
-  if(req.session.user){
+  if (req.session.user) {
     try {
       req.session.destroy();
       res.status(200);
       return { message: "Successfully logged out" };
     } catch {
       res.status(500);
-      return { message: "Uncaught error" }
+      return { message: "Uncaught error" };
     }
   } else {
-    return { message: "Must be Logged In" }
+    return { message: "Must be Logged In" };
   }
 };

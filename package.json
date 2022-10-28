@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "npx nodemon api/server.ts",
+    "dev": "npx nodemon api/server.ts --watch ./",
     "start": "ts-node api/server.ts"
   },
   "author": "",
