@@ -291,6 +291,7 @@ function buttonDown(button, fromKeyDown) {
     session.notes.push({
       pitch: pitch,
       startTime: Date.now() - startTime,
+      program: player.program,
     });
   }
   // Hear it.
@@ -513,7 +514,9 @@ async function toggleRecording() {
     document.querySelector("#infotext").style.color = "red";
     document.querySelector("#infotext").innerHTML = "Recording...";
     let timestamp = new Date();
-    session.timestamp = `${timestamp.toLocaleDateString('en-GB')} ${timestamp.toLocaleTimeString('en-AU')}`;
+    session.timestamp = `${timestamp.toLocaleDateString(
+      "en-GB"
+    )} ${timestamp.toLocaleTimeString("en-AU")}`;
     session.notes = [];
     const username = await adjustLogInStatus();
     session.username = username;
@@ -739,7 +742,7 @@ async function retrieveUserSession() {
 }
 
 async function downloadComposition(id) {
-  fetch(`/api/session/${id}`, {
+  fetch(`/api/composition/${id}`, {
     method: "GET",
   })
     .then((response) => {
@@ -756,7 +759,7 @@ async function downloadComposition(id) {
 }
 
 async function playComposition(id) {
-  const response = await fetch(`/api/session/${id}`, {
+  const response = await fetch(`/api/composition/${id}`, {
     method: "GET",
   });
   const res = await response.json();
