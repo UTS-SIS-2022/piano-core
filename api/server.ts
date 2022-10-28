@@ -38,8 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
-console.log(__dirname)
-
+console.log(__dirname);
 
 app.use(
   userSession({
@@ -53,7 +52,6 @@ app.use(
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-
 
 // start listening
 app.listen(process.env.PORT, () => {
@@ -88,7 +86,7 @@ app.post("/api/login", async (req: any, res: any) => {
   // keep the users controller as pure functions
   console.log(req.sessionID);
   const logInResponse = await logIn(req, res);
-  console.log(logInResponse)
+  console.log(logInResponse);
   res.send(logInResponse);
 });
 
@@ -102,7 +100,13 @@ app.get("/api/authenticated", async (req: any, res: any) => {
   console.log(req.sessionID);
   const autheticationResponse = await isAuthenticated(req, res);
   res.send(autheticationResponse);
-})
+});
+
+app.get("/api/composition/:id", async (req: any, res: any) => {
+  console.log(req.params.id);
+  const compositionResponse = await getComposition(req.params.id);
+  res.send(compositionResponse);
+});
 
 // retrieve compositions from mongodb by userid
 app.get("/api/session", async (req: any, res) => {
@@ -112,18 +116,14 @@ app.get("/api/session", async (req: any, res) => {
   // return;
   console.log("get session recieved");
   const user = req.session.user.username;
-  db.compositionCollection.find( {"$or":[{userId: user}, {username: user}] }).toArray((err: any, result: any) => {
-    if (err) throw console.error(err)
-    console.log(result.length);
+  db.compositionCollection
+    .find({ $or: [{ userId: user }, { username: user }] })
+    .toArray((err: any, result: any) => {
+      if (err) throw console.error(err);
+      console.log(result.length);
 
-    res.send(result)
-  })
+      res.send(result);
+    });
 });
-
-app.get("/api/session/:id", async (req: any, res) => {
-  console.log(req.params.id);
-  const composition = await getComposition(req.params.id);
-  res.send(composition);
-})
 
 app.use(express.static("public"));

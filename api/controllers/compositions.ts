@@ -46,11 +46,9 @@ export async function retrieveCompositions(user: string): Promise<FindCursor> {
 export async function getComposition(id: string) {
   console.log(id);
   try {
-    const documentPointer = await db.compositionCollection.findOne({
+    return await db.compositionCollection.findOne({
       _id: new ObjectId(id),
     });
-    console.log(documentPointer);
-    return documentPointer;
   } catch (e: any) {
     console.error(e);
     return e;
