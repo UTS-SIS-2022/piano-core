@@ -513,7 +513,7 @@ async function toggleRecording() {
     document.querySelector("#infotext").style.color = "red";
     document.querySelector("#infotext").innerHTML = "Recording...";
     let timestamp = new Date();
-    session.timestamp = timestamp.toLocaleDateString('en-GB');
+    session.timestamp = `${timestamp.toLocaleDateString('en-GB')} ${timestamp.toLocaleTimeString('en-AU')}`;
     session.notes = [];
     const username = await adjustLogInStatus();
     session.username = username;
