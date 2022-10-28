@@ -513,7 +513,7 @@ async function toggleRecording() {
     document.querySelector("#infotext").style.color = "red";
     document.querySelector("#infotext").innerHTML = "Recording...";
     let timestamp = new Date();
-    session.timestamp = timestamp;
+    session.timestamp = `${timestamp.toLocaleDateString('en-GB')} ${timestamp.toLocaleTimeString('en-AU')}`;
     session.notes = [];
     const username = await adjustLogInStatus();
     session.username = username;
@@ -714,13 +714,15 @@ async function retrieveUserSession() {
   const session = document.getElementById("sessionGrid");
 
   console.log(session);
+  console.log(res);
 
   session.innerHTML = res
     .map(
       (session) =>
         `
     <div class="session">
-    <h2><span>${session._id.substring(0, 8)}...</span></h2>
+    <h2>${session.name}</h2>
+    <h3>${session.timestamp}</h3>
     <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
     <button class="viewButton">Download Session</button>
     </div>`
