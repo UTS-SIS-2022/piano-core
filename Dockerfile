@@ -9,6 +9,8 @@ RUN --mount=type=secret,id=MONGO_CONNECTION_URI \
 
 RUN npm install
 
+ENV PORT=5500
+
 COPY . ./
 
 RUN npm install typescript
