@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "npx nodemon api/server.ts --watch ./",
-    "start": "ts-node api/server.ts"
+    "start": "ts-node api/server.ts",
+    "start:prod": "node dist/server.js"
   },
   "author": "",
   "license": "ISC",
