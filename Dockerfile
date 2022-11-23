@@ -2,7 +2,6 @@ FROM node:16-alpine
 
 WORKDIR /usr/src/app
 
-COPY .npmrc .npmrc
 COPY package.json package.json
 
 RUN --mount=type=secret,id=MONGO_CONNECTION_URI \
@@ -10,7 +9,7 @@ RUN --mount=type=secret,id=MONGO_CONNECTION_URI \
 
 RUN npm install
 
-COPY . ./dist
+COPY . ./
 
 RUN npm install typescript
 
