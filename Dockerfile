@@ -17,4 +17,4 @@ RUN npm install typescript
 
 RUN rm -f .npmrc
 
-CMD ["npm", "start"]
+CMD ["npm", "start:prod"]
