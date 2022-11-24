@@ -10,6 +10,7 @@ import {
 } from "./controllers/users";
 const cors = require("cors");
 const userSession = require("express-session");
+var path = require("path");
 
 // require dotenv to load environment variables
 require("dotenv").config();
@@ -37,7 +38,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 console.log(__dirname);
 
 app.use(
@@ -50,7 +51,7 @@ app.use(
 
 // serve landing page
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 // start listening

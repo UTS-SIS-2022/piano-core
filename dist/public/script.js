@@ -1,4 +1,4 @@
-var AI_ACTIVE = false;
+var AI_ACTIVE = true;
 var OCTAVE_OFFSET = 0;
 var RECORDING = false;
 var LOGGEDIN = false;

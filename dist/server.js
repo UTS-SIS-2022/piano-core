@@ -19,6 +19,7 @@ const compositions_1 = require("./controllers/compositions");
 const users_1 = require("./controllers/users");
 const cors = require("cors");
 const userSession = require("express-session");
+var path = require("path");
 // require dotenv to load environment variables
 require("dotenv").config();
 const mongo_1 = require("./config/mongo");
@@ -38,7 +39,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use(cors());
-app.use(express_1.default.static("public"));
+app.use(express_1.default.static(__dirname + "/public"));
 console.log(__dirname);
 app.use(userSession({
     secret: "secret",
@@ -47,7 +48,7 @@ app.use(userSession({
 }));
 // serve landing page
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
+    res.sendFile(__dirname + "/public/index.html");
 });
 // start listening
 app.listen(process.env.PORT, () => {
