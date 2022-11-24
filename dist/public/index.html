@@ -1,2463 +1,291 @@
 <!DOCTYPE html>
-<base href="/" />
 <html lang="en">
-  <head>
-    <title>AI Jam</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins"
-      rel="stylesheet"
-    />
-    <!-- <link rel="stylesheet" href="/style.css" /> -->
-    <style>
-    body {
-  padding-top: 100px;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  overflow: hidden;
-  width: 100vw;
-  background: #141e30;
-  background: linear-gradient(
-    359.72deg,
-    #000000 -3.01%,
-    rgba(0, 7, 10, 0.625) 109.72%,
-    rgba(146, 163, 255, 0) 109.73%,
-    rgba(253, 0, 0, 0) 109.73%
-  );
-  color: white;
-  font-family: "Poppins", sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  touch-action: manipulation;
-  /* disable double-tap zoom */
-  overscroll-behavior-y: contain;
-}
 
-html,
-body {
-  height: 100%;
-}
-
-html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-[disabled] {
-  pointer-events: none;
-  opacity: 0.3;
-}
-
-.background {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-    359.72deg,
-    #000000 -3.01%,
-    rgba(0, 7, 10, 0.625) 60%,
-    rgba(146, 163, 255, 0) 109.73%,
-    rgba(253, 0, 0, 0) 109.73%
-  );
-}
-
-.color-0 {
-  background: #ee2b29;
-  fill: #ee2b29;
-}
-
-.color-1 {
-  background: #ff9800;
-  fill: #ff9800;
-}
-
-.color-2 {
-  background: #ffff00;
-  fill: #ffff00;
-}
-
-.color-3 {
-  background: #c6ff00;
-  fill: #c6ff00;
-}
-
-.color-4 {
-  background: #00e5ff;
-  fill: #00e5ff;
-}
-
-.color-5 {
-  background: #2979ff;
-  fill: #2979ff;
-}
-
-.color-6 {
-  background: #651fff;
-  fill: #651fff;
-}
-
-.color-7 {
-  background: #d500f9;
-  fill: #d500f9;
-}
-
-.color-10 {
-  background: #ff1744;
-  fill: #ff1744;
-}
-
-canvas {
-  position: absolute;
-  top: 70px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-#svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-#svg rect {
-  transition: all 0.2s linear;
-}
-
-h1 {
-  text-transform: uppercase;
-  font-size: 40px;
-}
-
-.splash a:link,
-a:visited {
-  color: #cdf352;
-}
-
-.splash-main b {
-  background: #cdf352;
-  color: black;
-  padding: 0 4px;
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  width: 80vw;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 20px;
-  height: 100px;
-  z-index: 2;
-  padding: 15px;
-  border-radius: 45px;
-  background: linear-gradient(145deg, #f0f0f0, #cacaca);
-  /* box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff; */
-}
-
-.controls button {
-  border: none;
-  box-shadow: none;
-  margin: 10px;
-  padding: 0;
-  flex-grow: 1;
-  height: 100%;
-  width: 100%;
-  transition: transform 0.2s linear;
-  font-family: inherit;
-  font-size: 20px;
-  font-weight: bold;
-  -webkit-user-select: none;
-  border-radius: 10px;
-  /* Safari 3.1+ */
-  -moz-user-select: none;
-  /* Firefox 2+ */
-  -ms-user-select: none;
-  /* IE 10+ */
-  user-select: none;
-  /* Standard syntax */
-  line-height: 1;
-}
-
-.controls button[active] {
-  transform: scale(0.9, 0.9);
-}
-
-.controls button.settings {
-  position: relative;
-  background: transparent;
-  fill: white;
-  cursor: pointer;
-}
-.controls button.octave {
-  position: relative;
-  height: 50%;
-  cursor: pointer;
-}
-.controls button.octave.octave-button {
-  position: relative;
-  height: 50%;
-}
-
-.controls button.octave[active] {
-  transform: scale(0.9, 0.9);
-}
-
-button.octave-button {
-  cursor: pointer;
-  font-size: large;
-  border-radius: 90px;
-}
-
-button.octave-button:hover {
-  background-color: #cdf352;
-}
-
-.controls button.settings:hover {
-  fill: #cdf352;
-}
-
-.controls button span {
-  pointer-events: none;
-}
-
-.rotate-phone {
-  display: none;
-}
-
-.phone-icon {
-  position: relative;
-  height: 60px;
-  width: 60px;
-  margin: 0 auto;
-  fill: white;
-  animation: rotate 4s infinite ease-in-out;
-}
-
-@keyframes rotate {
-  0%,
-  10% {
-    transform: rotate(0deg);
-  }
-
-  40%,
-  60% {
-    transform: rotate(-90deg);
-  }
-
-  95%,
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .controls {
-    height: 70px;
-    width: 100vw;
-  }
-
-  canvas {
-    top: 70px;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  /*   .splash {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
-    } */
-
-  .rotate-phone {
-    display: block;
-  }
-}
-
-.splash {
-  font-size: 16px;
-  padding: 20px;
-  line-height: 1.5;
-  width: 100%;
-  max-width: 700px;
-  overflow: auto;
-}
-
-button.splash-button {
-  cursor: pointer;
-  margin: auto;
-  padding: 14px;
-  font-family: inherit;
-  font-size: 22px;
-  display: inline;
-  border: 2px solid #cdf352;
-  background-color: transparent;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #cdf352;
-  text-align: center;
-  transition: background-color 0.2s linear;
-  width: 200px;
-  border-radius: 15px;
-}
-
-button.splash-button:hover {
-  background-color: #cdf352;
-  color: black;
-}
-
-button.splash-button.small {
-  padding: 8px;
-  margin: 5px;
-  font-size: 16px;
-  border-radius: 15px;
-}
-
-.splash-button.loading span {
-  animation: pulsing-fade 1.2s ease-in-out infinite;
-}
-
-@keyframes pulsing-fade {
-  50% {
-    opacity: 0.3;
-  }
-}
-
-.dialog {
-  /*display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto auto auto auto;
-    justify-content: space-evenly; */
-  font-weight: 100;
-  background: #1c2c42;
-  color: white;
-  padding: 24px;
-  z-index: 10;
-  position: absolute; /*********************** WAS FIXED **/
-  top: 100px;
-  left: 50%;
-  width: 200%;
-  max-height: 650px;
-  max-width: 700px;
-  transform: translateX(-50%);
-  border: 2px solid #cdf352;
-  -webkit-box-shadow: 8px 8px 0 #cdf352;
-  box-shadow: 8px 8px 0 #cdf352;
-  text-align: left;
-  border-radius: 15px;
-}
-
-.dialog .grid1 {
-  display: grid;
-  grid-template-columns: auto 20px auto;
-  grid-template-rows: auto auto;
-}
-
-.dialog .item {
-  background: #1c2c42;
-}
-
-.dialog select {
-  color: white;
-  font-family: inherit;
-  font-size: 14px;
-  border: none;
-  border-bottom: 2px solid #cdf352;
-  background: #1c2c42;
-  box-shadow: none;
-  margin-bottom: 6px;
-  width: 200px;
-  height: 25px;
-}
-
-.dialog .close-btn {
-  color: #cdf352;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.dialog .close-btn:hover,
-.dialog .close-btn:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.controls-container {
-  display: flex;
-  justify-content: baseline;
-  align-items: center;
-  flex-direction: column;
-}
-
-.options {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-}
-
-/***********************
-   * Radio buttons
-   ***********************/
-.control-indicator {
-  border: solid #cdf352 2px;
-  color: #cdf352;
-  border-radius: 2px;
-}
-
-label.radio {
-  position: relative;
-  display: inline-block;
-  padding-left: 24px;
-  margin-right: 24px;
-  cursor: pointer;
-}
-
-label.radio > input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
-}
-
-label.radio > input:checked ~ .control-indicator {
-  background-color: #cdf352;
-}
-
-label.radio > .control-indicator {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-#inputNumButtons {
-  vertical-align: middle;
-}
-
-/***********************
-   * Toggle
-   ***********************/
-.toggles {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-}
-
-ul,
-li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.tg-list {
-  text-align: center;
-  display: flex;
-  align-items: center;
-}
-.tg-list-item {
-  margin: 0 2em;
-}
-h2 {
-  color: #cdf352;
-}
-h4 {
-  color: #999;
-}
-.tgl {
-  display: none;
-}
-.tgl,
-.tgl:after,
-.tgl:before,
-.tgl *,
-.tgl *:after,
-.tgl *:before,
-.tgl + .tgl-btn {
-  box-sizing: border-box;
-}
-.tgl::selection,
-.tgl:after::selection,
-.tgl:before::selection,
-.tgl *::selection,
-.tgl *:after::selection,
-.tgl *:before::selection,
-.tgl + .tgl-btn::selection {
-  background: none;
-}
-.tgl + .tgl-btn {
-  outline: 0;
-  display: block;
-  width: 4em;
-  height: 2em;
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-}
-.tgl + .tgl-btn:after,
-.tgl + .tgl-btn:before {
-  position: relative;
-  display: block;
-  content: "";
-  width: 50%;
-  height: 100%;
-}
-.tgl + .tgl-btn:after {
-  left: 0;
-}
-.tgl + .tgl-btn:before {
-  display: none;
-}
-.tgl:checked + .tgl-btn:after {
-  left: 50%;
-}
-
-.tgl-skewed + .tgl-btn {
-  overflow: hidden;
-  transform: skew(-10deg);
-  backface-visibility: hidden;
-  transition: all 0.2s ease;
-  font-family: sans-serif;
-  background: #888;
-}
-.tgl-skewed + .tgl-btn:after,
-.tgl-skewed + .tgl-btn:before {
-  transform: skew(10deg);
-  display: inline-block;
-  transition: all 0.2s ease;
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  line-height: 2em;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-}
-.tgl-skewed + .tgl-btn:after {
-  left: 100%;
-  content: attr(data-tg-on);
-}
-.tgl-skewed + .tgl-btn:before {
-  left: 0;
-  content: attr(data-tg-off);
-}
-.tgl-skewed + .tgl-btn:active {
-  background: #888;
-}
-.tgl-skewed + .tgl-btn:active:before {
-  left: -10%;
-}
-.tgl-skewed:checked + .tgl-btn {
-  background: #86d993;
-}
-.tgl-skewed:checked + .tgl-btn:before {
-  left: -100%;
-}
-.tgl-skewed:checked + .tgl-btn:after {
-  left: 0;
-}
-.tgl-skewed:checked + .tgl-btn:active:after {
-  left: 10%;
-}
-
-.title {
-  margin-bottom: 5px;
-  color: white;
-  text-align: center;
-}
-
-/***********************
-   * Octave Buttons
-   ***********************/
-
-.octave {
-  border-radius: 10px;
-  border: none;
-}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 20; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-/* User session styles */
-
-.username {
-  text-transform: none;
-  font-weight: 900;
-}
-
-/* Logout styles */
-#logOutBtn {
-  color: red;
-  display: none;
-}
-
-/* Login Modal */
-.loginModal-content {
-  background-color: #141e30;
-  margin: 15% auto;
-  padding: 20px;
-  width: 20%; /* Could be more or less, depending on screen size */
-  border: 2px solid #cdf352;
-  border-radius: 15px;
-  text-align: center;
-}
-
-.loginModal-content .form h2 {
-  text-align: center;
-  margin: 10px 0px 20px;
-}
-
-.loginModal-content .form .form-element {
-  margin: 15px 0px;
-}
-
-.loginModal-content .form .form-element label {
-  font-size: 18px;
-}
-
-.loginModal-content .form .form-element input[type="text"],
-.loginModal-content .form .form-element input[type="password"] {
-  margin-top: 5px;
-  display: block;
-  width: 100%;
-  padding: 5px;
-  outline: none;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-}
-
-.loginModal-content .form .form-element input[type="checkbox"] {
-  margin-right: 5px;
-}
-
-.loginModal-content .form .form-element button {
-  width: 100%;
-  height: 30px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: #cdf352;
-  color: black;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.loginModal-content .form .form-element button:hover {
-  width: 100%;
-  height: 30px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: grey;
-  color: #cdf352;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.loginModal-content .form .form-element a {
-  display: block;
-  text-align: right;
-  font-size: 15px;
-  color: #1a79ca;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-/*SignUP */
-.signUpModal-content {
-  background-color: #141e30;
-  margin: 15% auto;
-  padding: 20px;
-  width: 20%; /* Could be more or less, depending on screen size */
-  border: 2px solid #cdf352;
-  border-radius: 15px;
-  text-align: center;
-}
-
-.signUpModal-content .form h2 {
-  text-align: center;
-  margin: 10px 0px 20px;
-}
-
-.signUpModal-content .form .form-element {
-  margin: 15px 0px;
-}
-
-.signUpModal-content .form .form-element label {
-  font-size: 18px;
-}
-
-.signUpModal-content .form .form-element input[type="text"],
-.signUpModal-content .form .form-element input[type="password"] {
-  margin-top: 5px;
-  display: block;
-  width: 100%;
-  padding: 5px;
-  outline: none;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-}
-
-.signUpModal-content .form .form-element button {
-  width: 100%;
-  height: 30px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: #cdf352;
-  color: black;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.signUpModal-content .form .form-element button:hover {
-  width: 100%;
-  height: 30px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  background: black;
-  color: #cdf352;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.signUpModal-content .form .form-element a {
-  display: block;
-  text-align: right;
-  font-size: 15px;
-  color: #1a79ca;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.sessionModal-content {
-  background-color: #141e30;
-  margin: 15% auto;
-  padding: 20px;
-  width: 50%; /* Could be more or less, depending on screen size */
-  border: 2px solid #cdf352;
-  border-radius: 15px;
-  text-align: center;
-}
-
-#sessionGrid{
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-}
-
-.session{
-  border: 2px solid #cdf352;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px;
-}
-
-.viewButton{
-  background: lightgrey;
-  outline: none;
-  border-radius: 2px;
-  margin-bottom: 5px;
-}
-
-.replayButton {
-  background: lightgrey;
-  outline: none;
-  border-radius: 2px;
-  margin-bottom: 5px;
-}
-
-/* Modal Close Buttons */
-._close {
-  color: #cdf352;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-._close:hover,
-._close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.close {
-  color: #cdf352;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/***********************
- * Drop Down Button
- ***********************/
-
-.octave {
-  border-radius: 10px;
-  border: none;
-}
-
-/***********************
- * Drop Down Button
- ***********************/
-
-#instruments {
-  outline: none;
-}
-
-/***********************
-   Users
-   ***********************/
-.users {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  padding: 1px;
-}
-
-/***********************
-    Recorded Sessions
-   ***********************/
-
-#infobox h1 {
-  position: absolute;
-  z-index: 2;
-  color: gray;
-  margin-top: 500px;
-} 
-
-.sessions {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  padding: 10px;
-}
-
-button.recordedSessionsBtn {
-  cursor: pointer;
-  background-color: transparent;
-  color: white;
-  border: #1c2c42;
-  font-family: sans-serif;
-  font-size: 14px;
-}
-
-button.recordedSessionsBtn:hover {
-  cursor: pointer;
-  background-color: #cdf352;
-  color: #1c2c42;
-  border: #1c2c42;
-  border-radius: 15px;
-}
-</style>
-    <link
-      id="favicon"
-      rel="icon"
-      href="https://cdn.glitch.com/69295b46-7d64-4ff6-8223-94cba13ee115%2Ffavicon-32x32.png?1542832173836"
-      type="image/x-icon"
-    />
-    
-  </head>
-
-  <body>
-    <div class="splash">
-      <h1>AI Jam</h1>
-      <h2>Welcome Back <span class="username"></span></h2>
-      <div class="splash-main">
-        <p>
-          Have some fun pretending you're a piano virtuoso using machine
-          learning!
-        </p>
-        <p>
-          Use the <b>1-8</b> numbered keys on your keyboard (or the home row
-          <b>a-f</b> and <b>j-;</b>) or <b>touch</b> the coloured blocks to play
-          the piano. Use the <b>space bar</b> to control the sustain pedal. The
-          more you pretend you're a real player, the better the melody (and
-          you!) will sound.
-        </p>
-
-        <div class="rotate-phone" hidden>
-          <div class="phone-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z"
-              />
-              <path d="M0 0h24v24H0z" fill="none" />
-            </svg>
-          </div>
-          This works best if your phone is rotated in landscape mode. <br />
-        </div>
-
-        <button
-          class="splash-button loading"
-          id="playBtn"
-          disabled
-          onclick="showMainScreen()"
-          autofocus
-        >
-          <span>Loading...</span>
-        </button>
-      </div>
-      <p class="built-with">
-        Built with
-        <a target="_blank" href="https://magenta.tensorflow.org">magenta.js</a>
-        as a partial satisfaction of Software<br />
-        Innovation Studio, UTS 2022. See the code on
-        <a target="_blank" href="https://github.com/UTS-SIS-2022/piano-core"
-          >GitHub</a
-        >.
+<head>
+  <title>AI Jam</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <link id="favicon" rel="icon"
+    href="https://cdn.glitch.com/69295b46-7d64-4ff6-8223-94cba13ee115%2Ffavicon-32x32.png?1542832173836"
+    type="image/x-icon" />
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.3.1"></script>
+  <script src="/helpers.js" defer></script>
+  <script src="/script.js" defer></script>
+</head>
+
+<body>
+  <div class="splash">
+    <h1>AI Jam</h1>
+    <h2>Welcome Back <span class="username"></span></h2>
+    <div class="splash-main">
+      <p>
+        Have some fun pretending you're a piano virtuoso using machine
+        learning!
       </p>
+      <p>
+        Use the <b>1-8</b> numbered keys on your keyboard (or the home row
+        <b>a-f</b> and <b>j-;</b>) or <b>touch</b> the coloured blocks to play
+        the piano. Use the <b>space bar</b> to control the sustain pedal. The
+        more you pretend you're a real player, the better the melody (and
+        you!) will sound.
+      </p>
+
+      <div class="rotate-phone" hidden>
+        <div class="phone-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+            <path
+              d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z" />
+            <path d="M0 0h24v24H0z" fill="none" />
+          </svg>
+        </div>
+        This works best if your phone is rotated in landscape mode. <br />
+      </div>
+
+      <button class="splash-button loading" id="playBtn" disabled onclick="showMainScreen()" autofocus>
+        <span>Loading...</span>
+      </button>
+    </div>
+    <p class="built-with">
+      Built with
+      <a target="_blank" href="https://magenta.tensorflow.org">magenta.js</a>
+      as a partial satisfaction of Software<br />
+      Innovation Studio, UTS 2022. See the code on
+      <a target="_blank" href="https://github.com/UTS-SIS-2022/piano-core">GitHub</a>.
+    </p>
+  </div>
+
+  <div class="loaded" hidden>
+    <div id="infobox">
+      <h1 id="infotext"></h1>
+    </div>
+    <div class="background"></div>
+    <canvas id="canvas"></canvas>
+
+    <svg id="svg"></svg>
+    <div class="controls-container">
+      <div class="controls" id="controls">
+        <button class="color color-0" id="btn0" data-id="0">
+          <span></span>
+        </button>
+        <button class="color color-1" id="btn1" data-id="1">
+          <span></span>
+        </button>
+        <button class="color color-2" id="btn2" data-id="2">
+          <span></span>
+        </button>
+        <button class="color color-3" id="btn3" data-id="3">
+          <span></span>
+        </button>
+        <button class="color color-4" id="btn4" data-id="4">
+          <span></span>
+        </button>
+        <button class="color color-5" id="btn5" data-id="5">
+          <span></span>
+        </button>
+        <button class="color color-6" id="btn6" data-id="6">
+          <span></span>
+        </button>
+        <button class="color color-7" id="btn7" data-id="7">
+          <span></span>
+        </button>
+        <div class="options">
+          <button class="settings" onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()"
+            id="btnSettings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20">
+              <path fill="none" d="M0 0h20v20H0V0z" />
+              <path
+                d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z" />
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="loaded" hidden>
-      <div id="infobox">
-        <h1 id="infotext"></h1>
+    <div class="dialog" id="settingsBox" hidden>
+      <div class="close-btn" title="Close" onClick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()">
+        &times;
       </div>
-      <div class="background"></div>
-      <canvas id="canvas"></canvas>
-
-      <svg id="svg"></svg>
-      <div class="controls-container">
-        <div class="controls" id="controls">
-          <button class="color color-0" id="btn0" data-id="0">
-            <span></span>
-          </button>
-          <button class="color color-1" id="btn1" data-id="1">
-            <span></span>
-          </button>
-          <button class="color color-2" id="btn2" data-id="2">
-            <span></span>
-          </button>
-          <button class="color color-3" id="btn3" data-id="3">
-            <span></span>
-          </button>
-          <button class="color color-4" id="btn4" data-id="4">
-            <span></span>
-          </button>
-          <button class="color color-5" id="btn5" data-id="5">
-            <span></span>
-          </button>
-          <button class="color color-6" id="btn6" data-id="6">
-            <span></span>
-          </button>
-          <button class="color color-7" id="btn7" data-id="7">
-            <span></span>
-          </button>
-          <div class="options">
-            <button
-              class="settings"
-              onclick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()"
-              id="btnSettings"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
-                viewBox="0 0 20 20"
-              >
-                <path fill="none" d="M0 0h20v20H0V0z" />
-                <path
-                  d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="dialog" id="settingsBox" hidden>
-        <div
-          class="close-btn"
-          title="Close"
-          onClick="settingsBox.hidden = !settingsBox.hidden; toggleSettings()"
-        >
-          &times;
-        </div>
-        <h2 id="loggedInAs"></h2>
-        <div class="grid1">
-          <div>
-            <h2>Input Settings</h2>
-            <p>
-              <label class="radio">
-                Current device (computer/phone)
-                <input name="input" type="radio" id="radioDeviceYes" checked />
-                <span class="control-indicator"></span>
-              </label>
-              <br />
-              <label class="radio">
-                Makey Makey
-                <input name="input" type="radio" id="radioMakeyYes" />
-                <span class="control-indicator"></span>
-              </label>
-              <br />
-              <label class="radio">
-                MIDI Input
-                <input name="input" type="radio" id="radioMidiInYes" />
-                <span class="control-indicator"></span>
-              </label>
-              <span id="midiInBox" hidden>
-                <select id="selectIn"></select>
-              </span>
-            </p>
-          </div>
-
-          <div class="item"></div>
-
-          <!-- <h2>Piano Controls</h2> -->
-
-          <div class="octave" id="octave">
-            <h2>Octaves</h2>
-            <button
-              class="octave-button"
-              id="btn8"
-              data-id="8"
-              onclick="octaveDown()"
-            >
-              <span>-</span>
-            </button>
-            <button
-              class="octave-button"
-              id="btn9"
-              data-id="9"
-              onclick="octaveUp()"
-            >
-              <span>+</span>
-            </button>
-          </div>
-
-          <div>
-            <h2>Audio Output Settings</h2>
-            <p>
-              <label class="radio">
-                Current device (computer/phone)
-                <input name="output" type="radio" id="radioAudioYes" checked />
-                <span class="control-indicator"></span>
-              </label>
-              <br />
-              <label class="radio">
-                MIDI Output
-                <input name="output" type="radio" id="radioMidiOutYes" />
-                <span class="control-indicator"></span>
-              </label>
-              <span id="midiOutBox" hidden>
-                <select id="selectOut"></select>
-              </span>
-            </p>
-          </div>
-
-          <div class="item"></div>
-
-          <div>
-            <h2>Instrument Selection</h2>
-            <select
-              name="instruments"
-              id="instruments"
-              onchange="onInstrumentSelect()"
-            ></select>
-          </div>
-
-          <p id="midiNotSupported">
-            Unfortunately, this browser does not support WebMIDI, which is only
-            supported in Chrome and Opera.
+      <h2 id="loggedInAs"></h2>
+      <div class="grid1">
+        <div>
+          <h2>Input Settings</h2>
+          <p>
+            <label class="radio">
+              Current device (computer/phone)
+              <input name="input" type="radio" id="radioDeviceYes" checked />
+              <span class="control-indicator"></span>
+            </label>
+            <br />
+            <label class="radio">
+              Makey Makey
+              <input name="input" type="radio" id="radioMakeyYes" />
+              <span class="control-indicator"></span>
+            </label>
+            <br />
+            <label class="radio">
+              MIDI Input
+              <input name="input" type="radio" id="radioMidiInYes" />
+              <span class="control-indicator"></span>
+            </label>
+            <span id="midiInBox" hidden>
+              <select id="selectIn"></select>
+            </span>
           </p>
         </div>
 
-        <div class="toggles">
-          <li class="tg-list-item">
-            <h4 class="title">AI</h4>
-            <input
-              class="tgl tgl-skewed"
-              id="ai-button"
-              type="checkbox"
-              onclick="toggleAi()"
-            />
-            <label
-              class="tgl-btn"
-              data-tg-off="OFF"
-              data-tg-on="ON"
-              for="ai-button"
-            ></label>
-          </li>
-          <li class="tg-list-item" id="recording-switch">
-            <h4 class="title">Recording</h4>
-            <input
-              class="tgl tgl-skewed"
-              id="record-button"
-              onclick="toggleRecording()"
-              type="checkbox"
-            />
-            <label
-              class="tgl-btn"
-              data-tg-off="OFF"
-              data-tg-on="ON"
-              for="record-button"
-            ></label>
-          </li>
-        </div>
+        <div class="item"></div>
 
-        <div class="sessions">
-          <button
-            id="recordedSessionsBtn"
-            class="recordedSessionsBtn"
-            onclick="grabSessionUser()"
-          >
-            View Recorded Sessions
+        <!-- <h2>Piano Controls</h2> -->
+
+        <div class="octave" id="octave">
+          <h2>Octaves</h2>
+          <button class="octave-button" id="btn8" data-id="8" onclick="octaveDown()">
+            <span>-</span>
+          </button>
+          <button class="octave-button" id="btn9" data-id="9" onclick="octaveUp()">
+            <span>+</span>
           </button>
         </div>
 
-        <div class="users">
-          <!-- Login/Sign Up Buttons -->
-          <button id="logInBtn" class="splash-button small">Sign In</button>
-
-          <button id="logOutBtn" onclick="logOut()" class="splash-button small">
-            Sign Out as <span class="username"></span>
-          </button>
-
-          <button id="signUpBtn" class="splash-button small" onclick="signUp()" >Sign Up</button>
+        <div>
+          <h2>Audio Output Settings</h2>
+          <p>
+            <label class="radio">
+              Current device (computer/phone)
+              <input name="output" type="radio" id="radioAudioYes" checked />
+              <span class="control-indicator"></span>
+            </label>
+            <br />
+            <label class="radio">
+              MIDI Output
+              <input name="output" type="radio" id="radioMidiOutYes" />
+              <span class="control-indicator"></span>
+            </label>
+            <span id="midiOutBox" hidden>
+              <select id="selectOut"></select>
+            </span>
+          </p>
         </div>
+
+        <div class="item"></div>
+
+        <div>
+          <h2>Instrument Selection</h2>
+          <select name="instruments" id="instruments" onchange="onInstrumentSelect()"></select>
+        </div>
+
+        <p id="midiNotSupported">
+          Unfortunately, this browser does not support WebMIDI, which is only
+          supported in Chrome and Opera.
+        </p>
       </div>
-    </div>
-  </body>
 
-  <!-- Log In Modal -->
-  <div id="loginModal" class="modal">
-    <!-- Modal content -->
-    <div class="loginModal-content">
-      <span title="Close" class="_close">&times;</span>
-      <div class="form">
-        <h2>Log In</h2>
-        <div class="form-element">
-          <label for="username">Username:</label>
-          <input
-            type="text"
-            id="logInUsername"
-            placeholder="Enter username"
-            required
-          />
-        </div>
-        <div class="form-element">
-          <label for="password">Password:</label>
-          <input
-            type="text"
-            id="logInPassword"
-            placeholder="Enter password"
-            required
-          />
-        </div>
-        <div class="form-element">
-          <input type="checkbox" onclick="hidePassword()" />Hide Password
-        </div>
-        <div class="form-element">
-          <button onclick="logIn()">Sign In</button>
-        </div>
-        <div class="form-element">
-          <a
-            href="https://media.cnn.com/api/v1/images/stellar/prod/210212094508-20210212-laugh-cry-emoji-gfx.jpg?q=x_0,y_0,h_619,w_1100,c_fill/h_720,w_1280"
-            >Forgot password?</a
-          >
-        </div>
+      <div class="toggles">
+        <li class="tg-list-item">
+          <h4 class="title">AI</h4>
+          <input class="tgl tgl-skewed" id="ai-button" type="checkbox" onclick="toggleAi()" />
+          <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="ai-button"></label>
+        </li>
+        <li class="tg-list-item" id="recording-switch">
+          <h4 class="title">Recording</h4>
+          <input class="tgl tgl-skewed" id="record-button" onclick="toggleRecording()" type="checkbox" />
+          <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="record-button"></label>
+        </li>
       </div>
-    </div>
-  </div>
 
-  <!-- Sign Up Modal -->
-  <div id="signUpModal" class="modal">
-    <!-- Modal content -->
-    <div class="signUpModal-content">
-      <span
-        title="Close"
-        onclick="document.getElementById('signUpModal').style.display='none'"
-        class="close"
-        >&times;</span
-      >
-      <div class="form">
-        <h2>Create an Account</h2>
-        <div class="form-element">
-          <label for="username">Username:</label>
-          <input
-            type="text"
-            id="signUpUsername"
-            placeholder="Enter username"
-            required
-          />
-        </div>
-        <div class="form-element">
-          <label for="password">Password:</label>
-          <input
-            type="text"
-            id="signUpPassword"
-            placeholder="Enter password"
-            required
-          />
-        </div>
-        <div class="form-element">
-          <input type="checkbox" onclick="hidePassword()" />Hide Password
-        </div>
-        <div class="form-element">
-          <button onclick="signUp()">Sign Up</button>
-        </div>
+      <div class="sessions">
+        <button id="recordedSessionsBtn" class="recordedSessionsBtn" onclick="grabSessionUser()">
+          View Recorded Sessions
+        </button>
+      </div>
+
+      <div class="users">
+        <!-- Login/Sign Up Buttons -->
+        <button id="logInBtn" class="splash-button small">Sign In</button>
+
+        <button id="logOutBtn" onclick="logOut()" class="splash-button small">
+          Sign Out as <span class="username"></span>
+        </button>
+
+        <button id="signUpBtn" class="splash-button small" onclick="signUp()">Sign Up</button>
       </div>
     </div>
   </div>
+</body>
 
-  <!-- Session Modal -->
-  <div id="sessionModal" class="modal">
-    <!-- Session Modal content -->
-    <div class="sessionModal-content">
-      <div class="modal-header">
-        <span
-        title="Close"
-        onclick="document.getElementById('sessionModal').style.display='none'"
-        class="close"
-        >&times;</span
-      >
+<!-- Log In Modal -->
+<div id="loginModal" class="modal">
+  <!-- Modal content -->
+  <div class="loginModal-content">
+    <span title="Close" class="_close">&times;</span>
+    <div class="form">
+      <h2>Log In</h2>
+      <div class="form-element">
+        <label for="username">Username:</label>
+        <input type="text" id="logInUsername" placeholder="Enter username" required />
+      </div>
+      <div class="form-element">
+        <label for="password">Password:</label>
+        <input type="text" id="logInPassword" placeholder="Enter password" required />
+      </div>
+      <div class="form-element">
+        <input type="checkbox" onclick="hidePassword()" />Hide Password
+      </div>
+      <div class="form-element">
+        <button onclick="logIn()">Sign In</button>
+      </div>
+      <div class="form-element">
+        <a
+          href="https://media.cnn.com/api/v1/images/stellar/prod/210212094508-20210212-laugh-cry-emoji-gfx.jpg?q=x_0,y_0,h_619,w_1100,c_fill/h_720,w_1280">Forgot
+          password?</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="modal">
+  <!-- Modal content -->
+  <div class="signUpModal-content">
+    <span title="Close" onclick="document.getElementById('signUpModal').style.display='none'"
+      class="close">&times;</span>
+    <div class="form">
+      <h2>Create an Account</h2>
+      <div class="form-element">
+        <label for="username">Username:</label>
+        <input type="text" id="signUpUsername" placeholder="Enter username" required />
+      </div>
+      <div class="form-element">
+        <label for="password">Password:</label>
+        <input type="text" id="signUpPassword" placeholder="Enter password" required />
+      </div>
+      <div class="form-element">
+        <input type="checkbox" onclick="hidePassword()" />Hide Password
+      </div>
+      <div class="form-element">
+        <button onclick="signUp()">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Session Modal -->
+<div id="sessionModal" class="modal">
+  <!-- Session Modal content -->
+  <div class="sessionModal-content">
+    <div class="modal-header">
+      <span title="Close" onclick="document.getElementById('sessionModal').style.display='none'"
+        class="close">&times;</span>
       <h2>Sessions by <span class="username"></span></h2>
-        <div id="sessionGrid">
-        </div>
+      <div id="sessionGrid">
       </div>
     </div>
-    </div>
   </div>
-  <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/@magenta/music@1.3.1"></script>
-  <script type="application/javascript" defer>
-    const CONSTANTS = {
-      AI_ACTIVE: false,
-      COLORS: [
-        "#EE2B29",
-        "#ff9800",
-        "#ffff00",
-        "#c6ff00",
-        "#00e5ff",
-        "#2979ff",
-        "#651fff",
-        "#d500f9",
-      ],
-      NUM_BUTTONS: 8,
-      NOTES_PER_OCTAVE: 12,
-      WHITE_NOTES_PER_OCTAVE: 7,
-      LOWEST_PIANO_KEY_MIDI_NOTE: 21,
-      GENIE_CHECKPOINT:
-        "https://storage.googleapis.com/magentadata/js/checkpoints/piano_genie/model/epiano/stp_iq_auto_contour_dt_166006",
-    };
+</div>
+</div>
 
-    async function generateSoundFontPlayers() {
-      const baseUrl = "https://storage.googleapis.com/magentadata/js/soundfonts/";
-      const response = await (
-        await fetch(`${baseUrl}sgm_plus/soundfont.json`)
-      ).json();
-      console.log(response);
-      const instruments = Object.values(response.instruments);
-      const select = document.getElementById("instruments");
-      select.innerHTML = instruments.map((i) => `<option>${i}</option>`).join("");
-    }
-
-    const soundFontData = generateSoundFontPlayers();
-
-    /*************************
-     * MIDI or Magenta player
-     ************************/
-    class Player {
-      baseUrl = "https://storage.googleapis.com/magentadata/js/soundfonts";
-      constructor() {
-        this.program = 0; //Initial instrument is Acoustic Grand Piano
-        this.player = new mm.SoundFontPlayer(`${this.baseUrl}/sgm_plus`); // use salamander instruments by default
-        this.midiOut = [];
-        this.midiIn = [];
-        this.usingMidiOut = false;
-        this.usingMidiIn = false;
-        this.selectOutElement = document.getElementById("selectOut");
-        this.selectInElement = document.getElementById("selectIn");
-        this.loadAllSamples();
-      }
-
-      // change the instrument
-      changeInstrument() {
-        const instrument = document.getElementById("instruments");
-        const selectedIndex = instrument.selectedIndex;
-        this.program = selectedIndex;
-        this.loadAllSamples();
-      }
-
-      start(noteSequence) {
-        this.player.start(noteSequence);
-      }
-
-      stop() {
-        this.player.stop();
-      }
-
-      loadAllSamples() {
-        const seq = { notes: [] };
-        for (let i = 0; i < CONSTANTS.NOTES_PER_OCTAVE * OCTAVES; i++) {
-          seq.notes.push({
-            pitch: CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + i,
-            program: this.program,
-          });
-        }
-        this.player.loadSamples(seq);
-      }
-
-      playNoteDown(pitch, button) {
-        // Send to MIDI out or play with the Magenta player.
-        if (this.usingMidiOut) {
-          this.sendMidiNoteOn(pitch, button);
-          console.log(pitch);
-        } else {
-          mm.Player.tone.context.resume();
-          this.player.playNoteDown({ pitch: pitch, program: this.program });
-        }
-      }
-
-      playNoteUp(pitch, button) {
-        // Send to MIDI out or play with the Magenta player.
-        if (this.usingMidiOut) {
-          this.sendMidiNoteOff(pitch, button);
-          console.log(pitch);
-        } else {
-          this.player.playNoteUp({ pitch: pitch, program: this.program });
-        }
-      }
-
-      // MIDI bits.
-      midiReady(midi) {
-        // Also react to device changes.
-        midi.addEventListener("statechange", (event) =>
-          this.initDevices(event.target)
-        );
-        this.initDevices(midi);
-      }
-
-      initDevices(midi) {
-        this.midiOut = [];
-        this.midiIn = [];
-
-        const outputs = midi.outputs.values();
-        for (
-          let output = outputs.next();
-          output && !output.done;
-          output = outputs.next()
-        ) {
-          this.midiOut.push(output.value);
-        }
-
-        const inputs = midi.inputs.values();
-        for (
-          let input = inputs.next();
-          input && !input.done;
-          input = inputs.next()
-        ) {
-          this.midiIn.push(input.value);
-          // TODO: should probably use the selected index from this.selectInElement for correctness
-          // but i'm hacking this together for a demo so...
-          input.value.onmidimessage = (msg) => this.getMIDIMessage(msg);
-        }
-
-        // No MIDI, no settings.
-        //btnSettings.hidden = (this.midiOut.length === 0 && this.midiIn.length === 0);
-        this.selectInElement.innerHTML = this.midiIn
-          .map((device) => `<option>${device.name}</option>`)
-          .join("");
-        this.selectOutElement.innerHTML = this.midiOut
-          .map((device) => `<option>${device.name}</option>`)
-          .join("");
-      }
-
-      sendMidiNoteOn(pitch, button) {
-        // -1 is sent when releasing the sustain pedal.
-        if (button === -1) button = 0;
-        //const msg = [0x90 + button, pitch, 0x7f];    // note on, full velocity.
-        const msg = [0x90, pitch, 0x7f]; // note on, full velocity.
-        this.midiOut[this.selectOutElement.selectedIndex].send(msg);
-        console.log(this.midiOut[this.selectOutElement.selectedIndex].send(msg));
-      }
-
-      sendMidiNoteOff(pitch, button) {
-        // -1 is sent when releasing the sustain pedal.
-        if (button === -1) button = 0;
-        //const msg = [0x80 + button, pitch, 0x7f];    // note on, middle C, full velocity.
-        const msg = [0x80, pitch, 0x7f]; // note on, middle C, full velocity.
-        this.midiOut[this.selectOutElement.selectedIndex].send(msg);
-      }
-
-      getMIDIMessage(msg) {
-        if (!this.usingMidiIn) {
-          return;
-        }
-        const command = msg.data[0];
-        const button = msg.data[1];
-        const velocity = msg.data.length > 2 ? msg.data[2] : 0; // a velocity value might not be included with a noteOff command
-
-        switch (command) {
-          case 0x90: // note on
-            window.buttonDown(button, false);
-            break;
-          case 0x80: // note off
-            window.buttonUp(button);
-            break;
-        }
-      }
-    }
-
-    /*************************
-     * Floaty notes
-     ************************/
-    class FloatyNotes {
-      constructor() {
-        this.notes = []; // the notes floating on the screen.
-
-        this.canvas = document.getElementById("canvas");
-        this.context = this.canvas.getContext("2d");
-        this.context.lineWidth = 4;
-        this.context.lineCap = "round";
-
-        this.contextHeight = 0;
-      }
-
-      resize(whiteNoteHeight) {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = this.contextHeight =
-          window.innerHeight - whiteNoteHeight - 20;
-      }
-
-      addNote(button, x, width) {
-        const noteToPaint = {
-          x: parseFloat(x),
-          y: 0,
-          width: parseFloat(width),
-          height: 0,
-          color: CONSTANTS.COLORS[button],
-          on: true,
-        };
-        this.notes.push(noteToPaint);
-        return noteToPaint;
-      }
-
-      stopNote(noteToPaint) {
-        noteToPaint.on = false;
-      }
-
-      drawLoop() {
-        const dy = 3;
-        this.context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        // Remove all the notes that will be off the page;
-        this.notes = this.notes.filter(
-          (note) => note.on || note.y < this.contextHeight - 100
-        );
-
-        // Advance all the notes.
-        for (let i = 0; i < this.notes.length; i++) {
-          const note = this.notes[i];
-
-          // If the note is still on, then its height goes up but it
-          // doesn't start sliding down yet.
-          if (note.on) {
-            note.height += dy;
-          } else {
-            note.y += dy;
-          }
-
-          this.context.globalAlpha = 1 - note.y / this.contextHeight;
-          this.context.fillStyle = note.color;
-          this.context.fillRect(note.x, note.y, note.width, note.height);
-        }
-        window.requestAnimationFrame(() => this.drawLoop());
-      }
-    }
-
-    class Piano {
-      constructor() {
-        this.config = {
-          whiteNoteWidth: 20,
-          blackNoteWidth: 20,
-          whiteNoteHeight: 70,
-          blackNoteHeight: (2 * 70) / 3,
-        };
-
-        this.svg = document.getElementById("svg");
-        this.svgNS = "http://www.w3.org/2000/svg";
-      }
-
-      resize(totalWhiteNotes) {
-        // i honestly don't know why some flooring is good and some is bad sigh.
-        const ratio = window.innerWidth / totalWhiteNotes;
-        this.config.whiteNoteWidth = OCTAVES > 6 ? ratio : Math.floor(ratio);
-        this.config.blackNoteWidth = (this.config.whiteNoteWidth * 2) / 3;
-        this.svg.setAttribute("width", window.innerWidth);
-        this.svg.setAttribute("height", this.config.whiteNoteHeight);
-      }
-
-      draw() {
-        this.svg.innerHTML = "";
-        const halfABlackNote = this.config.blackNoteWidth / 2;
-        let x = 0;
-        let y = 0;
-        let index = 0;
-
-        const blackNoteIndexes = [1, 3, 6, 8, 10];
-
-        // First draw all the white notes.
-        // Pianos start on an A (if we're using all the octaves);
-        if (OCTAVES > 6) {
-          this.makeRect(
-            0,
-            x,
-            y,
-            this.config.whiteNoteWidth,
-            this.config.whiteNoteHeight,
-            "white",
-            "#141E30"
-          );
-          this.makeRect(
-            2,
-            this.config.whiteNoteWidth,
-            y,
-            this.config.whiteNoteWidth,
-            this.config.whiteNoteHeight,
-            "white",
-            "#141E30"
-          );
-          index = 3;
-          x = 2 * this.config.whiteNoteWidth;
-        } else {
-          // Starting 3 semitones up on small screens (on a C), and a whole octave up.
-          index = 3 + CONSTANTS.NOTES_PER_OCTAVE;
-        }
-
-        // Draw the white notes.
-        for (let o = 0; o < OCTAVES; o++) {
-          for (let i = 0; i < CONSTANTS.NOTES_PER_OCTAVE; i++) {
-            if (blackNoteIndexes.indexOf(i) === -1) {
-              this.makeRect(
-                index,
-                x,
-                y,
-                this.config.whiteNoteWidth,
-                this.config.whiteNoteHeight,
-                "white",
-                "#141E30"
-              );
-              x += this.config.whiteNoteWidth;
-            }
-            index++;
-          }
-        }
-
-        if (OCTAVES > 6) {
-          // And an extra C at the end (if we're using all the octaves);
-          this.makeRect(
-            index,
-            x,
-            y,
-            this.config.whiteNoteWidth,
-            this.config.whiteNoteHeight,
-            "white",
-            "#141E30"
-          );
-
-          // Now draw all the black notes, so that they sit on top.
-          // Pianos start on an A:
-          this.makeRect(
-            1,
-            this.config.whiteNoteWidth - halfABlackNote,
-            y,
-            this.config.blackNoteWidth,
-            this.config.blackNoteHeight,
-            "black"
-          );
-          index = 3;
-          x = this.config.whiteNoteWidth;
-        } else {
-          // Starting 3 semitones up on small screens (on a C), and a whole octave up.
-          index = 3 + CONSTANTS.NOTES_PER_OCTAVE;
-          x = -this.config.whiteNoteWidth;
-        }
-
-        // Draw the black notes.
-        for (let o = 0; o < OCTAVES; o++) {
-          for (let i = 0; i < CONSTANTS.NOTES_PER_OCTAVE; i++) {
-            if (blackNoteIndexes.indexOf(i) !== -1) {
-              this.makeRect(
-                index,
-                x + this.config.whiteNoteWidth - halfABlackNote,
-                y,
-                this.config.blackNoteWidth,
-                this.config.blackNoteHeight,
-                "black"
-              );
-            } else {
-              x += this.config.whiteNoteWidth;
-            }
-            index++;
-          }
-        }
-      }
-
-      highlightNote(note, button) {
-        // Show the note on the piano roll.
-        const rect = this.svg.querySelector(`rect[data-index="${note}"]`);
-        if (!rect) {
-          console.log("couldnt find a rect for note", note);
-          return;
-        }
-        rect.setAttribute("active", true);
-        rect.setAttribute("class", `color-${button}`);
-        return rect;
-      }
-
-      clearNote(rect) {
-        rect.removeAttribute("active");
-        rect.removeAttribute("class");
-      }
-
-      makeRect(index, x, y, w, h, fill, stroke) {
-        const rect = document.createElementNS(this.svgNS, "rect");
-        rect.setAttribute("data-index", index);
-        rect.setAttribute("x", x);
-        rect.setAttribute("y", y);
-        rect.setAttribute("width", w);
-        rect.setAttribute("height", h);
-        rect.setAttribute("fill", fill);
-        if (stroke) {
-          rect.setAttribute("stroke", stroke);
-          rect.setAttribute("stroke-width", "3px");
-        }
-        this.svg.appendChild(rect);
-        return rect;
-      }
-    }
-
-  </script>
-  <script type="application/javascript">var AI_ACTIVE = false;
-    var OCTAVE_OFFSET = 0;
-    var RECORDING = false;
-    var LOGGEDIN = false;
-    /*************************
-     * Consts for everyone!
-     ************************/
-    // button mappings.
-    const MAPPING_8 = {
-      0: 0,
-      1: 1,
-      2: 2,
-      3: 3,
-      4: 4,
-      5: 5,
-      6: 6,
-      7: 7,
-    };
-    const MAPPING_4 = { 0: 0, 1: 2, 2: 5, 3: 7 };
-    const BUTTONS_DEVICE = ["a", "s", "d", "f", "j", "k", "l", ";"];
-    const BUTTONS_MAKEY = [
-      "ArrowUp",
-      "ArrowLeft",
-      "ArrowDown",
-      "ArrowRight",
-      "w",
-      "a",
-      "s",
-      "d",
-    ];
-    const BUTTONS_MAKEY_DISPLAY = ["↑", "←", "↓", "→", "w", "a", "s", "d"];
-
-    let OCTAVES = 7;
-    let NUM_BUTTONS = 8;
-    let BUTTON_MAPPING = MAPPING_8;
-    let SETTINGS_OPEN = false;
-
-    let keyWhitelist;
-    let TEMPERATURE = getTemperature();
-
-    const heldButtonToVisualData = new Map();
-
-    // Which notes the pedal is sustaining.
-    let sustaining = false;
-    let sustainingNotes = [];
-
-    // Mousedown/up events are weird because you can mouse down in one element and mouse up
-    // in another, so you're going to lose that original element and never mouse it up.
-    let mouseDownButton = null;
-
-    const player = new Player();
-    const genie = new mm.PianoGenie(CONSTANTS.GENIE_CHECKPOINT);
-    const painter = new FloatyNotes();
-    const piano = new Piano();
-    var session = {};
-    let isUsingMakey = false;
-    initEverything();
-
-    function toggleSettings() {
-      SETTINGS_OPEN = !SETTINGS_OPEN;
-      return;
-    }
-
-    function onInstrumentSelect() {
-      player.changeInstrument();
-    }
-
-    // Check authentication status
-    // First thing since much of the UI is determined by its result
-
-    async function adjustLogInStatus() {
-      const response = await fetch("/api/authenticated", {
-        method: "GET",
-      });
-      const res = await response.json();
-
-      console.log(response.status);
-
-      if (response.status === 200) {
-        const username = res.username;
-
-        document.querySelectorAll(".username").forEach((element) => {
-          element.innerText = ` ${username}`;
-        });
-
-        document.getElementById("logOutBtn").style.display = "block";
-        document.getElementById("logInBtn").style.display = "none";
-        document.getElementById("recording-switch").style.display = "block";
-        document.getElementById("signUpBtn").style.display = "none";
-        return username;
-      } else {
-        document.getElementById("signUpBtn").style.display = "block";
-        document.getElementById("logOutBtn").style.display = "none";
-        document.getElementById("logInBtn").style.display = "block";
-        document.getElementById("recording-switch").style.display = "none";
-      }
-    }
-
-    async function initialMethod() {
-      const status = await adjustLogInStatus();
-      if (status) {
-        LOGGEDIN = true;
-        console.log(status);
-        console.log("working");
-        document.getElementById("infotext").innerHTML = "Press R to Record";
-      }
-    }
-
-    initialMethod();
-
-    /*************************
-     * Basic UI bits
-     ************************/
-    function initEverything() {
-      genie.initialize().then(() => {
-        console.log("🧞‍♀️ ready!");
-        playBtn.textContent = "Play";
-        playBtn.removeAttribute("disabled");
-        playBtn.classList.remove("loading");
-      });
-
-      // Start the drawing loop.
-      onWindowResize();
-      updateButtonText();
-      window.requestAnimationFrame(() => painter.drawLoop());
-      document.querySelector("settingsBox");
-
-      window.addEventListener("resize", onWindowResize);
-      window.addEventListener("orientationchange", onWindowResize);
-      window.addEventListener("hashchange", () => (TEMPERATURE = getTemperature()));
-    }
-
-    function updateNumButtons(num) {
-      NUM_BUTTONS = num;
-      const buttons = document.querySelectorAll(".controls > button.color");
-      BUTTON_MAPPING = num === 4 ? MAPPING_4 : MAPPING_8;
-
-      // Hide the extra buttons.
-      for (let i = 0; i < buttons.length; i++) {
-        buttons[i].hidden = i >= num;
-      }
-    }
-
-    function showMainScreen() {
-      document.querySelector(".splash").hidden = true;
-      document.querySelector(".loaded").hidden = false;
-
-      document.addEventListener("keydown", (event) => {
-        onKeyDown(event);
-      });
-      document.addEventListener("keyup", (event) => {
-        onKeyUp(event);
-      });
-      // Add event listener on keypress
-      document.addEventListener("keypress", (event) => {
-        if (event.key === "=") {
-          octaveUp();
-        }
-        if (event.key === "-") {
-          octaveDown();
-        }
-        if (event.key.toLowerCase() == "r" && LOGGEDIN) {
-          toggleRecording();
-          console.log("recording");
-        }
-      });
-
-      controls.addEventListener("touchstart", (event) => doTouchStart(event), {
-        passive: true,
-      });
-      controls.addEventListener("touchend", (event) => doTouchEnd(event), {
-        passive: true,
-      });
-
-      const hasTouchEvents = "ontouchstart" in window;
-      if (!hasTouchEvents) {
-        controls.addEventListener("mousedown", (event) => doTouchStart(event));
-        controls.addEventListener("mouseup", (event) => doTouchEnd(event));
-      }
-
-      controls.addEventListener("mouseover", (event) => doTouchMove(event, true));
-      controls.addEventListener("mouseout", (event) => doTouchMove(event, false));
-      controls.addEventListener("touchenter", (event) => doTouchMove(event, true));
-      controls.addEventListener("touchleave", (event) => doTouchMove(event, false));
-      canvas.addEventListener("mouseenter", () => (mouseDownButton = null));
-
-      // Output.
-      radioMidiOutYes.addEventListener("click", () => {
-        player.usingMidiOut = true;
-        midiOutBox.hidden = false;
-      });
-      radioAudioYes.addEventListener("click", () => {
-        player.usingMidiOut = false;
-        midiOutBox.hidden = true;
-      });
-      // Input.
-      radioMidiInYes.addEventListener("click", () => {
-        player.usingMidiIn = true;
-        midiInBox.hidden = false;
-        isUsingMakey = false;
-        updateButtonText();
-      });
-      radioDeviceYes.addEventListener("click", () => {
-        player.usingMidiIn = false;
-        midiInBox.hidden = true;
-        isUsingMakey = false;
-        updateButtonText();
-      });
-      radioMakeyYes.addEventListener("click", () => {
-        player.usingMidiIn = false;
-        midiInBox.hidden = true;
-        isUsingMakey = true;
-        updateButtonText();
-      });
-
-      // Figure out if WebMidi works.
-      if (navigator.requestMIDIAccess) {
-        midiNotSupported.hidden = true;
-        radioMidiInYes.parentElement.removeAttribute("disabled");
-        radioMidiOutYes.parentElement.removeAttribute("disabled");
-        navigator.requestMIDIAccess().then(
-          (midi) => player.midiReady(midi),
-          (err) => console.log("Something went wrong", err)
-        );
-      } else {
-        midiNotSupported.hidden = false;
-        radioMidiInYes.parentElement.setAttribute("disabled", true);
-        radioMidiOutYes.parentElement.setAttribute("disabled", true);
-      }
-
-      // Slow to start up, so do a fake prediction to warm up the model.
-      const note = genie.nextFromKeyWhitelist(0, keyWhitelist, TEMPERATURE);
-      genie.resetState();
-    }
-
-    // Here touch means either touch or mouse.
-    function doTouchStart(event) {
-      event.preventDefault();
-      mouseDownButton = event.target;
-      buttonDown(event.target.dataset.id, true);
-    }
-    function doTouchEnd(event) {
-      event.preventDefault();
-      if (mouseDownButton && mouseDownButton !== event.target) {
-        buttonUp(mouseDownButton.dataset.id);
-      }
-      mouseDownButton = null;
-      buttonUp(event.target.dataset.id);
-    }
-    function doTouchMove(event, down) {
-      // If we're already holding a button down, start holding this one too.
-      if (!mouseDownButton) return;
-
-      if (down) buttonDown(event.target.dataset.id, true);
-      else buttonUp(event.target.dataset.id, true);
-    }
-
-    /*************************
-     * Button actions
-     ************************/
-    function buttonDown(button, fromKeyDown) {
-      // If we're already holding this button down, nothing new to do.
-      if (heldButtonToVisualData.has(button)) {
-        return;
-      }
-
-      const el = document.getElementById(`btn${button}`);
-      if (!el) return;
-      el.setAttribute("active", true);
-      if (button == "8") {
-        octaveDown();
-        return;
-      } else if (button == "9") {
-        octaveUp();
-        return;
-      }
-      const note = AI_ACTIVE
-        ? genie.nextFromKeyWhitelist(
-          BUTTON_MAPPING[button],
-          keyWhitelist,
-          TEMPERATURE
-        )
-        : BUTTON_MAPPING[button];
-
-      // const note = BUTTON_MAPPING[button];
-
-      const pitch = AI_ACTIVE
-        ? CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note
-        : CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + OCTAVE_OFFSET * 12 + note;
-
-      let idx;
-      if (RECORDING) {
-        const startTime = session.startTime;
-        idx = session.notes.length;
-
-        session.notes.push({
-          pitch: pitch,
-          startTime: Date.now() - startTime,
-          program: player.program,
-        });
-      }
-      // Hear it.
-      player.playNoteDown(pitch, button);
-      noteToDraw = AI_ACTIVE ? note : note + OCTAVE_OFFSET * 12;
-
-      // See it.
-      const rect = piano.highlightNote(noteToDraw, button);
-
-      if (!rect) {
-        debugger;
-      }
-      // Float it.
-      const noteToPaint = painter.addNote(
-        button,
-        rect.getAttribute("x"),
-        rect.getAttribute("width")
-      );
-      heldButtonToVisualData.set(button, {
-        rect: rect,
-        note: note,
-        noteToPaint: noteToPaint,
-        idx: RECORDING ? idx : null,
-      });
-    }
-
-    function buttonUp(button) {
-      const el = document.getElementById(`btn${button}`);
-      if (!el) return;
-      el.removeAttribute("active");
-
-      // find the note that was just released
-      const thing = heldButtonToVisualData.get(button);
-      if (RECORDING) {
-        const startTime = session.startTime;
-        if (thing.idx > -1) {
-          const now = Date.now();
-          if (!thing.idx) {
-            thing.idx = 0;
-          }
-          const endTime = now - startTime;
-          session.notes[thing.idx].endTime = endTime;
-        }
-      }
-      if (thing) {
-        // Don't see it.
-        piano.clearNote(thing.rect);
-
-        // Stop holding it down.
-        painter.stopNote(thing.noteToPaint);
-
-        // Maybe stop hearing it.
-        const pitch = CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + thing.note;
-        if (!sustaining) {
-          player.playNoteUp(pitch, button);
-        } else {
-          sustainingNotes.push(CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + thing.note);
-        }
-      }
-      heldButtonToVisualData.delete(button);
-    }
-
-    /*************************
-     * Events
-     ************************/
-    function onKeyDown(event) {
-      if (SETTINGS_OPEN) {
-        return;
-      }
-
-      // Keydown fires continuously and we don't want that.
-      if (event.repeat) {
-        return;
-      }
-      if (event.key === " ") {
-        // sustain pedal
-        sustaining = true;
-      } else if (event.key === "0" || event.key === "y") {
-        console.log("🧞‍♀️ resetting!");
-        genie.resetState();
-      } else {
-        const button = getButtonFromKeyCode(event.key.toLowerCase());
-        if (button != null) {
-          buttonDown(button, true);
-        }
-      }
-    }
-
-    function onKeyUp(event) {
-      if (event.key === " ") {
-        // sustain pedal
-        sustaining = false;
-
-        // Release everything.
-        sustainingNotes.forEach((note) => player.playNoteUp(note, -1));
-        sustainingNotes = [];
-      } else {
-        const button = getButtonFromKeyCode(event.key.toLowerCase());
-        if (button != null) {
-          buttonUp(button);
-        }
-      }
-    }
-
-    function onWindowResize() {
-      OCTAVES = window.innerWidth > 700 ? 7 : 3;
-      const bonusNotes = OCTAVES > 6 ? 4 : 0; // starts on an A, ends on a C.
-      const totalNotes = CONSTANTS.NOTES_PER_OCTAVE * OCTAVES + bonusNotes;
-      const totalWhiteNotes =
-        CONSTANTS.WHITE_NOTES_PER_OCTAVE * OCTAVES + (bonusNotes - 1);
-      keyWhitelist = Array(totalNotes)
-        .fill()
-        .map((x, i) => {
-          if (OCTAVES > 6) return i;
-          // Starting 3 semitones up on small screens (on a C), and a whole octave up.
-          return i + 3 + CONSTANTS.NOTES_PER_OCTAVE;
-        });
-
-      piano.resize(totalWhiteNotes);
-      painter.resize(piano.config.whiteNoteHeight);
-      piano.draw();
-    }
-
-    /*************************
-     * Utils and helpers
-     ************************/
-    function getButtonFromKeyCode(key) {
-      // 1 - 8
-      if (key >= "1" && key <= String(NUM_BUTTONS)) {
-        return parseInt(key) - 1;
-      }
-
-      const index = isUsingMakey
-        ? BUTTONS_MAKEY.indexOf(key)
-        : BUTTONS_DEVICE.indexOf(key);
-      return index !== -1 ? index : null;
-    }
-
-    function getTemperature() {
-      const hash = parseFloat(parseHashParameters()["temperature"]) || 0.25;
-      const newTemp = Math.min(1, hash);
-      console.log("🧞‍♀️ temperature = ", newTemp);
-      return newTemp;
-    }
-
-    function parseHashParameters() {
-      const hash = window.location.hash.substring(1);
-      const params = {};
-      hash.split("&").map((hk) => {
-        let temp = hk.split("=");
-        params[temp[0]] = temp[1];
-      });
-      return params;
-    }
-
-    function updateButtonText() {
-      const btns = document.querySelectorAll(".controls button.color");
-      for (let i = 0; i < 8; i++) {
-        btns[i].innerHTML = isUsingMakey
-          ? `<span>${BUTTONS_MAKEY_DISPLAY[i]}</span>`
-          : `<span>${i + 1}</span><br><span>${BUTTONS_DEVICE[i]}</span>`;
-      }
-    }
-
-    function octaveUp() {
-      if (OCTAVES == OCTAVE_OFFSET + 1) return;
-      OCTAVE_OFFSET += 1;
-      onWindowResize();
-    }
-
-    function octaveDown() {
-      if (0 == OCTAVE_OFFSET) return;
-      OCTAVE_OFFSET -= 1;
-      onWindowResize();
-    }
-
-    function toggleAi() {
-      AI_ACTIVE = !AI_ACTIVE;
-    }
-
-    async function toggleRecording() {
-      player.stop();
-      session.startTime = Date.now();
-      if (RECORDING) {
-        document.querySelector("#record-button").removeAttribute("checked");
-        document.querySelector("#infotext").style.color = "gray";
-        document.querySelector("#infotext").innerHTML = "Press R to record";
-        if (session.notes.length == 0) {
-          RECORDING = !RECORDING;
-          alert("You didn't record anything!");
-          return;
-        }
-
-        session.name = prompt("Name your song!");
-
-        session.notes.map((a) => {
-          a.endTime = a.endTime / 1000;
-          a.startTime = a.startTime / 1000;
-          return a;
-        });
-        // get the total time elapsed in seconds
-        session.totalTime =
-          session.notes[session.notes.length - 1].endTime -
-          session.notes[0].startTime;
-
-        delete session.startTime;
-
-        // post the session to the server
-        try {
-          session.notes.length != 0
-            ? await postDataToAPI("/api/session", session)
-            : null;
-        } catch (err) {
-          console.log(err);
-        }
-      } else if (!RECORDING) {
-        document.querySelector("#record-button").setAttribute("checked", "");
-        // start writing to session object
-        console.log("press r to stop recording");
-        document.querySelector("#infotext").style.color = "red";
-        document.querySelector("#infotext").innerHTML = "Recording...";
-        let timestamp = new Date();
-        session.timestamp = `${timestamp.toLocaleDateString(
-          "en-GB"
-        )} ${timestamp.toLocaleTimeString("en-AU")}`;
-        session.notes = [];
-        const username = await adjustLogInStatus();
-        session.username = username;
-        session.startTime = Date.now();
-      }
-      RECORDING = !RECORDING;
-    }
-
-    adjustLogInStatus();
-    async function postDataToAPI(url = "", data = {}) {
-      // Default options are marked with *
-      const response = await fetch(url, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-      });
-      return response.json(); // parses JSON response into native JavaScript objects/
-    }
-
-    function logIn() {
-      const logInUsername = document.getElementById("logInUsername").value;
-      const logInPassword = document.getElementById("logInPassword").value;
-
-      postDataToAPI("/api/login", {
-        user: {
-          username: logInUsername,
-          password: logInPassword,
-        },
-      })
-        .then((data) => {
-          if (data.success) {
-            console.log("logged in");
-            document.getElementById("logInUsername").value = "";
-            document.getElementById("logInPassword").value = "";
-            document.querySelector("#infotext").innerHTML = "Press R to record";
-            document.getElementById("signUpBtn").style.display = "none";
-            LOGGEDIN = true;
-            alert(data.message);
-            document.getElementById("logOutBtn").style.display = "block";
-            document.getElementById("logInBtn").style.display = "none";
-            document.getElementById("loginModal").style.display = "none";
-            document.getElementById("recording-switch").style.display = "block";
-            adjustLogInStatus();
-            // grabSessionUser();
-          } else {
-            alert(data.message);
-            console.log("login failed");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-    async function logOut() {
-      const response = await fetch("/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: "",
-      });
-      const res = response.json();
-
-      res.then((data) => {
-        if (response.status === 200) {
-          document.getElementById("signUpBtn").style.display = "block";
-          document.getElementById("logOutBtn").style.display = "none";
-          document.getElementById("logInBtn").style.display = "block";
-          document.getElementById("signUpBtn").style.display = "block";
-          document.getElementById("recording-switch").style.display = "none";
-          document.querySelector("#infotext").innerHTML = "";
-          LOGGEDIN = false;
-        }
-        console.log(data.message);
-        alert(data.message);
-      });
-    }
-
-    function signUp() {
-      const signUpUsername = document.getElementById("signUpUsername").value;
-      const signUpPassword = document.getElementById("signUpPassword").value;
-      console.log("you have clicked me");
-
-      postDataToAPI("/api/signup", {
-        user: {
-          username: signUpUsername,
-          password: signUpPassword,
-        },
-      }).then((data) => {
-        if (data.success) {
-          console.log("sign up success");
-          // document.getElementById("signUpBtn").style.display = "none";
-          // document.getElementById("logOut").style.display = "block";
-          document.getElementById("signUpUsername").value = "";
-          document.getElementById("signUpPassword").value = "";
-          alert(" Created account for " + signUpUsername);
-        } else {
-          alert("Sign up failed." + `${data.message}`);
-        }
-      });
-    }
-
-    /* Log in Modal Form  */
-    // Get the modal
-    var logInModal = document.getElementById("loginModal");
-
-    // Get the button that opens the modal
-    var logInBtn = document.getElementById("logInBtn");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("_close")[0];
-
-    // When the user clicks on the button, open the modal
-    logInBtn.onclick = function () {
-      logInModal.style.display = "block";
-    };
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-      logInModal.style.display = "none";
-    };
-
-    /* Sign Up Modal Form */
-    // Get the modal
-    var signUpModal = document.getElementById("signUpModal");
-
-    // Get the button that opens the modal
-    var signUpBtn = document.getElementById("signUpBtn");
-
-    // Get the <span> element that closes the modal
-    var signUpSpan = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on <span> (x), close the modal
-    signUpBtn.onclick = function () {
-      signUpModal.style.display = "block";
-    };
-
-    // When the user clicks on <span> (x), close the modal
-    signUpSpan.onclick = function () {
-      signUpModal.style.display = "none";
-    };
-
-    function hidePassword() {
-      var x = document.getElementById("logInPassword");
-      var y = document.getElementById("signUpPassword");
-
-      if (x.type === "password" || y.type === "password") {
-        x.type = "text";
-        y.type = "text";
-      } else {
-        x.type = "password";
-        y.type = "password";
-      }
-    }
-
-    /* Retriving User Sessions */
-
-    async function grabSessionUser() {
-      const response = await fetch("/api/authenticated", {
-        method: "GET",
-      });
-
-      console.log(response.status);
-
-      if (response.status === 200) {
-        await retrieveUserSession();
-        openSessionWindow();
-      } else {
-        alert("You must be logged in to view your sessions");
-      }
-    }
-
-    /* Opens Sessions Window */
-
-    function openSessionWindow() {
-      // console.log("window is open");
-
-      /* Session Modal */
-      // Get the modal
-      var sessionModal = document.getElementById("sessionModal");
-      // Get the button that opens the modal
-      var sessionBtn = document.getElementById("recordedSessionsBtn");
-      // Get the <span> element that closes the modal
-      // When the user clicks on the button, open the modal
-      sessionBtn.onclick = function () {
-        grabSessionUser();
-        sessionModal.style.display = "block";
-      };
-    }
-
-    async function retrieveUserSession() {
-      const response = await fetch(`/api/session`, {
-        method: "GET",
-      });
-      const res = await response.json();
-      const session = document.getElementById("sessionGrid");
-
-      console.log(session);
-      console.log(res);
-
-      session.innerHTML = res
-        .map(
-          (session) =>
-            `
-      <div class="session">
-      <h2>${session.name}</h2>
-      <h3>${session.timestamp}</h3>
-      <h3>Total Time ${Math.round(session.totalTime * 100) / 100}s</h3>
-      <button class="viewButton" onClick="downloadComposition('${session._id
-            }')">Download Composition</button>
-      <button class="replayButton" onClick="playComposition('${session._id
-            }')">Replay Composition</button>
-      </div>`
-        )
-        .join("");
-
-      console.log(res);
-      return res;
-    }
-
-    async function downloadComposition(id) {
-      const res = await fetch(`/api/composition/${id}`, {
-        method: "GET",
-      });
-      const sequence = await res.json();
-      // const quantizedSequence = mm.sequences.quantizeNoteSequence(sequence, 1);
-      var midi_bytes_array = mm.sequenceProtoToMidi(sequence);
-      var blob = new Blob([midi_bytes_array], { type: "audio/midi" });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement("a");
-      document.body.appendChild(a);
-      a.style = "display: none";
-      a.href = url;
-      a.download = `${sequence.name}.mid`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-
-      // saveByteArray("test_with_quantized_sequence.midi", midi_bytes_array);
-    }
-
-    async function playComposition(id) {
-      const response = await fetch(`/api/composition/${id}`, {
-        method: "GET",
-      });
-      const res = await response.json();
-
-      player.start(res);
-      console.log(session);
-      console.log("playComposition called");
-    }
-  </script>
 </html>
