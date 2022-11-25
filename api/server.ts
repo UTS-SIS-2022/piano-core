@@ -51,7 +51,14 @@ app.use(
 
 // serve landing page
 app.get("/", (req, res) => {
+  // send css
+  res.sendFile(__dirname + "/public/style.css");
+  // serve landing page
   res.sendFile(__dirname + "/public/index.html");
+  //serve js file
+  res.sendFile(__dirname + "/public/script.js");
+
+  res.sendFile(__dirname + "/public/helpers.js");
 });
 
 // start listening

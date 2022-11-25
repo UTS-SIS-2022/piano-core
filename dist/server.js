@@ -48,7 +48,12 @@ app.use(userSession({
 }));
 // serve landing page
 app.get("/", (req, res) => {
+    // serve landing page
     res.sendFile(__dirname + "/public/index.html");
+    //serve js file
+    res.sendFile(__dirname + "/public/script.js");
+    res.sendFile(__dirname + "/public/style.css");
+    res.sendFile(__dirname + "/public/helpers.js");
 });
 // start listening
 app.listen(process.env.PORT, () => {
