@@ -403,4 +403,3 @@ class Piano {
     return rect;
   }
 }
-
